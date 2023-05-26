@@ -1,4 +1,5 @@
 import xml.etree.cElementTree as ET
+from PyQt5.QtCore import pyqtSignal
 
 class Question :
     def __init__(self, i, s) :
@@ -81,25 +82,33 @@ def init() :
     q2.addReponse(r3)
     q2.addReponse(r4)
     return q1
+    
+class Noyau:
+    def __init__(self,IHM):
+        self.ihm = IHM
+        self.ihm.signal_envoi.connect(self.traiter_string)
 
-
-listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-q = listeScenario[1]
-#q = init()
-
-print("Bonjour")
-reponse = input()
-
-while (q != None) :
-    q.print()
-    reponse = input()
-
-    listeReponse = q.getReponse()
-    rep = 0
-    for i in range (len(listeReponse)) :
-        if listeReponse[i].compared(reponse) and rep == 0 :
-            listeReponse[i].print()
-            rep += 1
-            q = listeReponse[i].getQuestion()
-    if rep == 0 :
-        print("Je ne comprend pas")
+        self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
+        self.q = self.listeScenario[1]
+        self.ihm.add_left_label(self.q.getTxt())
+        self.b = True
+    def traiter_string(self, texte):
+        if(self.b == True):
+            print("Chaîne reçue :", texte)
+            self.reponse = texte
+            self.listeReponse = self.q.getReponse()
+            rep = 0
+            for i in range (len(self.listeReponse)) :
+                
+                if self.listeReponse[i].compared(self.reponse) and rep == 0 :
+                    print(self.listeReponse[i].getTxt())
+                    self.ihm.add_left_label(self.listeReponse[i].getTxt())
+                    rep += 1
+                    self.q = self.listeReponse[i].getQuestion()
+                    if(self.q == None):
+                        self.b == False
+                        self.ihm.add_left_label("Fin du scenario")
+                    else:
+                        self.ihm.add_left_label(self.q.getTxt())
+            if rep == 0 :
+                print("Je ne comprend pas")
