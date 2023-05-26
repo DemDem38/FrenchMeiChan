@@ -4,7 +4,7 @@ import queue
 import sys
 
 import os
-from reco_langue import wispAnalyse as wa
+from reco_language import wispAnalyse as wa
 from speak_french import speak_french
 
 import sounddevice as sd
@@ -31,8 +31,6 @@ def record():
     device_info = sd.query_devices(device, 'input')
     # soundfile expects an int, sounddevice provides a float:
     samplerate = int(device_info['default_samplerate'])
-    def toto():
-        print("toto")
 
     try:
         # Make sure the file is opened before recording anything:
