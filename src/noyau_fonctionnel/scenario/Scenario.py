@@ -83,7 +83,7 @@ def init() :
     return q1
 
 
-listeScenario = ReadScenarioXML("listScenario.xml")
+listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
 q = listeScenario[1]
 #q = init()
 
