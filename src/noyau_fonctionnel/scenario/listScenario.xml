@@ -1,0 +1,95 @@
+<list_scenario>
+    <scenario id="1">
+        <list_question>
+            <question>
+                <id> 1 </id>
+                <texte>Bonjour, comment allez-vous?</texte>
+            </question>
+            <question>
+                <id> 2 </id>
+                <texte>Avez-vous bien dormi cette nuit?</texte>
+            </question>
+            <question>
+                <id> 3 </id>
+                <texte>Pourquoi vous sentez-vous mal?</texte>
+            </question>
+        </list_question>
+
+        <list_reply>
+            <reply >
+                <id> 1 </id>
+                <texte>Super !</texte>
+                <pre> 1 </pre>
+                <cond>Bien</cond>
+                <next> 2 </next>
+            </reply>
+
+            <reply>
+                <id> 2 </id>
+                <texte>:|</texte>
+                <pre> 1 </pre>
+                <cond>Mal</cond>
+                <next>3</next>
+            </reply>
+
+            <reply>
+                <id> 3 </id>
+                <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
+                <pre> 3 </pre>
+                <cond></cond>
+                <next>-1</next>
+            </reply>
+
+
+        </list_reply>
+
+    </scenario>
+    <scenario id="2">
+        <list_question>
+            <question>
+                <id> 1 </id>
+                <texte>Fait-il chaud aujourd'hui ?</texte>
+            </question>
+            <question>
+                <id> 2 </id>
+                <texte>Avez-vous penser a bien vous hydrater ?</texte>
+            </question>
+        </list_question>
+
+        <list_reply>
+            <reply>
+                <id> 1 </id>
+                <texte>Super !</texte>
+                <pre> 1 </pre>
+                <cond>oui</cond>
+                <next>2</next>
+            </reply>
+
+            <reply>
+                <id> 1 </id>
+                <texte>Dommage</texte>
+                <pre> 1 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 1 </id>
+                <texte>C'est bien, continuer a boire de maniere reguliere </texte>
+                <pre> 2 </pre>
+                <cond>oui</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 1 </id>
+                <texte>Penser a boire regulierement</texte>
+                <pre> 2 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+        </list_reply>
+
+    </scenario>
+</list_scenario>
