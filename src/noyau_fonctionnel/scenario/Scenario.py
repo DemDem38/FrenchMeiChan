@@ -89,9 +89,10 @@ class Noyau:
         self.ihm.signal_envoi.connect(self.traiter_string)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.q = self.listeScenario[1]
+        self.q = self.listeScenario[0]
         self.ihm.add_left_label(self.q.getTxt())
         self.b = True
+
     def traiter_string(self, texte):
         if(self.b == True):
             print("Chaîne reçue :", texte)
@@ -111,4 +112,4 @@ class Noyau:
                     else:
                         self.ihm.add_left_label(self.q.getTxt())
             if rep == 0 :
-                print("Je ne comprend pas")
+                self.ihm.add_left_label("Je ne comprend pas")

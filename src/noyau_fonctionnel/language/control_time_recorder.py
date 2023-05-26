@@ -4,9 +4,16 @@ import queue
 import sys
 
 import os
-from reco_language import wispAnalyse as wa
-from speak_french import speak_french
+from src.noyau_fonctionnel.language.reco_language import wispAnalyse as wa
 
+"""
+import sys
+
+fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(fc_path)
+
+from noyau_fonctionnel.reco_language import wispAnalyse as wa
+"""
 import sounddevice as sd
 import soundfile as sf
 import numpy  # Make sure NumPy is loaded before it is used in the callback
@@ -49,7 +56,6 @@ def record():
         print('\nRecording finished: ' + repr(filename))
         text = wa()
         os.remove(filename)
-        speak_french(text)
         return text
     except Exception as e:
         exit(type(e).__name__ + ': ' + str(e))

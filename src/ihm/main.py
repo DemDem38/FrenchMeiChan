@@ -10,7 +10,7 @@ fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
-
+from src.noyau_fonctionnel.language.control_time_recorder import record
 
 class WorkerThread(QThread):
     message_received = pyqtSignal(str)
@@ -67,11 +67,15 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.scroll_area)
 
         self.text_entry = QLineEdit()
-        self.text_entry.returnPressed.connect(self.add_reply)
+        self.text_entry.returnPressed.connect(self.add_reply) # 
+
+        self.boutton = QPushButton("Vocal")
+        self.boutton.pressed.connect(self.add_oral_reply)
 
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
         self.layout.addWidget(self.text_entry)
+        self.layout.addWidget(self.boutton)
 
         self.setCentralWidget(self.mainWidget)
 
@@ -134,6 +138,12 @@ class MainWindow(QMainWindow):
         self.add_right_label(text)
         self.envoyer_string(text)
         self.text_entry.clear()
+
+    def add_oral_reply(self):
+        text = record()
+        self.add_right_label(text)
+        self.envoyer_string(text)
+
 
     def scroll_to_bottom(self):
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())

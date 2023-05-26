@@ -17,9 +17,10 @@ def wispAnalyse():
     #print(f"Detected language: {max(probs, key=probs.get)}")
 
     # decode the audio
-    options = whisper.DecodingOptions(fp16 = False)
+    options = whisper.DecodingOptions(fp16 = False,language="fr")
     result = whisper.decode(model, mel, options)
 
     # print the recognized text
     print(result.text)
     return result.text
+
