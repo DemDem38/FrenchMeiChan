@@ -10,8 +10,8 @@ fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
-#from src.noyau_fonctionnel.language.control_time_recorder import record
-#from src.noyau_fonctionnel.language.speak_french import speak_french
+from src.noyau_fonctionnel.language.control_time_recorder import record
+from src.noyau_fonctionnel.language.speak_french import speak_french
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -109,7 +109,7 @@ class MainWindow(QMainWindow):
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            #speak_french(text)
+            speak_french(text)
 
             
 
@@ -164,8 +164,8 @@ class MainWindow(QMainWindow):
         self.text_entry.clear()
 
     def add_oral_reply(self):
-        #text = record()
-        text = "desactive"
+        text = record()
+        #text = "desactive"
         self.add_right_label(text)
         self.envoyer_string(text)
         self.recordBoutton.setVisible(False)
