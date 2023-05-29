@@ -11,6 +11,7 @@ sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
 from src.noyau_fonctionnel.language.control_time_recorder import record
+from src.noyau_fonctionnel.language.speak_french import speak_french
 
 class WorkerThread(QThread):
     message_received = pyqtSignal(str)
@@ -80,6 +81,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainWidget)
 
     def add_left_label(self, text):
+        
         if text:
             new_label = QLabel(text)
             new_label.setMinimumHeight(200)
@@ -101,6 +103,7 @@ class MainWindow(QMainWindow):
             frame.setMinimumHeight(new_label.sizeHint().height())
 
             self.scroll_to_bottom()
+            speak_french(text)
 
     def add_right_label(self, text):
         if text:
