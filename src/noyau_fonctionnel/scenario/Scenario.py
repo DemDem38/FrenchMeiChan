@@ -42,14 +42,17 @@ class Reponse :
         print(self.txt)
     
     def compared(self, s) :
-        indice = 0
-        for e in s :
-            if e == self.cond[indice]:
-                indice += 1
-            else :
-                indice == 0
-            if indice == len(self.cond) -1 :
-                return True
+        if len(self.cond) == 0 :
+            return True
+        if len(s) > len(self.cond) :
+            indice = 0
+            for e in s :
+                if e == self.cond[indice]:
+                    indice += 1
+                else :
+                    indice == 0
+                if indice == len(self.cond) -1 :
+                    return True
         return False
 
 def ReadScenarioXML(name) :
