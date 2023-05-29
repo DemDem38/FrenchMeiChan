@@ -47,7 +47,7 @@ class Reponse :
         if len(s) > len(self.cond) :
             indice = 0
             for e in s :
-                if e == self.cond[indice]:
+                if e.lower() == self.cond[indice]:
                     indice += 1
                 else :
                     indice == 0
@@ -105,8 +105,9 @@ class Noyau:
             for i in range (len(self.listeReponse)) :
                 
                 if self.listeReponse[i].compared(self.reponse) and rep == 0 :
-                    print(self.listeReponse[i].getTxt())
-                    self.ihm.add_left_label(self.listeReponse[i].getTxt())
+                    if len(self.listeReponse[i].getTxt()) > 0 :
+                        print(self.listeReponse[i].getTxt())
+                        self.ihm.add_left_label(self.listeReponse[i].getTxt())
                     rep += 1
                     self.q = self.listeReponse[i].getQuestion()
                     if(self.q == None):
