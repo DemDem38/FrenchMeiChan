@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QColor, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 
 import sys
@@ -24,7 +24,9 @@ class MainWindow(QMainWindow):
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
 
         self.widget_internal = QWidget()
-        self.widget_internal_layout = QVBoxLayout(self.widget_internal)
+        self.widget_internal_layout = QGridLayout(self.widget_internal)
+        self.widget_internal_layout.setColumnMinimumWidth(0, 300)  # Définit la largeur minimale de la première colonne à 300 pixels
+        self.widget_internal_layout.setColumnStretch(1, 1)
         self.widget_internal_layout.setContentsMargins(0, 0, 0, 0)
         self.widget_internal_layout.setSpacing(0)
         self.widget_internal_layout.setAlignment(Qt.AlignTop) 
@@ -36,7 +38,7 @@ class MainWindow(QMainWindow):
 
         for row in range(default_rows):
                 spacer_item = QSpacerItem(60, 60, QSizePolicy.MinimumExpanding, QSizePolicy.Expanding)
-                self.widget_internal_layout.addItem(spacer_item)
+                self.widget_internal_layout.addItem(spacer_item,row,0,1,3)
 
         self.labels = []
 
@@ -62,11 +64,14 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.mainWidget)
 
+        self.classiqueImage = QPixmap("src/ihm/robot/classique.jpg");
+        
+
     def add_left_label(self, text):
         
         if text:
             wid = QWidget()
-            lay = QVBoxLayout()
+            lay = QHBoxLayout()
             wid.setLayout(lay)
             lay.setAlignment(Qt.AlignLeft)
 
@@ -95,16 +100,24 @@ class MainWindow(QMainWindow):
             frame_layout.setSpacing(0)
             frame_layout.setAlignment(Qt.AlignRight)
 
-            self.widget_internal_layout.addWidget(wid)
+            self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
+
+            tete = QLabel()
+            tete.setPixmap(self.classiqueImage)
+            self.widget_internal_layout.addWidget(tete,len(self.labels)-1,0)
+
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
             #speak_french(text)
 
+            
+
+
     def add_right_label(self, text):
         if text:
             wid = QWidget()
-            lay = QVBoxLayout()
+            lay = QHBoxLayout()
             wid.setLayout(lay)
             lay.setAlignment(Qt.AlignRight)
 
@@ -135,9 +148,12 @@ class MainWindow(QMainWindow):
             frame_layout.setAlignment(Qt.AlignRight)
 
             
-            self.widget_internal_layout.addWidget(wid)
+            self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
+
             lay.addWidget(frame)
             
+            
+
             self.scroll_to_bottom()
 
 
@@ -167,7 +183,6 @@ class MainWindow(QMainWindow):
 
     def envoyer_string(self, texte):
         self.signal_envoi.emit(texte)
-
 
 
 app = QApplication([])
