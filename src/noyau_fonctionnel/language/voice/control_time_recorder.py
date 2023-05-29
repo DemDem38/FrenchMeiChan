@@ -6,7 +6,7 @@ import keyboard
 from pynput.keyboard import Listener
 
 import os
-from src.noyau_fonctionnel.language.reco_language import wispAnalyse as wa
+from src.noyau_fonctionnel.language.voice.reco_language import wispAnalyse as wa
 #from reco_language import wispAnalyse as wa
 
 import sounddevice as sd
@@ -60,5 +60,6 @@ def record():
         return text
     except Exception as e:
         exit(type(e).__name__ + ': ' + str(e))
-        
-record()
+
+if __name__ == '__main__':  
+    record()
