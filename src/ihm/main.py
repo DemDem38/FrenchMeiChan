@@ -10,8 +10,8 @@ fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
-from src.noyau_fonctionnel.language.voice.control_time_recorder import record
-from src.noyau_fonctionnel.language.voice.speak_french import speak_french
+from src.noyau_fonctionnel.language.control_time_recorder import record
+from src.noyau_fonctionnel.language.speak_french import speak_french
 
 class WorkerThread(QThread):
     message_received = pyqtSignal(str)
