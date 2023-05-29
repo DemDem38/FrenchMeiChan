@@ -2,22 +2,21 @@
 
 import queue
 import sys
+import keyboard
+from pynput.keyboard import Listener
 
 import os
-from src.noyau_fonctionnel.language.reco_language import wispAnalyse as wa
+from src.noyau_fonctionnel.language.voice.reco_language import wispAnalyse as wa
+#from reco_language import wispAnalyse as wa
 
-"""
-import sys
-
-fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(fc_path)
-
-from noyau_fonctionnel.reco_language import wispAnalyse as wa
-"""
 import sounddevice as sd
 import soundfile as sf
 import numpy  # Make sure NumPy is loaded before it is used in the callback
 assert numpy  # avoid "imported but unused" message (W0611)
+
+class stop_rec(Exception):
+    "stop button pressed"
+    pass
 
 def record():
 
@@ -46,18 +45,21 @@ def record():
             with sd.InputStream(samplerate=samplerate, device=device,
                                 channels=channels, callback=callback):
                 print('#' * 80)
-                print('press Ctrl+C to stop the recording')
+                print('press space to stop the recording')
                 print('#' * 80)
                 while True:
                     file.write(q.get())
+                    if keyboard.is_pressed(" "):
+                        raise stop_rec
 
 
-    except KeyboardInterrupt:
+    except stop_rec:
         print('\nRecording finished: ' + repr(filename))
         text = wa()
         os.remove(filename)
         return text
     except Exception as e:
         exit(type(e).__name__ + ': ' + str(e))
-        
-record()
+
+if __name__ == '__main__':  
+    record()
