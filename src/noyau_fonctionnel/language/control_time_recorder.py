@@ -6,17 +6,9 @@ import keyboard
 from pynput.keyboard import Listener
 
 import os
-#from src.noyau_fonctionnel.language.reco_language import wispAnalyse as wa
-from reco_language import wispAnalyse as wa
+from src.noyau_fonctionnel.language.reco_language import wispAnalyse as wa
+#from reco_language import wispAnalyse as wa
 
-"""
-import sys
-
-fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(fc_path)
-
-from noyau_fonctionnel.reco_language import wispAnalyse as wa
-"""
 import sounddevice as sd
 import soundfile as sf
 import numpy  # Make sure NumPy is loaded before it is used in the callback
