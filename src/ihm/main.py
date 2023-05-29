@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QColor, QKeySequence
 
 
@@ -13,34 +13,6 @@ from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, R
 from src.noyau_fonctionnel.language.control_time_recorder import record
 from src.noyau_fonctionnel.language.speak_french import speak_french
 
-class WorkerThread(QThread):
-    message_received = pyqtSignal(str)
-
-    def run(self):
-        listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        q = listeScenario[1]
-
-        self.message_received.emit("Bonjour")
-        reponse = input()
-
-        while q is not None:
-            self.message_received.emit(q.getTxt())
-            reponse = input()
-
-            listeReponse = q.getReponse()
-            rep = 0
-            for i in range(len(listeReponse)):
-                if listeReponse[i].compared(reponse) and rep == 0:
-                    listeReponse[i].print()
-                    self.message_received.emit(listeReponse[i].getTxt())
-                    rep += 1
-                    q = listeReponse[i].getQuestion()
-            if rep == 0:
-                print("Je ne comprends pas")
-            print("ok")
-            self.message_received.emit("ok")
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -52,14 +24,19 @@ class MainWindow(QMainWindow):
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
 
         self.widget_internal = QWidget()
-        self.widget_internal_layout = QGridLayout(self.widget_internal)
+        self.widget_internal_layout = QVBoxLayout(self.widget_internal)
+        self.widget_internal_layout.setContentsMargins(0, 0, 0, 0)
+        self.widget_internal_layout.setSpacing(0)
+        self.widget_internal_layout.setAlignment(Qt.AlignTop) 
+
+        
+        
 
         default_rows = 6
-        default_columns = 3
 
         for row in range(default_rows):
-            for col in range(default_columns):
-                self.widget_internal_layout.addWidget(QLabel(), row, col, 1, 1)
+                spacer_item = QSpacerItem(60, 60, QSizePolicy.MinimumExpanding, QSizePolicy.Expanding)
+                self.widget_internal_layout.addItem(spacer_item)
 
         self.labels = []
 
@@ -70,71 +47,99 @@ class MainWindow(QMainWindow):
         self.text_entry = QLineEdit()
         self.text_entry.returnPressed.connect(self.add_reply) # 
 
-        self.boutton = QPushButton("Vocal")
-        self.boutton.pressed.connect(self.add_oral_reply)
+        self.recordBoutton = QPushButton("Vocal")
+        self.recordBoutton.pressed.connect(self.add_oral_reply)
+
+        self.stopBoutton = QPushButton("StopVocal")
+        self.stopBoutton.pressed.connect(self.stop_record)
+        self.stopBoutton.setVisible(False)
 
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
         self.layout.addWidget(self.text_entry)
-        self.layout.addWidget(self.boutton)
+        self.layout.addWidget(self.recordBoutton)
+        self.layout.addWidget(self.stopBoutton)
 
         self.setCentralWidget(self.mainWidget)
 
     def add_left_label(self, text):
         
         if text:
-            new_label = QLabel(text)
+            wid = QWidget()
+            lay = QVBoxLayout()
+            wid.setLayout(lay)
+            lay.setAlignment(Qt.AlignLeft)
+
+            new_label = QTextEdit(text)
+            new_label.setReadOnly(True)
             new_label.setMinimumHeight(200)
             new_label.setMaximumHeight(300)
+            new_label.setAlignment(Qt.AlignCenter)
+
             self.labels.append(new_label)
+
+            size = self.scroll_area.size()
 
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
             frame.setStyleSheet("QFrame { background-color: #90EE90; border-radius: 20px; }")
-            frame_layout = QVBoxLayout(frame)
+            frame.setMaximumWidth(int(0.8 * size.width()))  # Définir la largeur maximale du QFrame
+            frame.setFixedHeight(200)
+
+            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; }")
+
+            frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
             frame_layout.setContentsMargins(0, 0, 0, 0)
             frame_layout.setSpacing(0)
+            frame_layout.setAlignment(Qt.AlignRight)
 
-            row = len(self.labels) - 1
-            self.widget_internal_layout.addWidget(frame, row, 0, 1, 2)
-
-            frame.setMinimumHeight(new_label.sizeHint().height())
-
+            self.widget_internal_layout.addWidget(wid)
+            lay.addWidget(frame)
+            
             self.scroll_to_bottom()
             speak_french(text)
 
     def add_right_label(self, text):
         if text:
-            new_label = QLabel(text)
+            wid = QWidget()
+            lay = QVBoxLayout()
+            wid.setLayout(lay)
+            lay.setAlignment(Qt.AlignRight)
+
+            new_label = QTextEdit(text)
+            new_label.setReadOnly(True)
             new_label.setMinimumHeight(200)
-            new_label.setMaximumHeight(300)
+            #new_label.setMaximumHeight(300)
             new_label.setAlignment(Qt.AlignCenter)
 
-            size = new_label.sizeHint()
-
             self.labels.append(new_label)
+
+            size = self.scroll_area.size()
+            sizeH = new_label.sizeHint()
 
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
             frame.setStyleSheet("QFrame { background-color: #ADD8E6; border-radius: 20px; }")
+            frame.setMaximumWidth(int(0.8 * size.width()))  # Définir la largeur maximale du QFrame
+            frame.setMinimumHeight(200)
 
-            new_label.setStyleSheet("color: black;")
+            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; float: right; }")
 
-            frame_layout = QVBoxLayout(frame)
-            frame_layout.setAlignment(Qt.AlignCenter)
+            frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
             frame_layout.setContentsMargins(0, 0, 0, 0)
             frame_layout.setSpacing(0)
+            frame_layout.setAlignment(Qt.AlignRight)
 
-            row = len(self.labels) - 1
-            self.widget_internal_layout.addWidget(frame, row, 1, 1, 2)
-
-            frame.setFixedHeight(200)
-
+            
+            self.widget_internal_layout.addWidget(wid)
+            lay.addWidget(frame)
+            
             self.scroll_to_bottom()
+
 
     def add_reply(self):
         text = self.text_entry.text()
@@ -144,9 +149,16 @@ class MainWindow(QMainWindow):
 
     def add_oral_reply(self):
         text = record()
+        #text = "desactive"
         self.add_right_label(text)
         self.envoyer_string(text)
+        self.recordBoutton.setVisible(False)
+        self.stopBoutton.setVisible(True)
 
+    def stop_record(self):
+        #TODO
+        self.recordBoutton.setVisible(True)
+        self.stopBoutton.setVisible(False)
 
     def scroll_to_bottom(self):
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
