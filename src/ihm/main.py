@@ -10,8 +10,8 @@ fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
-from src.noyau_fonctionnel.language.control_time_recorder import record
-from src.noyau_fonctionnel.language.speak_french import speak_french
+#from src.noyau_fonctionnel.language.control_time_recorder import record
+#from src.noyau_fonctionnel.language.speak_french import speak_french
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll_area.setStyleSheet('background-color: white;')
 
         self.widget_internal = QWidget()
         self.widget_internal_layout = QGridLayout(self.widget_internal)
@@ -63,11 +64,21 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.stopBoutton)
 
         self.setCentralWidget(self.mainWidget)
+        self.generate_images()
 
-        self.classiqueImage = QPixmap("src/ihm/robot/classique.jpg");
-        
+    def generate_images(self):
 
-    def add_left_label(self, text):
+        self.classiqueImage = QPixmap("src/ihm/robot/classique.jpg")
+        self.contentImage = QPixmap("src/ihm/robot/content.jpg")
+        self.tristeImage = QPixmap("src/ihm/robot/triste.jpg")
+
+        self.listeImage = []
+
+        self.listeImage.append(self.classiqueImage)
+        self.listeImage.append(self.contentImage)
+        self.listeImage.append(self.tristeImage)
+
+    def add_left_label(self, text, idImage = 0):
         
         if text:
             wid = QWidget()
@@ -86,10 +97,9 @@ class MainWindow(QMainWindow):
             size = self.scroll_area.size()
 
             frame = QFrame()
-            frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #90EE90; border-radius: 20px; }")
-            frame.setMaximumWidth(int(0.8 * size.width()))  # Définir la largeur maximale du QFrame
+            frame.setStyleSheet("QFrame { background-color: #90EE90; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
+            frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setFixedHeight(200)
 
             new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; }")
@@ -103,13 +113,13 @@ class MainWindow(QMainWindow):
             self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
 
             tete = QLabel()
-            tete.setPixmap(self.classiqueImage)
+            tete.setPixmap(self.listeImage[idImage])
             self.widget_internal_layout.addWidget(tete,len(self.labels)-1,0)
 
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            speak_french(text)
+            #speak_french(text)
 
             
 
@@ -135,8 +145,9 @@ class MainWindow(QMainWindow):
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #ADD8E6; border-radius: 20px; }")
-            frame.setMaximumWidth(int(0.8 * size.width()))  # Définir la largeur maximale du QFrame
+            frame.setStyleSheet("QFrame { background-color: #ADD8E6; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
+
+            frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setMinimumHeight(200)
 
             new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; float: right; }")
@@ -164,8 +175,8 @@ class MainWindow(QMainWindow):
         self.text_entry.clear()
 
     def add_oral_reply(self):
-        text = record()
-        #text = "desactive"
+        #text = record()
+        text = "desactive"
         self.add_right_label(text)
         self.envoyer_string(text)
         self.recordBoutton.setVisible(False)
