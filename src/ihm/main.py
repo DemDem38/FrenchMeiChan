@@ -3,19 +3,40 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,  QHBoxLayout,QSp
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 
-import sys
+import sys 
 import os
 
 fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from src.noyau_fonctionnel.scenario.Scenario import ReadScenarioXML, Question, Reponse, Noyau
-#from src.noyau_fonctionnel.language.control_time_recorder import record
-#from src.noyau_fonctionnel.language.speak_french import speak_french
+
+from src.noyau_fonctionnel.language.voice.control_time_recorder import record
+from src.noyau_fonctionnel.language.voice.speak_french import speak_french
+
+class RecordingThread(QThread):
+
+    recording_finished = pyqtSignal(str)
+
+    def __init__(self,ihm):
+        super().__init__()
+        self.record = record(ihm)
+
+    def run(self):
+        text = self.record.recording()
+
+        self.recording_finished.emit(text)
+
 
 class MainWindow(QMainWindow):
+    signal_envoi = pyqtSignal(str)
+    signal_stop = pyqtSignal()
+
     def __init__(self):
         super().__init__()
+
+        self.r = record(self)
+
         self.mainWidget = QWidget()
         self.layout = QVBoxLayout(self.mainWidget)
 
@@ -175,22 +196,23 @@ class MainWindow(QMainWindow):
         self.text_entry.clear()
 
     def add_oral_reply(self):
-        #text = record()
-        text = "desactive"
-        self.add_right_label(text)
-        self.envoyer_string(text)
         self.recordBoutton.setVisible(False)
         self.stopBoutton.setVisible(True)
+        self.recThread = RecordingThread(self)
+        self.recThread.recording_finished.connect(self.add_right_label)
+        self.recThread.recording_finished.connect(self.envoyer_string)
+        self.recThread.start()
+
 
     def stop_record(self):
-        #TODO
+        self.signal_stop.emit()
         self.recordBoutton.setVisible(True)
         self.stopBoutton.setVisible(False)
 
     def scroll_to_bottom(self):
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
-    signal_envoi = pyqtSignal(str)
+    
 
     def envoyer_string(self, texte):
         self.signal_envoi.emit(texte)
