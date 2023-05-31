@@ -60,7 +60,7 @@ class parse():
             return False
 
 if __name__ == '__main__':
-    test = "oui, MeiChan, j'ai passé une bonne nuit, merci... Et toi ?"
+    test = "oui, MeiChan, j'ai passé une bonne nuit dans mon lit a Kobe, merci... Et toi ?"
     nlp = spacy.load("fr_core_news_sm")
 
     stopW = set(stopwords.words('french'))
@@ -85,4 +85,4 @@ if __name__ == '__main__':
 
     pos = par.return_POS(test)
 
-    print(pos)
+    print(ner)
