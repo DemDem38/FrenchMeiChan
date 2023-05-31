@@ -114,6 +114,8 @@ class Noyau:
                         self.b == False
                         self.ihm.add_left_label("Fin du scenario")
                     else:
-                        self.ihm.add_left_label(self.q.getTxt())
+                        txt = self.q.getTxt()
+                        if txt != None :
+                            self.ihm.add_left_label(txt)
             if rep == 0 :
                 self.ihm.add_left_label("Je ne comprend pas")
