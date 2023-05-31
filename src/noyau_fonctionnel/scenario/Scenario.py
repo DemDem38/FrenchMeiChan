@@ -44,7 +44,7 @@ class Reponse :
     def compared(self, s) :
         if len(self.cond) == 0 :
             return True
-        if len(s) > len(self.cond) :
+        if len(s) >= len(self.cond) :
             indice = 0
             for e in s :
                 if e.lower() == self.cond[indice]:
@@ -92,9 +92,13 @@ class Noyau:
         self.ihm.signal_envoi.connect(self.traiter_string)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.q = self.listeScenario[0]
-        self.ihm.add_left_label(self.q.getTxt())
-        self.b = True
+        self.startScenario(2)
+
+    def startScenario(self,i):
+        if i < len(self.listeScenario):
+            self.q = self.listeScenario[i]
+            self.ihm.add_left_label(self.q.getTxt())
+            self.b = True
 
     def traiter_string(self, texte):
         if(self.b == True):
