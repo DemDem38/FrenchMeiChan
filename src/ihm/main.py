@@ -2,7 +2,8 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
-
+from datetime import datetime
+import pandas as pd
 import sys 
 import os
 
@@ -27,6 +28,15 @@ class RecordingThread(QThread):
 
         self.recording_finished.emit(text)
 
+
+class SpeakThread(QThread):
+
+    def __init__(self,text):
+        super().__init__()
+        self.text=text
+
+    def run(self):
+        speak_french(self.text)
 
 class MainWindow(QMainWindow):
     signal_envoi = pyqtSignal(str)
@@ -63,6 +73,7 @@ class MainWindow(QMainWindow):
                 self.widget_internal_layout.addItem(spacer_item,row,0,1,3)
 
         self.labels = []
+        
 
         self.scroll_area.setWidget(self.widget_internal)
 
@@ -78,11 +89,15 @@ class MainWindow(QMainWindow):
         self.stopBoutton.pressed.connect(self.stop_record)
         self.stopBoutton.setVisible(False)
 
+        self.csvButton = QPushButton("Enregistrer")
+        self.csvButton.pressed.connect(self.toCSV)
+
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
         self.layout.addWidget(self.text_entry)
         self.layout.addWidget(self.recordBoutton)
         self.layout.addWidget(self.stopBoutton)
+        self.layout.addWidget(self.csvButton)
 
         self.setCentralWidget(self.mainWidget)
         self.generate_images()
@@ -113,7 +128,7 @@ class MainWindow(QMainWindow):
             new_label.setMaximumHeight(300)
             new_label.setAlignment(Qt.AlignCenter)
 
-            self.labels.append(new_label)
+            self.labels.append([new_label,"bot"])
 
             size = self.scroll_area.size()
 
@@ -140,8 +155,9 @@ class MainWindow(QMainWindow):
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            speak_french(text)
-
+            
+            self.speak = SpeakThread(text)
+            self.speak.start()
             
 
 
@@ -158,7 +174,7 @@ class MainWindow(QMainWindow):
             #new_label.setMaximumHeight(300)
             new_label.setAlignment(Qt.AlignCenter)
 
-            self.labels.append(new_label)
+            self.labels.append([new_label,"user"])
 
             size = self.scroll_area.size()
             sizeH = new_label.sizeHint()
@@ -217,6 +233,27 @@ class MainWindow(QMainWindow):
     def envoyer_string(self, texte):
         self.signal_envoi.emit(texte)
 
+    def toCSV(self):
+        horodatage_actuel = datetime.now()
+        # Formater l'horodatage
+        format_horodatage = "%Y-%m-%d_%H-%M-%S"
+        horodatage_formate = horodatage_actuel.strftime(format_horodatage)
+        filename = "data/log/"+horodatage_formate+".csv"
+
+        conversation = []
+        for i in self.labels:
+            lab,stri = i
+            print(lab)
+            print(stri)
+
+            txt = lab.toPlainText()
+
+            conversation.append({'auteur': stri, 'contenu': txt})
+            print(conversation)
+
+        df = pd.DataFrame(conversation)
+        df = df[['auteur', 'contenu']]
+        df.to_csv(filename, index=False)
 
 app = QApplication([])
 
