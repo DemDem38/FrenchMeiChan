@@ -29,6 +29,15 @@ class RecordingThread(QThread):
         self.recording_finished.emit(text)
 
 
+class SpeakThread(QThread):
+
+    def __init__(self,text):
+        super().__init__()
+        self.text=text
+
+    def run(self):
+        speak_french(self.text)
+
 class MainWindow(QMainWindow):
     signal_envoi = pyqtSignal(str)
     signal_stop = pyqtSignal()
@@ -146,8 +155,9 @@ class MainWindow(QMainWindow):
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            speak_french(text)
-
+            
+            self.speak = SpeakThread(text)
+            self.speak.start()
             
 
 
