@@ -44,7 +44,7 @@ class Reponse :
     def compared(self, s) :
         if len(self.cond) == 0 :
             return True
-        if len(s) > len(self.cond) :
+        if len(s) >= len(self.cond) :
             indice = 0
             for e in s :
                 if e.lower() == self.cond[indice]:
