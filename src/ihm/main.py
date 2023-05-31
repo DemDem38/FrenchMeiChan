@@ -140,7 +140,7 @@ class MainWindow(QMainWindow):
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            #speak_french(text)
+            speak_french(text)
 
             
 
