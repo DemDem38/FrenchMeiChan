@@ -42,7 +42,7 @@ class Reponse :
         print(self.txt)
     
     def compared(self, s) :
-        if len(self.cond) == 0 :
+        if self.cond == None :
             return True
         if len(s) >= len(self.cond) :
             indice = 0
@@ -113,7 +113,8 @@ class Noyau:
             for i in range (len(self.listeReponse)) :
                 
                 if self.listeReponse[i].compared(self.reponse) and rep == 0 :
-                    if len(self.listeReponse[i].getTxt()) > 0 :
+                    txt = self.q.getTxt()
+                    if txt != None :
                         print(self.listeReponse[i].getTxt())
                         self.ihm.add_left_label(self.listeReponse[i].getTxt())
                     rep += 1
@@ -122,6 +123,8 @@ class Noyau:
                         self.b == False
                         self.ihm.add_left_label("Fin du scenario")
                     else:
-                        self.ihm.add_left_label(self.q.getTxt())
+                        txt = self.q.getTxt()
+                        if txt != None :
+                            self.ihm.add_left_label(txt)
             if rep == 0 :
                 self.ihm.add_left_label("Je ne comprend pas")
