@@ -26,11 +26,8 @@ class MainWindow(QMainWindow):
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll_area.setStyleSheet('background-color: white;')
-
         
         self.init_internat_widget()
-        
-
         
         self.scenario_entry = QLineEdit()
         self.scenario_entry.returnPressed.connect(self.change_scenario) 
@@ -63,6 +60,13 @@ class MainWindow(QMainWindow):
         self.scenario = Noyau(self)
 
     def init_internat_widget(self):
+        """
+        Creer, setup et add le widget qui est dans le QScrollArea (self.scroll_area)
+
+        arg: None
+
+        return: None
+        """
         self.widget_internal = QWidget()
         self.widget_internal_layout = QGridLayout(self.widget_internal)
         self.widget_internal_layout.setColumnMinimumWidth(0, 300)  # Définit la largeur minimale de la première colonne à 300 pixels
@@ -82,7 +86,13 @@ class MainWindow(QMainWindow):
         self.scroll_area.setWidget(self.widget_internal)
 
     def generate_images(self):
+        """
+        create all QPixmap and store them in self.listeImage
 
+        arg: None
+
+        return: None
+        """
         self.classiqueImage = QPixmap("src/ihm/robot/classique.jpg")
         self.contentImage = QPixmap("src/ihm/robot/content.jpg")
         self.tristeImage = QPixmap("src/ihm/robot/triste.jpg")
@@ -93,8 +103,17 @@ class MainWindow(QMainWindow):
         self.listeImage.append(self.contentImage)
         self.listeImage.append(self.tristeImage)
 
-    def add_left_label(self, text, idImage = 0):
-        
+    def add_left_label(self, text, idImage = 0 , speak = True):
+        """
+        Genere un QFrame a gauche du ScrollArea, qui contient un QTextEdit avec text comme contenu ainsi qu'une image de robot
+
+        arg: -text: str | Texte a afficher dans le QFrame
+             -idImage: int | ID de l'image a afficher a cote du texte, id correspond a l'indice dans self.listeImage
+             -speak: bool | Boolean pour determiner si le texte doit etre si a haute voix ou non
+
+        return: None
+        """
+
         if text:
             wid = QWidget()
             lay = QHBoxLayout()
@@ -134,13 +153,20 @@ class MainWindow(QMainWindow):
             lay.addWidget(frame)
             
             self.scroll_to_bottom()
-            
-            self.speak = SpeakThread(text)
-            self.speak.start()
+            if speak:
+                self.speak = SpeakThread(text)
+                self.speak.start()
             
 
 
     def add_right_label(self, text):
+        """
+        Genere un QFrame a droite du ScrollArea, qui contient un QTextEdit avec text comme contenu ainsi qu'une image de robot
+
+        arg: -text: str | Texte a afficher dans le QFrame
+
+        return: None
+        """
         if text:
             wid = QWidget()
             lay = QHBoxLayout()
@@ -178,18 +204,31 @@ class MainWindow(QMainWindow):
 
             lay.addWidget(frame)
             
-            
-
             self.scroll_to_bottom()
 
 
     def add_reply(self):
+        """
+        Recupere le texte dans self.text_entry l'ajoute a droite du ScrollArea
+        Envoie aussi le string au scenario afin d'avoir la suite du dialog
+
+        arg: None
+
+        return: None
+        """
         text = self.text_entry.text()
         self.add_right_label(text)
         self.envoyer_string(text)
         self.text_entry.clear()
 
     def add_oral_reply(self):
+        """
+        Lance un enregistrement vocal et change le boutton pour celui qui stop le record
+
+        arg: None
+
+        return: None
+        """
         self.recordBoutton.setVisible(False)
         self.stopBoutton.setVisible(True)
         self.recThread = RecordingThread(self)
@@ -199,41 +238,69 @@ class MainWindow(QMainWindow):
 
 
     def stop_record(self):
+        """
+        Stop le record
+
+        arg: None
+
+        return: None
+        """
         self.signal_stop.emit()
         self.recordBoutton.setVisible(True)
         self.stopBoutton.setVisible(False)
 
     def scroll_to_bottom(self):
+        """
+        Scroll pour etre a la fin du ScrollArea
+        """
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
     
 
     def envoyer_string(self, texte):
+        """
+        Envoie un string a la partie scenario
+
+        arg: -texte: string
+
+        return: None
+        """
         self.signal_envoi.emit(texte)
 
     def toCSV(self):
+        """
+        Prend la conversation actuel et l'export au format csv. Le fichier est enregistrer dans data/log et le nom du fichier et l'horodatage
+
+        arg: None
+
+        return: None
+        """
         horodatage_actuel = datetime.now()
         # Formater l'horodatage
         format_horodatage = "%Y-%m-%d_%H-%M-%S"
         horodatage_formate = horodatage_actuel.strftime(format_horodatage)
         filename = "data/log/"+horodatage_formate+".csv"
 
+        idScenario = self.scenario.getIDscenario()
+
         conversation = []
         for i in self.labels:
             lab,stri = i
-            print(lab)
-            print(stri)
-
             txt = lab.toPlainText()
-
-            conversation.append({'auteur': stri, 'contenu': txt})
-            print(conversation)
+            conversation.append({'auteur': stri, 'contenu': txt, 'scenario': idScenario})
 
         df = pd.DataFrame(conversation)
-        df = df[['auteur', 'contenu']]
+        df = df[['auteur', 'contenu','scenario']]
         df.to_csv(filename, index=False)
 
     def change_scenario(self):
+        """
+        Change le scenario qui s'execute
+
+        arg: None
+
+        return: None
+        """
         indice = (int) (self.scenario_entry.text())
         self.init_internat_widget()
         self.scenario.startScenario(indice-1)
