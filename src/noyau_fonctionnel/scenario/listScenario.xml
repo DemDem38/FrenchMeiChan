@@ -38,14 +38,6 @@
 
             <reply>
                 <id> 3 </id>
-                <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
-                <pre> 3 </pre>
-                <cond></cond>
-                <next>-1</next>
-            </reply>
-
-            <reply>
-                <id> 4 </id>
                 <texte>C'est genial, une bonne nuit permet de commencer la journee en pleine forme</texte>
                 <pre> 2 </pre>
                 <cond>oui</cond>
@@ -53,7 +45,7 @@
             </reply>
 
             <reply>
-                <id> 5 </id>
+                <id> 4 </id>
                 <texte>Un repas leger le soir et un bain tiede peuvent vous aider a mieux dormir</texte>
                 <pre> 2 </pre>
                 <cond>non</cond>
@@ -61,7 +53,7 @@
             </reply>
 
             <reply>
-                <id> 6 </id>
+                <id> 5 </id>
                 <texte>Si votre fièvre persiste, pensez a prendre rendez-vous chez le medecin</texte>
                 <pre> 3 </pre>
                 <cond>fièvre</cond>
@@ -69,11 +61,19 @@
             </reply>
 
             <reply>
-                <id> 7 </id>
+                <id> 6 </id>
                 <texte></texte>
                 <pre> 3 </pre>
                 <cond>malade</cond>
                 <next>4</next>
+            </reply>
+
+            <reply>
+                <id> 7 </id>
+                <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider a adoucir votre mal de gorge</texte>
+                <pre> 3 </pre>
+                <cond>gorge</cond>
+                <next>-1</next>
             </reply>
 
             <reply>
@@ -102,9 +102,9 @@
 
             <reply>
                 <id> 11 </id>
-                <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider a adoucir votre mal de gorge</texte>
+                <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
                 <pre> 3 </pre>
-                <cond>gorge</cond>
+                <cond></cond>
                 <next>-1</next>
             </reply>
 

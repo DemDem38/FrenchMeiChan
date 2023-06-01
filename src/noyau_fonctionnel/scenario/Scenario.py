@@ -42,7 +42,7 @@ class Reponse :
         print(self.txt)
     
     def compared(self, s) :
-        if len(self.cond) == 0 :
+        if self.cond == None :
             return True
         if len(s) >= len(self.cond) :
             indice = 0
@@ -109,7 +109,8 @@ class Noyau:
             for i in range (len(self.listeReponse)) :
                 
                 if self.listeReponse[i].compared(self.reponse) and rep == 0 :
-                    if len(self.listeReponse[i].getTxt()) > 0 :
+                    txt = self.q.getTxt()
+                    if txt != None :
                         print(self.listeReponse[i].getTxt())
                         self.ihm.add_left_label(self.listeReponse[i].getTxt())
                     rep += 1
