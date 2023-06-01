@@ -128,7 +128,7 @@
                 <id> 1 </id>
                 <texte>Super !</texte>
                 <pre> 1 </pre>
-                <cond>Oui</cond>
+                <cond>oui</cond>
                 <next>2</next>
             </reply>
 
@@ -136,7 +136,7 @@
                 <id> 2 </id>
                 <texte>Dommage</texte>
                 <pre> 1 </pre>
-                <cond>Non</cond>
+                <cond>non</cond>
                 <next>-1</next>
             </reply>
 
@@ -144,7 +144,7 @@
                 <id> 3 </id>
                 <texte>C'est bien, continuer a boire de maniere reguliere </texte>
                 <pre> 2 </pre>
-                <cond>Oui</cond>
+                <cond>oui</cond>
                 <next>-1</next>
             </reply>
 
@@ -152,7 +152,7 @@
                 <id> 4 </id>
                 <texte>Penser a boire regulierement</texte>
                 <pre> 2 </pre>
-                <cond>Non</cond>
+                <cond>non</cond>
                 <next>-1</next>
             </reply>
 
