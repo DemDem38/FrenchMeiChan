@@ -1,0 +1,34 @@
+---------- Robustesse ----------
+
+IHM :
+1.
+- repondre par ecrit
+- cliquer sur record pendant la reponse de MeiChan
+
+2. 
+- repondre a l'oral
+- ecrire une reponse pendant le traitement de l'enregistrement
+
+3.
+- repondre par ecrit
+- cliquer sur enregistrer pendant la reponse de MeiChan
+
+4. 
+- repondre a l'oral
+- cliquer sur enregistrer pendant le traitement de l'enregistrement
+
+5.
+
+
+Scenarios :
+- entrer du texte apres la fin d'un scenario
+- ecrire un numero de scenario qui n'existe pas
+- ecrire autre chose qu'un numero
+
+
+
+---------- Sugestions ----------
+
+IHM :
+
+Scenarios :
