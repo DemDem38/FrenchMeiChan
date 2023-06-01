@@ -1,34 +1,124 @@
 ---------- Robustesse ----------
 
 IHM :
+
 1.
 - repondre par ecrit
 - cliquer sur record pendant la reponse de MeiChan
+
+01/06/2023 :
+l'enregistrement se met en route et enregistre ce que MeiChan dit,
+le traite et l'interprete comme une reoponse utilisateur.
 
 2. 
 - repondre a l'oral
 - ecrire une reponse pendant le traitement de l'enregistrement
 
+01/06/2023 :
+la reponse a l'ecrit est prise en compte comme le traitement dde la reponse orale
+n'est pas encore fini.
+Lorsque le traitement de la reponse orale est termine, elle est consideree comme
+une reponse envoyee a la suite et non pas comme la reponse au moment de l'enregistrement.
+
 3.
 - repondre par ecrit
 - cliquer sur enregistrer pendant la reponse de MeiChan
+
+01/06/2023 :
+le dialogue est enregistre y compris la reponse de MeiChan qui est deja ecrite,
+juste pas totalement fini d'etre dite a l'oral
 
 4. 
 - repondre a l'oral
 - cliquer sur enregistrer pendant le traitement de l'enregistrement
 
+01/06/2023 :
+Le dialogue est enregistre sans la reponse que l'on a donne car elle n'est pas encore traitee
+
 5.
+- repondre a l'oral
+- ecrire une reponse pendant le traitement de l'enregistrement
+- finir le scenario avec les reponses ecrites avant que celle a l'oral ne se soit encore terminee
+
+01/06/2023 :
+l'execussion est interrompue, le progrqmme crash.
 
 
 Scenarios :
-- entrer du texte apres la fin d'un scenario
-- ecrire un numero de scenario qui n'existe pas
-- ecrire autre chose qu'un numero
 
+1. 
+- derouler un scenario en entier
+- ecrire une nouvelle donnee d'entree au scenario
 
+01/06/2023 :
+l'execussion est interrompue, le progrqmme crash.
+
+2. 
+- derouler un scenario en entier
+- ecrire une nouvelle donnee d'entree au scenario
+
+01/06/2023 :
+l'execussion est interrompue, le programme crash.
+
+3.
+- changer de scenario en mettant un scenario inexistant
+
+01/06/2023 :
+Une page blanche apparait sans message ni rien
+
+4.
+- demander un scenario avec des caracteres autre que des nombres
+
+01/06/2023 :
+l'execussion est interrompue, le programme crash.
+
+5.
+- changer de scenario en mettant un scenario inexistant
+- envoyer un message texte
+
+01/06/2023 :
+Le message d'incomprehenssion nous repond une premiere fois
+Si on envoi un second message, le programme crash
+
+6.
+- changer de scenario en mettant un scenario inexistant
+- changer de scenario en mettant un scenario existant
+
+01/06/2023 :
+le scenario apparait et se lance
+
+7.
+- changer de scenario en mettant un scenario inexistant
+- changer de scenario en mettant un autre scenario inexistant
+
+01/06/2023 :
+la page reste blanche, rien ne change
 
 ---------- Sugestions ----------
 
 IHM :
 
+1.
+menu deroulant pour les connaitre les scenarios
+
+2.
+bloquer l'envoi de message lorsqu'un enregistrement vocal a ete effectue
+
+3.
+bloquer l'enregistrement vocal qund un message a ete envoyee
+
+4.
+scenarios inexistant mettre un message sur la page blanche pour l'indiquer et bloquer l'envoi de messages
+
+5.
+bloquer les caracteres non desires pour le changement de scenarios (je ne sais pas si c'est IHM ou scenarios)
+
+6.
+bloquer l'enrgistrement et l'envoi de messqges q lq fin d'un scenario ou repondre par un message automatique
+
 Scenarios :
+
+1.
+au bout d'un certain nombre de reponses non comprises,
+donner les mots clef qui sont compris pour aider a repondre a la question de MeiChan
+
