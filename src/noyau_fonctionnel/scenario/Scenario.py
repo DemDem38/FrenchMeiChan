@@ -95,10 +95,14 @@ class Noyau:
         self.startScenario(2)
 
     def startScenario(self,i):
+        self.scenario = i;
         if i < len(self.listeScenario):
             self.q = self.listeScenario[i]
             self.ihm.add_left_label(self.q.getTxt())
             self.b = True
+
+    def getIDscenario(self):
+        return self.scenario
 
     def traiter_string(self, texte):
         if(self.b == True):
