@@ -1,9 +1,10 @@
-from person import person
+#from person import person
+from src.noyau_fonctionnel.authentication.person import person
 import warnings
 
 class account():
     def __init__(self, user, first_contact, other_contacts=[]):
-        self.preson = user
+        self.user = user
         self.first_contact = first_contact
         if other_contacts != []:
             nb_contacts = len(other_contacts)

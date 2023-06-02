@@ -55,7 +55,7 @@ l'execussion est interrompue, le progrqmme crash.
 
 2. 
 - derouler un scenario en entier
-- ecrire une nouvelle donnee d'entree au scenario
+- record une nouvelle donnee d'entree au scenario
 
 01/06/2023 :
 l'execussion est interrompue, le programme crash.
@@ -114,7 +114,7 @@ scenarios inexistant mettre un message sur la page blanche pour l'indiquer et bl
 bloquer les caracteres non desires pour le changement de scenarios (je ne sais pas si c'est IHM ou scenarios)
 
 6.
-bloquer l'enrgistrement et l'envoi de messqges q lq fin d'un scenario ou repondre par un message automatique
+bloquer l'enrgistrement et l'envoi de messqges a la fin d'un scenario ou repondre par un message automatique
 
 Scenarios :
 
