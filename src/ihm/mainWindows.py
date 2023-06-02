@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from datetime import datetime
@@ -9,6 +9,7 @@ from src.noyau_fonctionnel.scenario.Scenario import Noyau
 from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 
 from src.ihm.threadClasses import RecordingThread, SpeakThread
+from src.ihm.parametreWindows import parametreWidget
 
 class MainWindow(QMainWindow):
     signal_envoi = pyqtSignal(str)
@@ -19,14 +20,29 @@ class MainWindow(QMainWindow):
         
         self.r = record(self)
 
+        
         self.mainWidget = QWidget()
-        self.layout = QVBoxLayout(self.mainWidget)
+        self.mainLayout = QStackedLayout(self.mainWidget)
+        self.layout = QVBoxLayout()
+        
+
+        self.chatboxWidget = QWidget()
+        self.chatbox_layout = QVBoxLayout(self.chatboxWidget)
+        self.mainLayout.addWidget(self.chatboxWidget)
 
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll_area.setStyleSheet('background-color: white;')
         
+        self.parametre = QWidget()
+        self.para_layout = QHBoxLayout(self.parametre)
+        self.para_layout.setAlignment(Qt.AlignRight)
+
+        self.para_button = QPushButton("Parametre")
+        self.para_button.pressed.connect(self.open_parametre)
+        self.para_layout.addWidget(self.para_button)
+
         self.init_internat_widget()
         
         self.scenario_entry = QLineEdit()
@@ -47,16 +63,20 @@ class MainWindow(QMainWindow):
 
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
-        self.layout.addWidget(self.scenario_entry)
-        self.layout.addWidget(self.scroll_area)
-        self.layout.addWidget(self.text_entry)
-        self.layout.addWidget(self.recordBoutton)
-        self.layout.addWidget(self.stopBoutton)
-        self.layout.addWidget(self.csvButton)
+        self.chatbox_layout.addWidget(self.parametre)
+        self.chatbox_layout.addWidget(self.scenario_entry)
+        self.chatbox_layout.addWidget(self.scroll_area)
+        self.chatbox_layout.addWidget(self.text_entry)
+        self.chatbox_layout.addWidget(self.recordBoutton)
+        self.chatbox_layout.addWidget(self.stopBoutton)
+        self.chatbox_layout.addWidget(self.csvButton)
 
         self.setCentralWidget(self.mainWidget)
         self.generate_images()
 
+        self.paraWidget = parametreWidget(self,self.mainWidget)
+        self.mainLayout.addWidget(self.paraWidget)
+        
         self.scenario = Noyau(self)
 
     def init_internat_widget(self):
@@ -102,6 +122,11 @@ class MainWindow(QMainWindow):
         self.listeImage.append(self.classiqueImage)
         self.listeImage.append(self.contentImage)
         self.listeImage.append(self.tristeImage)
+
+    def open_parametre(self):
+        
+        self.mainLayout.setCurrentIndex(1)
+
 
     def add_left_label(self, text, idImage = 0 , speak = True):
         """
