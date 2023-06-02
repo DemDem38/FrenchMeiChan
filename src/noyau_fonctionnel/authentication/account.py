@@ -20,11 +20,17 @@ class account():
     def get_nb_contacts(self):
         return self.nb_contacts
 
-    def set_new_contact(self, contact):
+    def new_contact(self, contact):
         if self.nb_contacts == 5:
             warnings.warn("Le nombre maximum de contact est atteint, veuillez en supprimer pour en ajouter un nouveau")
         else:
             self["contact"+str(self.nb_contacts)] = contact
             self.nb_contacts += 1
 
-         # list of persons to contact
+    def delete_contact(self, no_contact):
+        for i in range (no_contact-1, self.nb_contacts-1):
+            self["contact"+str(i)] = self["contact"+str(i+1)]
+        del self["contact"+str(self.nb_contacts)]
+        self.nb_contacts -= 1
+         
+
