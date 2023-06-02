@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication,QSlider, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from datetime import datetime
@@ -45,8 +45,9 @@ class MainWindow(QMainWindow):
 
         self.init_internat_widget()
         
-        self.scenario_entry = QLineEdit()
-        self.scenario_entry.returnPressed.connect(self.change_scenario) 
+        self.scenario_entry = QSlider()
+        
+        self.scenario_entry.sliderReleased.connect(self.change_scenario) 
 
         self.text_entry = QLineEdit()
         self.text_entry.returnPressed.connect(self.add_reply)
@@ -78,6 +79,10 @@ class MainWindow(QMainWindow):
         self.mainLayout.addWidget(self.paraWidget)
         
         self.scenario = Noyau(self)
+        self.scenario_entry.setMaximum(self.scenario.numnScenario())
+        self.scenario_entry.setMinimum(1)
+        self.scenario_entry.setOrientation(Qt.Horizontal)
+        self.scenario_entry.setTickPosition(QSlider.TicksBelow)
 
     def init_internat_widget(self):
         """
@@ -326,6 +331,6 @@ class MainWindow(QMainWindow):
 
         return: None
         """
-        indice = (int) (self.scenario_entry.text())
+        indice = self.scenario_entry.value()
         self.init_internat_widget()
         self.scenario.startScenario(indice-1)

@@ -92,7 +92,10 @@ class Noyau:
         self.ihm.signal_envoi.connect(self.traiter_string)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.startScenario(2)
+        self.startScenario(0)
+
+    def numnScenario(self):
+        return len(self.listeScenario)
 
     def startScenario(self,i):
         self.scenario = i;
