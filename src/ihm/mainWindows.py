@@ -183,7 +183,7 @@ class MainWindow(QMainWindow):
 
             frame = QFrame()
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #90EE90; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
+            frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setFixedHeight(200)
 
@@ -237,7 +237,7 @@ class MainWindow(QMainWindow):
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #ADD8E6; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
+            frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))
 
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setMinimumHeight(200)
@@ -255,7 +255,6 @@ class MainWindow(QMainWindow):
 
             lay.addWidget(frame)
             if self.paraWidget.saveEntry.isChecked():
-                print("save")
                 self.toCSV()
             self.scroll_to_bottom()
 
@@ -367,6 +366,9 @@ class MainWindow(QMainWindow):
 
         return: None
         """
+        if self.paraWidget.saveEntry.isChecked():
+                self.toCSV()
+
         indice = self.scenario_entry.value()
         self.init_internat_widget()
         self.scenario.startScenario(indice-1)
