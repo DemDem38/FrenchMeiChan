@@ -34,6 +34,7 @@ class personWidget(QWidget):
     def addLastNameWidget(self):
         self.lastNameWidget = QWidget()
         self.lastNameLayout = QHBoxLayout(self.lastNameWidget)
+        self.lastNameLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.lastNameWidget)
 
         self.lastNamePrint = QLabel("Nom")
@@ -46,6 +47,7 @@ class personWidget(QWidget):
     def addFirstNameWidget(self):
         self.firstNameWidget = QWidget()
         self.firstNameLayout = QHBoxLayout(self.firstNameWidget)
+        self.firstNameLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.firstNameWidget)
 
         self.firstNamePrint = QLabel("Prenom")
@@ -57,6 +59,7 @@ class personWidget(QWidget):
     def addBirthdayWidget(self):
         self.birthdayWidget = QWidget()
         self.birthdayLayout = QHBoxLayout(self.birthdayWidget)
+        self.birthdayLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.birthdayWidget)
 
         self.birthdayPrint = QLabel("Date de naissance (jj.mm.aaaa)")
@@ -69,6 +72,7 @@ class personWidget(QWidget):
     def addPhoneWidget(self):
         self.phoneWidget = QWidget()
         self.phoneLayout = QHBoxLayout(self.phoneWidget)
+        self.phoneLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.phoneWidget)
 
         self.phonePrint = QLabel("Numero de telephone")
@@ -84,6 +88,7 @@ class personWidget(QWidget):
     def addEmailWidget(self):
         self.emailWidget = QWidget()
         self.emailLayout = QHBoxLayout(self.emailWidget)
+        self.emailLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.emailWidget)
 
         self.emailPrint = QLabel("Email")
