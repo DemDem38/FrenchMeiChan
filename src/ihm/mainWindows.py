@@ -13,7 +13,8 @@ from src.ihm.parametreWindows import parametreWidget
 from src.ihm.personWindows import personWidget
 
 class MainWindow(QMainWindow):
-    signal_envoi = pyqtSignal(str)
+    signal_envoi_on = pyqtSignal(str)
+    signal_envoi_off = pyqtSignal(str)
     signal_stop = pyqtSignal()
 
     def __init__(self):
@@ -268,7 +269,7 @@ class MainWindow(QMainWindow):
         """
         text = self.text_entry.text()
         self.add_right_label(text)
-        self.envoyer_string(text)
+        self.envoyer_string_on(text)
         self.text_entry.clear()
 
     def add_oral_reply(self):
@@ -283,7 +284,7 @@ class MainWindow(QMainWindow):
         self.stopBoutton.setVisible(True)
         self.recThread = RecordingThread(self)
         self.recThread.recording_finished.connect(self.add_right_label)
-        self.recThread.recording_finished.connect(self.envoyer_string)
+        self.recThread.recording_finished.connect(self.envoyer_string_on)
         self.recThread.start()
 
 
@@ -307,7 +308,7 @@ class MainWindow(QMainWindow):
 
     
 
-    def envoyer_string(self, texte):
+    def envoyer_string_on(self, texte):
         """
         Envoie un string a la partie scenario
 
@@ -315,7 +316,17 @@ class MainWindow(QMainWindow):
 
         return: None
         """
-        self.signal_envoi.emit(texte)
+        self.signal_envoi_on.emit(texte)
+
+    def envoyer_string_off(self, texte):
+        """
+        Envoie un string a la partie scenario
+
+        arg: -texte: string
+
+        return: None
+        """
+        self.signal_envoi_off.emit(texte)
 
     def init_filename(self):
         horodatage_actuel = datetime.now()
@@ -375,3 +386,14 @@ class MainWindow(QMainWindow):
         if fileDialog.exec_() == QFileDialog.Accepted:
             selected_path = fileDialog.selectedFiles()[0]
             print("Chemin sélectionné:", selected_path)
+
+            df = pd.read_csv(selected_path)
+
+            num_scenario = df.iloc[0]["scenario"]
+            print(num_scenario)
+
+            for index, row in df.iterrows():
+                if row["auteur"] == "user":
+                    self.add_right_label(row["contenu"])
+                    self.envoyer_string_off(row["contenu"])
+                

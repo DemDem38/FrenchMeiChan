@@ -90,7 +90,8 @@ class Noyau:
     def __init__(self,IHM):
         self.scenario = 0
         self.ihm = IHM
-        self.ihm.signal_envoi.connect(self.traiter_string)
+        self.ihm.signal_envoi_on.connect(self.traiter_string_sound_ON)
+        self.ihm.signal_envoi_off.connect(self.traiter_string_sound_OFF)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
         self.startScenario(0)
@@ -108,7 +109,14 @@ class Noyau:
     def getIDscenario(self):
         return self.scenario
 
-    def traiter_string(self, texte):
+
+    def traiter_string_sound_ON(self,texte):
+        self.traiter_string(texte,speak = True)
+
+    def traiter_string_sound_OFF(self,texte):
+        self.traiter_string(texte,speak = False)
+
+    def traiter_string(self, texte, speak = True):
         if(self.b == True):
             print("Chaîne reçue :", texte)
             self.reponse = texte
@@ -120,18 +128,18 @@ class Noyau:
                     txt = self.q.getTxt()
                     if txt != None :
                         print(self.listeReponse[i].getTxt())
-                        self.ihm.add_left_label(self.listeReponse[i].getTxt())
+                        self.ihm.add_left_label(self.listeReponse[i].getTxt(),speak = speak)
                     rep += 1
                     self.q = self.listeReponse[i].getQuestion()
                     if(self.q == None):
                         self.b == False
-                        self.ihm.add_left_label("Fin du scenario")
+                        self.ihm.add_left_label("Fin du scenario",speak = speak)
                         self.ihm.toCSV()
                         self.ihm.text_entry.setReadOnly(True)
                         self.ihm.recordBoutton.setEnabled(False)
                     else:
                         txt = self.q.getTxt()
                         if txt != None :
-                            self.ihm.add_left_label(txt)
+                            self.ihm.add_left_label(txt,speak = speak)
             if rep == 0 :
-                self.ihm.add_left_label("Je ne comprend pas")
+                self.ihm.add_left_label("Je ne comprend pas",speak = speak)
