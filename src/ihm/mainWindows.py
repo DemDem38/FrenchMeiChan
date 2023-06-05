@@ -10,6 +10,7 @@ from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
+from src.ihm.personWindows import personWidget
 
 class MainWindow(QMainWindow):
     signal_envoi = pyqtSignal(str)
@@ -43,6 +44,14 @@ class MainWindow(QMainWindow):
         self.para_button.pressed.connect(self.open_parametre)
         self.para_layout.addWidget(self.para_button)
 
+        self.person = QWidget()
+        self.person_layout = QHBoxLayout(self.person)
+        self.person_layout.setAlignment(Qt.AlignRight)
+
+        self.person_button = QPushButton("Person")
+        self.person_button.pressed.connect(self.open_person)
+        self.person_layout.addWidget(self.person_button)
+
         self.init_internat_widget()
         
         self.scenario_entry = QSlider()
@@ -65,6 +74,7 @@ class MainWindow(QMainWindow):
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
         self.chatbox_layout.addWidget(self.parametre)
+        self.chatbox_layout.addWidget(self.person)
         self.chatbox_layout.addWidget(self.scenario_entry)
         self.chatbox_layout.addWidget(self.scroll_area)
         self.chatbox_layout.addWidget(self.text_entry)
@@ -76,7 +86,9 @@ class MainWindow(QMainWindow):
         self.generate_images()
 
         self.paraWidget = parametreWidget(self,self.mainWidget)
+        self.personWidget = personWidget(self)
         self.mainLayout.addWidget(self.paraWidget)
+        self.mainLayout.addWidget(self.personWidget)
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
@@ -131,6 +143,10 @@ class MainWindow(QMainWindow):
     def open_parametre(self):
         
         self.mainLayout.setCurrentIndex(1)
+
+    def open_person(self):
+        
+        self.mainLayout.setCurrentIndex(2)
 
 
     def add_left_label(self, text, idImage = 0 , speak = True):
