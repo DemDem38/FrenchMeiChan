@@ -254,7 +254,9 @@ class MainWindow(QMainWindow):
             self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
 
             lay.addWidget(frame)
-            self.toCSV()
+            if self.paraWidget.saveEntry.isChecked():
+                print("save")
+                self.toCSV()
             self.scroll_to_bottom()
 
 
