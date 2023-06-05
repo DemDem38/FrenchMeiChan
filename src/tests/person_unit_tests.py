@@ -26,16 +26,16 @@ pers1.set_birthday(birthday)
 pers1.set_phone(phone)
 pers1.set_email(email)
 
-assert pers1.get_last_name(), last_name
-assert pers1.get_first_name(), first_name
-assert pers1.get_birthday(), birthday
-assert pers1.get_phone(), phone
-assert pers1.get_email(), email
+assert pers1.get_last_name() == last_name
+assert pers1.get_first_name() == first_name
+assert pers1.get_birthday() == birthday
+assert pers1.get_phone() == phone
+assert pers1.get_email() == email
 
 pers2 = person(last_name, first_name, birthday, phone, email)
 
-assert pers2.get_last_name(), last_name
-assert pers2.get_first_name(), first_name
-assert pers2.get_birthday(), birthday
-assert pers2.get_phone(), phone
-assert pers2.get_email(), email
+assert pers2.get_last_name() == last_name
+assert pers2.get_first_name() == first_name
+assert pers2.get_birthday() == birthday
+assert pers2.get_phone() == phone
+assert pers2.get_email() == email

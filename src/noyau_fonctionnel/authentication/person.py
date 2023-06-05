@@ -30,3 +30,18 @@ class person():
         return self.email
     def set_email(self, email):
         self.email = email
+
+class contact():
+    def __init__(self, person, number):
+        self.person = person
+        self.number = number
+    def get_person(self):
+        return self.number
+    def change_person(self, pers):
+        self.person = pers 
+    def get_number(self):
+        return self.number
+    def change_number(self, nb):
+        self.number = nb
+
+

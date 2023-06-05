@@ -1,5 +1,5 @@
 #from person import person
-from src.noyau_fonctionnel.authentication.person import person
+from src.noyau_fonctionnel.authentication.person import person, contact
 import warnings
 
 class account():
@@ -12,9 +12,9 @@ class account():
                 nb_contacts = 4
                 warnings.warn("Le nombre maximum de contact est de 5 personnes,\
                               il y en a trop, seulement les 5 premiers seront enregistres")
-            for i in range (nb_contacts):
-                self["contact"+str(i+2)] = other_contacts[i]
+            self.other_contacts = other_contacts
             self.nb_contacts = nb_contacts+1
+            self.check_contacts()
         else:
             self.nb_contacts = 1
 
@@ -25,13 +25,32 @@ class account():
         if self.nb_contacts == 5:
             warnings.warn("Le nombre maximum de contact est atteint, veuillez en supprimer pour en ajouter un nouveau")
         else:
-            self["contact"+str(self.nb_contacts)] = contact
-            self.nb_contacts += 1
+            nb = contact.number
+            nb_exist = False
+            for i in self.other_contacts:
+                if i.number == nb:
+                    warnings.warn("le contact que vous voulez ajouter a un numero deja existant, l'ajout est refuse")
+                    nb_exist = True
+            if not(nb_exist):
+                self.other_contacts.append(contact)
+                self.nb_contacts += 1
 
-    def delete_contact(self, no_contact):
-        for i in range (no_contact-1, self.nb_contacts-1):
-            self["contact"+str(i)] = self["contact"+str(i+1)]
-        del self["contact"+str(self.nb_contacts)]
+    def delete_contact_index(self, no_contact):
+        self.other_contacts.pop(no_contact-2)
         self.nb_contacts -= 1
-         
+
+    def delete_contact(self, contact):
+        self.other_contacts.remove(contact)
+        self.nb_contacts -= 1  
+
+    def check_contacts(self):
+        list = []
+        for i in self.other_contacts:
+            for j in list:
+                nb = i.number
+                if nb == j:
+                    self.delete_contact(i)
+                    warnings.warn("Deux conactes ont le meme numero",j,"le second a ete supprime")
+                else:
+                    list.append(nb)
 
