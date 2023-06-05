@@ -35,13 +35,22 @@ class account():
                 self.other_contacts.append(contact)
                 self.nb_contacts += 1
 
-    def delete_contact_index(self, no_contact):
-        self.other_contacts.pop(no_contact-2)
+    def delete_contact_index(self, index):
+        self.other_contacts.pop(index)
         self.nb_contacts -= 1
 
+    def delete_contact_number(self, no_contact):
+        del_contact = False
+        for i in self.other_contacts:
+            if i.number == no_contact:
+                self.delete_contact(i)
+                del_contact = True
+        if not(del_contact):
+            warnings.warn("Le contact aue vous voulez supprimer n'existe pas")
+
     def delete_contact(self, contact):
-        self.other_contacts.remove(contact)
-        self.nb_contacts -= 1  
+            self.other_contacts.remove(contact)
+            self.nb_contacts -= 1  
 
     def check_contacts(self):
         list = []

@@ -45,5 +45,28 @@ contact6 = contact(person6, 6)
 
 acc.new_contact(contact4)
 acc.new_contact(contact5)
+assert acc.other_contacts[2] == contact4
+assert acc.other_contacts[3] == contact5
 assert acc.nb_contacts == 5
 acc.new_contact(contact6)
+
+acc.delete_contact_index(0)
+assert acc.other_contacts[0] == contact3
+assert acc.other_contacts[1] == contact4
+assert acc.other_contacts[2] == contact5
+assert acc.nb_contacts == 4
+
+
+acc.delete_contact(contact4)
+assert acc.other_contacts[0] == contact3
+assert acc.other_contacts[1] == contact5
+assert acc.nb_contacts == 3
+
+
+acc.delete_contact_number(3)
+assert acc.other_contacts[0] == contact5
+assert acc.nb_contacts == 2
+
+acc.delete_contact_number(3)
+
+
