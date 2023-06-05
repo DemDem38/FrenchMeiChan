@@ -16,3 +16,14 @@ assert acc.user, user
 assert acc.first_contact, first_contact
 assert acc.nb_contacts, 1
 
+contact2 = person("TUTU", "tutu", "03/03/2003", "0303030303", "tutu@meichan.com")
+contact3 = person("TATA", "tata", "04/04/2004", "0404040404", "tata@meichan.com")
+
+acc = account(user, first_contact, [contact2, contact3])
+
+assert acc.user, user
+assert acc.first_contact, first_contact
+assert acc.contact2, contact2
+assert acc.contact3, contact3
+assert acc.nb_contacts, 3
+
