@@ -88,6 +88,7 @@ def init() :
     
 class Noyau:
     def __init__(self,IHM):
+        self.scenario = 0
         self.ihm = IHM
         self.ihm.signal_envoi.connect(self.traiter_string)
 
@@ -98,7 +99,7 @@ class Noyau:
         return len(self.listeScenario)
 
     def startScenario(self,i):
-        self.scenario = i;
+        self.scenario = i
         if i < len(self.listeScenario):
             self.q = self.listeScenario[i]
             self.ihm.add_left_label(self.q.getTxt())
@@ -125,6 +126,9 @@ class Noyau:
                     if(self.q == None):
                         self.b == False
                         self.ihm.add_left_label("Fin du scenario")
+                        self.ihm.toCSV()
+                        self.ihm.text_entry.setReadOnly(True)
+                        self.ihm.recordBoutton.setEnabled(False)
                     else:
                         txt = self.q.getTxt()
                         if txt != None :

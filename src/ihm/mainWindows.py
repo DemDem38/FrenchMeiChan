@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        
+
         self.r = record(self)
 
         
@@ -77,7 +77,6 @@ class MainWindow(QMainWindow):
 
         self.paraWidget = parametreWidget(self,self.mainWidget)
         self.mainLayout.addWidget(self.paraWidget)
-        
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
@@ -92,6 +91,7 @@ class MainWindow(QMainWindow):
 
         return: None
         """
+        self.init_filename()
         self.widget_internal = QWidget()
         self.widget_internal_layout = QGridLayout(self.widget_internal)
         self.widget_internal_layout.setColumnMinimumWidth(0, 300)  # Définit la largeur minimale de la première colonne à 300 pixels
@@ -181,10 +181,10 @@ class MainWindow(QMainWindow):
             self.widget_internal_layout.addWidget(tete,len(self.labels)-1,0)
 
             lay.addWidget(frame)
-            
+
             self.scroll_to_bottom()
             if speak:
-                self.speak = SpeakThread(text)
+                self.speak = SpeakThread(text,self)
                 self.speak.start()
             
 
@@ -233,7 +233,7 @@ class MainWindow(QMainWindow):
             self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
 
             lay.addWidget(frame)
-            
+            self.toCSV()
             self.scroll_to_bottom()
 
 
@@ -297,6 +297,13 @@ class MainWindow(QMainWindow):
         """
         self.signal_envoi.emit(texte)
 
+    def init_filename(self):
+        horodatage_actuel = datetime.now()
+        # Formater l'horodatage
+        format_horodatage = "%Y-%m-%d_%H-%M-%S"
+        horodatage_formate = horodatage_actuel.strftime(format_horodatage)
+        self.filename = "data/log/"+horodatage_formate+".csv"
+
     def toCSV(self):
         """
         Prend la conversation actuel et l'export au format csv. Le fichier est enregistrer dans data/log et le nom du fichier et l'horodatage
@@ -305,11 +312,7 @@ class MainWindow(QMainWindow):
 
         return: None
         """
-        horodatage_actuel = datetime.now()
-        # Formater l'horodatage
-        format_horodatage = "%Y-%m-%d_%H-%M-%S"
-        horodatage_formate = horodatage_actuel.strftime(format_horodatage)
-        filename = "data/log/"+horodatage_formate+".csv"
+        
 
         idScenario = self.scenario.getIDscenario()
 
@@ -321,7 +324,7 @@ class MainWindow(QMainWindow):
 
         df = pd.DataFrame(conversation)
         df = df[['auteur', 'contenu','scenario']]
-        df.to_csv(filename, index=False)
+        df.to_csv(self.filename, index=False)
 
     def change_scenario(self):
         """
@@ -334,3 +337,6 @@ class MainWindow(QMainWindow):
         indice = self.scenario_entry.value()
         self.init_internat_widget()
         self.scenario.startScenario(indice-1)
+
+        self.text_entry.setReadOnly(False)
+        self.recordBoutton.setEnabled(True)
