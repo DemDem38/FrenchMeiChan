@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication,QSlider, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication,QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from datetime import datetime
@@ -71,6 +71,9 @@ class MainWindow(QMainWindow):
         self.csvButton = QPushButton("Enregistrer")
         self.csvButton.pressed.connect(self.toCSV)
 
+        self.importButton = QPushButton("Import")
+        self.importButton.pressed.connect(self.importCSV)
+
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)
 
         self.chatbox_layout.addWidget(self.parametre)
@@ -81,6 +84,7 @@ class MainWindow(QMainWindow):
         self.chatbox_layout.addWidget(self.recordBoutton)
         self.chatbox_layout.addWidget(self.stopBoutton)
         self.chatbox_layout.addWidget(self.csvButton)
+        self.chatbox_layout.addWidget(self.importButton)
 
         self.setCentralWidget(self.mainWidget)
         self.generate_images()
@@ -356,3 +360,18 @@ class MainWindow(QMainWindow):
 
         self.text_entry.setReadOnly(False)
         self.recordBoutton.setEnabled(True)
+
+    def importCSV(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+
+        fileDialog = QFileDialog()
+        fileDialog.setOptions(options)
+
+        fileDialog.setNameFilter("Fichiers CSV (*.csv)")
+
+        fileDialog.setDirectory("data/log")  # Définir le répertoire de départ
+
+        if fileDialog.exec_() == QFileDialog.Accepted:
+            selected_path = fileDialog.selectedFiles()[0]
+            print("Chemin sélectionné:", selected_path)
