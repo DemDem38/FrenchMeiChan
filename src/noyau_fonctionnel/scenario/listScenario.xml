@@ -1,0 +1,202 @@
+<list_scenario>
+    <scenario id="1">
+        <list_question>
+            <question>
+                <id> 1 </id>
+                <texte>Bonjour, comment allez-vous?</texte>
+            </question>
+            <question>
+                <id> 2 </id>
+                <texte>Avez-vous bien dormi cette nuit?</texte>
+            </question>
+            <question>
+                <id> 3 </id>
+                <texte>Pourquoi vous sentez-vous mal?</texte>
+            </question>
+            <question>
+                <id> 4 </id>
+                <texte>Avez-vous pris rendez-vous chez le medecin ?</texte>
+            </question>
+        </list_question>
+
+        <list_reply>
+            <reply >
+                <id> 1 </id>
+                <texte>Super !</texte>
+                <pre> 1 </pre>
+                <cond>bien</cond>
+                <next> 2 </next>
+            </reply>
+
+            <reply>
+                <id> 2 </id>
+                <texte>:|</texte>
+                <pre> 1 </pre>
+                <cond>mal</cond>
+                <next>3</next>
+            </reply>
+
+            <reply>
+                <id> 3 </id>
+                <texte>C'est genial, une bonne nuit permet de commencer la journee en pleine forme</texte>
+                <pre> 2 </pre>
+                <cond>oui</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 4 </id>
+                <texte>Un repas leger le soir et un bain tiede peuvent vous aider a mieux dormir</texte>
+                <pre> 2 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 5 </id>
+                <texte>Si votre fièvre persiste, pensez a prendre rendez-vous chez le medecin</texte>
+                <pre> 3 </pre>
+                <cond>fièvre</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 6 </id>
+                <texte></texte>
+                <pre> 3 </pre>
+                <cond>malade</cond>
+                <next>4</next>
+            </reply>
+
+            <reply>
+                <id> 7 </id>
+                <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider a adoucir votre mal de gorge</texte>
+                <pre> 3 </pre>
+                <cond>gorge</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 8 </id>
+                <texte>Je ne peux alors que vous conseiller de vous reposer et de bien vous hydrater</texte>
+                <pre> 4 </pre>
+                <cond>oui</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 9 </id>
+                <texte>Prenez rapidement un rendez-vous chez le medecin et reposer vous bien</texte>
+                <pre> 4 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 10 </id>
+                <texte>Cela peut-etre du a une deshydratation ou une geule de bois, si c'est le cas pensez a boire de l'eau tout au long de la journee. Si ce n'est pas le cas, vous pouvez aussi prendre des medicament antalgique pour la douleur.</texte>
+                <pre> 3 </pre>
+                <cond>tête</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 11 </id>
+                <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
+                <pre> 3 </pre>
+                <cond></cond>
+                <next>-1</next>
+            </reply>
+
+        </list_reply>
+
+    </scenario>
+    <scenario id="2">
+        <list_question>
+            <question>
+                <id> 1 </id>
+                <texte>Fait-il chaud aujourd'hui ?</texte>
+            </question>
+            <question>
+                <id> 2 </id>
+                <texte>Avez-vous penser a bien vous hydrater ?</texte>
+            </question>
+        </list_question>
+
+        <list_reply>
+            <reply>
+                <id> 1 </id>
+                <texte>Super !</texte>
+                <pre> 1 </pre>
+                <cond>oui</cond>
+                <next>2</next>
+            </reply>
+
+            <reply>
+                <id> 2 </id>
+                <texte>Dommage</texte>
+                <pre> 1 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 3 </id>
+                <texte>C'est bien, continuer a boire de maniere reguliere </texte>
+                <pre> 2 </pre>
+                <cond>oui</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 4 </id>
+                <texte>Penser a boire regulierement</texte>
+                <pre> 2 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+        </list_reply>  
+    </scenario>
+
+    <scenario id="3">
+        <list_question>
+            <question>
+                <id> 1 </id>
+                <texte>Avez-vous deja manger ?</texte>
+            </question>
+            <question>
+                <id> 2 </id>
+                <texte>Qu'avez-vous manger ?</texte>
+            </question>
+        </list_question>
+
+        <list_reply>
+            <reply>
+                <id> 1 </id>
+                <texte></texte>
+                <pre> 1 </pre>
+                <cond>oui</cond>
+                <next>2</next>
+            </reply>
+
+            <reply>
+                <id> 2 </id>
+                <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
+                <pre> 1 </pre>
+                <cond>non</cond>
+                <next>-1</next>
+            </reply>
+
+            <reply>
+                <id> 3 </id>
+                <texte>Tout ca a l'air bien delicieux</texte>
+                <pre> 2 </pre>
+                <cond></cond>
+                <next>-1</next>
+            </reply>
+
+        </list_reply>  
+    </scenario>
+
+</list_scenario>
