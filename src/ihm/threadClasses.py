@@ -24,9 +24,14 @@ class RecordingThread(QThread):
 
 class SpeakThread(QThread):
 
-    def __init__(self,text):
+    def __init__(self,text,ihm):
         super().__init__()
+        self.ihm=ihm
         self.text=text
 
     def run(self):
+        #self.ihm.text_entry.setReadOnly(True)
+        #self.ihm.recordBoutton.setEnabled(False)
         speak_french(self.text)
+        #self.ihm.text_entry.setReadOnly(False)
+        #self.ihm.recordBoutton.setEnabled(True)
