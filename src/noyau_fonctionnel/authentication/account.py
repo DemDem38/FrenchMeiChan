@@ -1,6 +1,16 @@
-#from person import person
+import sys 
+import os
+
+fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+sys.path.append(fc_path)
+
+
 from src.noyau_fonctionnel.authentication.person import person, contact
 import warnings
+import json 
+
+
+
 
 class account():
     def __init__(self, user, contacts):
@@ -60,4 +70,27 @@ class account():
                     warnings.warn("Deux conactes ont le meme numero",j,"le second a ete supprime")
                 else:
                     list.append(nb)
+
+    def save(self):
+        user = {"last name": self.user.last_name, "first name": self.user.first_name, \
+                "birthday": self.user.birthday, "phone": self.user.phone, "email": self.user.email}
+        account = {"user": user}
+        cpt = 1
+        for i in self.contacts:
+            contact = {"number": i.number, "last name": i.person.last_name,\
+                        "first name": i.person.first_name, "birthday": i.person.birthday,\
+                        "phone": i.person.phone, "email": i.person.email}
+            account["contact"+str(cpt)] = contact
+            cpt += 1
+        
+
+        with open("data/account.json", "w") as json_file:
+            json.dump(account, json_file)
+
+if __name__ == '__main__':
+    user = person("TOTO", "toto", "01/01/2001", "0101010101", "toto@meichan.com")
+    p1 = person("TITI", "titi", "02/02/2002", "0201020202", "titi@meichan.com")
+    c1 = contact(p1, 1)
+    acc = account(user, [c1])
+    acc.save()
 
