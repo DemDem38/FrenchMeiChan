@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,QCheckBox,QColorDialog ,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,QCheckBox,QColorDialog , QDoubleSpinBox, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
-
+import json
 
 
 class parametreWidget(QWidget):
@@ -16,12 +16,17 @@ class parametreWidget(QWidget):
         self.setGeometry(200, 200, 300, 200)
         
         self.layout = QVBoxLayout(self)
+        self.settingsFileName()
+        self.importSettings()
 
         self.addSaveWidget()
         self.chooseLeftColor()
         self.chooseRightColor()
-        self.returnButton = QPushButton("return")
+        self.addSizeTextWidget()
+
+        self.returnButton = QPushButton("Return")
         self.returnButton.pressed.connect(self.returnMainWindows)
+        self.returnButton.pressed.connect(self.exportSettings)
 
         self.layout.addWidget(self.returnButton)
 
@@ -43,8 +48,6 @@ class parametreWidget(QWidget):
         self.leftColorLayout = QHBoxLayout(self.leftColorWidget)
         self.leftColorLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.leftColorWidget)
-
-        self.leftColor = "#90EE90"
 
         self.leftColorPrint = QPushButton("Couleur de gauche")
         self.leftColorEntry = QLabel()
@@ -70,8 +73,6 @@ class parametreWidget(QWidget):
         self.rightColorLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.rightColorWidget)
 
-        self.rightColor = "#ADD8E6"
-
         self.rightColorPrint = QPushButton("Couleur de droite")
         self.rightColorEntry = QLabel()
         self.rightColorEntry.setFixedSize(100, 100)
@@ -91,5 +92,67 @@ class parametreWidget(QWidget):
             for frame in self.parent.rightQFrame:
                 self.parent.setRightFrameApparence(frame)
 
+    def addSizeTextWidget(self):
+        self.sizeTextWidget = QWidget()
+        self.sizeTextLayout = QHBoxLayout(self.sizeTextWidget)
+        self.sizeTextLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.sizeTextWidget)
+
+        self.sizeTextPrint = QLabel("Taille du texte")
+        self.sizeTextEntry = QDoubleSpinBox()
+        self.sizeTextEntry.setValue(30)
+        self.sizeTextEntry.valueChanged.connect(self.changeSizeText)
+
+        self.sizeTextLayout.addWidget(self.sizeTextPrint)
+        self.sizeTextLayout.addWidget(self.sizeTextEntry)
+    
+    def changeSizeText(self):
+        self.sizeText = self.sizeTextEntry.value()
+        for label,truc in self.parent.labels:
+            self.parent.setLabelProp(label)
+
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)
+
+    def settingsFileName(self):
+        self.settingFileName = "data/setting/setting.json"
+
+    def addExportButton(self):
+        self.exportWidget = QWidget()
+        self.exportLayout = QHBoxLayout(self.exportWidget)
+        self.exportLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.exportWidget)
+
+        self.exportButton= QPushButton("Export")
+        self.exportButton.pressed.connect(self.exportSettings)
+
+        self.exportLayout.addWidget(self.exportButton)
+
+    def exportSettings(self):
+        data = {
+            'leftColor': self.leftColor,
+            'rightColor': self.rightColor,
+            'sizeText': self.sizeText
+        }
+
+        with open(self.settingFileName, 'w+') as file:
+            json.dump(data, file)
+
+    def addImportButton(self):
+        self.importWidget = QWidget()
+        self.importLayout = QHBoxLayout(self.importWidget)
+        self.importLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.importWidget)
+
+        self.importButton= QPushButton("Import")
+        self.importButton.pressed.connect(self.importSettings)
+
+        self.importLayout.addWidget(self.importButton)
+
+    def importSettings(self):
+        with open(self.settingFileName, 'r') as file:
+            data = json.load(file)
+
+        self.leftColor = data['leftColor']
+        self.rightColor = data['rightColor']
+        self.sizeText = data['sizeText']

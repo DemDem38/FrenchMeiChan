@@ -192,8 +192,8 @@ class MainWindow(QMainWindow):
             frame.setFixedHeight(200)
             self.leftQFrame.append(frame)
 
-            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; }")
-
+            self.setLabelProp(new_label)
+            
             frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
             frame_layout.setContentsMargins(0, 0, 0, 0)
@@ -247,7 +247,8 @@ class MainWindow(QMainWindow):
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setMinimumHeight(200)
 
-            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; float: right; }")
+            self.setLabelProp(new_label)
+            print(new_label)
 
             frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
@@ -265,7 +266,11 @@ class MainWindow(QMainWindow):
 
     def setLeftFrameApparence(self,frame):
         frame.setStyleSheet("QFrame{{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
-            
+
+    def setLabelProp(self,label):
+        size = (str) ((int) (self.paraWidget.sizeText)) + "px"
+        label.setStyleSheet("QTextEdit {{ color: black; font-size: {}; padding-top: 50%; padding-bottom: 50%; float: right; }}".format(size))
+        
 
     def setRightFrameApparence(self,frame):
         frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))

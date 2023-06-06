@@ -11,9 +11,6 @@ class personWidget(QWidget):
         self.parent = parent
 
     def initUI(self):
-        self.setWindowTitle('Exemple de widget personnalisé')
-        self.setGeometry(200, 200, 300, 200)
-        
         self.layout = QVBoxLayout(self)
 
         self.addLastNameWidget()
@@ -25,6 +22,8 @@ class personWidget(QWidget):
         self.addPhoneWidget()
 
         self.addEmailWidget()
+
+        self.addAddPersonWidget()
 
         self.returnButton = QPushButton("return")
         self.returnButton.pressed.connect(self.returnMainWindows)
@@ -64,6 +63,7 @@ class personWidget(QWidget):
 
         self.birthdayPrint = QLabel("Date de naissance (jj.mm.aaaa)")
         self.birthdayEntry = QCalendarWidget()
+        self.birthdayEntry.setFixedSize(400, 400)
         #self.birthdayEntry.setDisplayFormat("dd.MM.yyyy")
 
         self.birthdayLayout.addWidget(self.birthdayPrint)
@@ -107,6 +107,16 @@ class personWidget(QWidget):
         
         # Mettre à jour le texte du QLineEdit
         self.sender().setText(cleaned_text)
+
+    def addAddPersonWidget(self):
+        self.addPersonWidget = QWidget()
+        self.addPersonLayout = QHBoxLayout(self.addPersonWidget)
+        self.addPersonLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.addPersonWidget)
+
+        self.addPersonPrint = QPushButton("addPerson")
+
+        self.addPersonLayout.addWidget(self.addPersonPrint)
 
 
     def returnMainWindows(self):
