@@ -1,11 +1,14 @@
 import xml.etree.cElementTree as ET
 from PyQt5.QtCore import pyqtSignal
+from datetime import datetime
 
 class Question :
-    def __init__(self, i, s) :
+    def __init__(self, i, s, r) :
         self.id = i
         self.txt = s
+        self.robot = r
         self.listeReponse = []
+        self.condTime = None
     
     def getId(self) :
         return self.id
@@ -16,6 +19,9 @@ class Question :
     def addReponse(self, r) :
         self.listeReponse.append(r)
 
+    def addCondTime(self, min, max) :
+        self.condTime = [int(min), int(max)]
+
     def getReponse(self) :
         return self.listeReponse
 
@@ -23,23 +29,48 @@ class Question :
         print(self.txt)
 
 class Reponse :  
-    def __init__(self, i,  c,  s, q) :
+    def __init__(self, i,  c,  s, q, r) :
         self.id = i
         self.cond = c
         self.txt = s
         self.question = q
+        self.robot = r
+        self.condTime = None
+        self.condTxt = None
+        self.condQ = None
+        self.bool = False
+
     
     def  getId(self) :
         return self.id
 
     def  getTxt(self) :
+        if self.condTime != None :
+            now = datetime.now()
+            current_time = int(now.strftime("%H"))
+            if current_time > self.condTime[0] and current_time < self.condTime[1] :
+                self.bool = True
+                return self.condTxt
         return self.txt
+    
+    def setTxt(self, t) :
+        self.condTxt = t
 
     def getQuestion(self) :
+        if self.bool == True :
+            print("Question")
+            self.bool = False
+            return self.condQ
         return self.question
     
+    def setQuestion(self, q) :
+        self.condQ = q
+
+    def addCondTime(self, min, max) :
+        self.condTime = [int(min), int(max)]
+    
     def print(self) :
-        print(self.txt)
+        print(self.getTxt())
     
     def compared(self, s) :
         if self.cond == None :
@@ -55,22 +86,50 @@ class Reponse :
                     return True
         return False
 
+class Scenario :
+    def __init__(self, i,  t,  q) :
+        self.id = i
+        self.name = t
+        self.question = q
+
+    def  getId(self) :
+        return self.id
+
+    def  getName(self) :
+        return self.name
+
+    def getQuestion(self) :
+        return self.question[0]
+
+    def getListQuestion(self) :
+        return self.question
+
 def ReadScenarioXML(name) :
     tree = ET.parse(name)
     root = tree.getroot()
     listeScenario = []
     for e in root :
         listeQuestion = []
-        for q in e[0] :
-            question = Question(q[0].text, q[1].text)
+        for q in e[2] :
+            question = Question(q[0].text, q[1].text, q[2].text)
             listeQuestion.append(question)
-        for r in e[1] :
+        for r in e[3] :
             if int(r[4].text) == -1 :
-                reponse = Reponse(r[0].text, r[3].text, r[1].text, None)
+                reponse = Reponse(r[0].text, r[3].text, r[1].text, None,r[5].text)
             else :
-                reponse = Reponse(r[0].text, r[3].text, r[1].text, listeQuestion[int(r[4].text) -1])
+                reponse = Reponse(r[0].text, r[3].text, r[1].text, listeQuestion[int(r[4].text) -1], r[5].text)
+            if len(r) > 6 :
+                time = r[6]
+                reponse.addCondTime(time[0].text, time[1].text)
+                reponse.setTxt(time[2].text)
+                if time[3].text > e[0].text :
+                    print("setCondQuestion")
+                    reponse.setQuestion(listeScenario[int(time[3].text)-1].getListQuestion()[int(time[4].text)-1])
+
             listeQuestion[int(r[2].text) -1].addReponse(reponse)
-        listeScenario.append(listeQuestion[0])
+
+        scenario = Scenario(e[0], e[1], listeQuestion)
+        listeScenario.append(scenario)
     return listeScenario
 
 def init() :
@@ -102,7 +161,7 @@ class Noyau:
     def startScenario(self,i):
         self.scenario = i
         if i < len(self.listeScenario):
-            self.q = self.listeScenario[i]
+            self.q = self.listeScenario[i].getQuestion()
             self.ihm.add_left_label(self.q.getTxt())
             self.b = True
 
