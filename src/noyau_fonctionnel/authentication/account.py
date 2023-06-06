@@ -15,7 +15,7 @@ class account():
             self.user = user
             self.nb_contacts = len(contacts)
             if self.nb_contacts < 1:
-                warnings.warn("il faut au ;oins un contact")
+                warnings.warn("il faut au moins un contact")
             else:
                 if self.nb_contacts > 5:
                     self.nb_contacts = 5
