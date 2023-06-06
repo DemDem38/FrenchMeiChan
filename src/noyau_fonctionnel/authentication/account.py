@@ -9,22 +9,35 @@ from src.noyau_fonctionnel.authentication.person import person, contact
 import warnings
 import json 
 
-
-
-
 class account():
-    def __init__(self, user, contacts):
-        self.user = user
-        self.nb_contacts = len(contacts)
-        if self.nb_contacts < 1:
-            warnings.warn("il faut au ;oins un contact")
+    def __init__(self, user = None, contacts = None):
+        if user != None or contacts != None:
+            self.user = user
+            self.nb_contacts = len(contacts)
+            if self.nb_contacts < 1:
+                warnings.warn("il faut au ;oins un contact")
+            else:
+                if self.nb_contacts > 5:
+                    self.nb_contacts = 5
+                    warnings.warn("Le nombre maximum de contact est de 5 personnes,\
+                                il y en a trop, seulement les 5 premiers seront enregistres")
+                self.contacts = contacts
+                self.check_contacts()
         else:
-            if self.nb_contacts > 5:
-                self.nb_contacts = 5
-                warnings.warn("Le nombre maximum de contact est de 5 personnes,\
-                              il y en a trop, seulement les 5 premiers seront enregistres")
-            self.contacts = contacts
-            self.check_contacts()
+            json_file = open("data/account.json")
+            dict = json.load(json_file)
+            self.contacts = []
+            for cle, valeur in dict.items():
+                if cle == "user":
+                    self.user = person(valeur["last name"], valeur["first name"],\
+                                       valeur["birthday"], valeur["phone"], valeur["email"])
+                else :
+                    pers = person(valeur["last name"], valeur["first name"],\
+                                       valeur["birthday"], valeur["phone"], valeur["email"])
+                    conta = contact(pers, valeur["number"])
+                    self.contacts.append(conta)
+            self.nb_contacts = len(self.contacts)
+            
 
     def get_nb_contacts(self):
         return self.nb_contacts
@@ -93,4 +106,7 @@ if __name__ == '__main__':
     c1 = contact(p1, 1)
     acc = account(user, [c1])
     acc.save()
+
+    acc2 = account()
+
 
