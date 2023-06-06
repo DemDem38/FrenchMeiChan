@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCale
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from src.noyau_fonctionnel.authentication.account import account
+from  src.noyau_fonctionnel.authentication.person import person,contact
 
-class personWidget(QWidget):
+class firstConnectionWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.initUI()
@@ -12,6 +13,8 @@ class personWidget(QWidget):
 
     def initUI(self):
         self.layout = QVBoxLayout(self)
+
+        self.addInfoWidget()
 
         self.addLastNameWidget()
 
@@ -23,12 +26,26 @@ class personWidget(QWidget):
 
         self.addEmailWidget()
 
-        self.addAddPersonWidget()
+        #self.addAddPersonWidget()
 
-        self.returnButton = QPushButton("return")
+        self.returnButton = QPushButton("Valider")
         self.returnButton.pressed.connect(self.returnMainWindows)
 
         self.layout.addWidget(self.returnButton)
+    
+    def addInfoWidget(self):
+        self.infoWidget = QWidget()
+        self.infoLayout = QHBoxLayout(self.infoWidget)
+        self.infoLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.infoWidget)
+
+        self.infoPrint = QLabel("Bienvenue sur Mei-Chan, veuillez renseigner vos informations personnelles")
+
+        font = self.infoPrint.font()
+        font.setPointSize(30)
+        self.infoPrint.setFont(font)
+
+        self.infoLayout.addWidget(self.infoPrint)
 
     def addLastNameWidget(self):
         self.lastNameWidget = QWidget()
@@ -120,4 +137,17 @@ class personWidget(QWidget):
 
 
     def returnMainWindows(self):
+        nom = self. lastNameEntry.text()
+        prenom = self.firstNameEntry.text()
+        birthday = self.birthdayEntry.selectedDate().toString()
+        print(birthday)
+        phone = self.phoneEntry.text()
+        email = self.emailEntry.text()
+        
+        user = person(nom,prenom,birthday,phone,email)
+        user2 = person(nom,prenom,birthday,phone,email)
+        c1 = contact(user2,1)
+        acc = account(user,[c1])
+        acc.save()
+        self.parent.account = acc
         self.parent.mainLayout.setCurrentIndex(0)

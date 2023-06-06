@@ -11,6 +11,11 @@ from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
 from src.ihm.personWindows import personWidget
+from src.ihm.firstConnectionWindows import firstConnectionWidget
+
+from src.noyau_fonctionnel.authentication.account import account
+
+import os
 
 class MainWindow(QMainWindow):
     signal_envoi_on = pyqtSignal(str)
@@ -19,7 +24,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
+        self.account = None
         self.r = record(self)
 
         
@@ -92,13 +97,25 @@ class MainWindow(QMainWindow):
 
         self.paraWidget = parametreWidget(self,self.mainWidget)
         self.personWidget = personWidget(self)
+        self.userWidget = firstConnectionWidget(self)
         self.mainLayout.addWidget(self.paraWidget)
         self.mainLayout.addWidget(self.personWidget)
+        self.mainLayout.addWidget(self.userWidget)
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
         self.scenario_entry.setOrientation(Qt.Horizontal)
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
+
+        self.first_windows()
+
+    def first_windows(self):
+        file_path = "data/account.json"
+
+        if os.path.isfile(file_path):
+            self.account = account()
+        else:
+            self.mainLayout.setCurrentIndex(3)
 
     def init_internat_widget(self):
         """
