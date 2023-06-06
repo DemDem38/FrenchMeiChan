@@ -71,4 +71,20 @@ assert acc.nb_contacts == 2
 
 acc.delete_contact_number(3)
 
+acc.save()
+
+acc2 = account()
+
+assert acc.contacts[0].person.last_name == acc2.contacts[0].person.last_name
+assert acc.contacts[0].person.first_name == acc2.contacts[0].person.first_name
+assert acc.contacts[0].person.birthday == acc2.contacts[0].person.birthday
+assert acc.contacts[0].person.phone == acc2.contacts[0].person.phone
+assert acc.contacts[0].person.email == acc2.contacts[0].person.email
+assert acc.contacts[0].number == acc2.contacts[0].number
+assert acc.contacts[1].person.last_name == acc2.contacts[1].person.last_name
+assert acc.contacts[1].person.first_name == acc2.contacts[1].person.first_name
+assert acc.contacts[1].person.birthday == acc2.contacts[1].person.birthday
+assert acc.contacts[1].person.phone == acc2.contacts[1].person.phone
+assert acc.contacts[1].person.email == acc2.contacts[1].person.email
+assert acc.contacts[1].number == acc2.contacts[1].number
 
