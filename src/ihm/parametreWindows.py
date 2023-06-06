@@ -61,6 +61,8 @@ class parametreWidget(QWidget):
         if color.isValid():
             self.leftColor = color.name()
             self.leftColorEntry.setStyleSheet("background-color: {}".format(self.leftColor))
+            for frame in self.parent.leftQFrame:
+                self.parent.setLeftFrameApparence(frame)
 
     def chooseRightColor(self):
         self.rightColorWidget = QWidget()
@@ -85,6 +87,9 @@ class parametreWidget(QWidget):
         if color.isValid():
             self.rightColor = color.name()
             self.rightColorEntry.setStyleSheet("background-color: {}".format(self.rightColor))
+
+            for frame in self.parent.rightQFrame:
+                self.parent.setRightFrameApparence(frame)
 
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)

@@ -123,6 +123,10 @@ class MainWindow(QMainWindow):
                 self.widget_internal_layout.addItem(spacer_item,row,0,1,3)
 
         self.labels = []
+
+        self.leftQFrame = []
+
+        self.rightQFrame = []
         
 
         self.scroll_area.setWidget(self.widget_internal)
@@ -182,10 +186,11 @@ class MainWindow(QMainWindow):
             size = self.scroll_area.size()
 
             frame = QFrame()
-            frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
+            frame.setLineWidth(1)   
+            self.setLeftFrameApparence(frame)
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setFixedHeight(200)
+            self.leftQFrame.append(frame)
 
             new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; }")
 
@@ -237,8 +242,8 @@ class MainWindow(QMainWindow):
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))
-
+            self.setRightFrameApparence(frame)
+            self.rightQFrame.append(frame)
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setMinimumHeight(200)
 
@@ -257,6 +262,13 @@ class MainWindow(QMainWindow):
             if self.paraWidget.saveEntry.isChecked():
                 self.toCSV()
             self.scroll_to_bottom()
+
+    def setLeftFrameApparence(self,frame):
+        frame.setStyleSheet("QFrame{{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
+            
+
+    def setRightFrameApparence(self,frame):
+        frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))
 
 
     def add_reply(self):
