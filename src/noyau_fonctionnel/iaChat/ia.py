@@ -3,17 +3,15 @@ from langchain import PromptTemplate, LLMChain
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
+template = """Question: {text}
 
+Answer: Give me the best answer."""
 
-template = """Question: {question}
-
-Answer: Let's work this out in a step by step way to be sure we have the right answer."""
-
-prompt = PromptTemplate(template=template, input_variables=["question"])
+prompt = PromptTemplate(template=template, input_variables=["text"])
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 llm = LlamaCpp(
-    model_path="./llama.cpp/models/7B/ggml-model-q4_0.bin", 
+    model_path=".\llama.cpp\models\\7B\ggml-model-q4_0.bin", 
     callback_manager=callback_manager, 
     verbose=True
 )
