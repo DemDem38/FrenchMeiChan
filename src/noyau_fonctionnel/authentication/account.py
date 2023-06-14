@@ -10,7 +10,9 @@ import warnings
 import json 
 
 class account():
-    def __init__(self, user = None, contacts = None):
+    def __init__(self, user = None, contacts = None, warning = False):
+        if not(warning):
+            warnings.simplefilter("ignore")
         if user != None or contacts != None:
             self.user = user
             self.nb_contacts = len(contacts)
