@@ -11,7 +11,7 @@ from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
 from src.ihm.personWindows import personWidget
-from src.ihm.firstConnectionWindows import firstConnectionWidget
+from src.ihm.personalInformationWindows import personalInfoWidget
 from src.ihm.gestionContactWindows import contactWidget
 from src.ihm.changeContactWindows import modifyContactWidget
 from src.noyau_fonctionnel.authentication.account import account
@@ -98,7 +98,7 @@ class MainWindow(QMainWindow):
         self.paraWidget = parametreWidget(self,self.mainWidget)
         self.contactGestion = contactWidget(self)
         self.personWidget = personWidget(self)
-        self.userWidget = firstConnectionWidget(self)
+        self.userWidget = personalInfoWidget(self)
         self.modifyContactWidget = modifyContactWidget(self)
         self.mainLayout.addWidget(self.paraWidget)
         self.mainLayout.addWidget(self.contactGestion)
@@ -118,6 +118,9 @@ class MainWindow(QMainWindow):
 
         if os.path.isfile(file_path):
             self.account = account()
+
+            self.userWidget.infoPrint.setVisible(False)
+            self.userWidget.annulerButton.setVisible(True)
         else:
             self.mainLayout.setCurrentIndex(4)
 

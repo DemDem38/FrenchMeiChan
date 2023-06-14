@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 from src.noyau_fonctionnel.authentication.account import account
 from  src.noyau_fonctionnel.authentication.person import person,contact
 
-class firstConnectionWidget(QWidget):
+class personalInfoWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.initUI()
@@ -28,18 +28,15 @@ class firstConnectionWidget(QWidget):
 
         #self.addAddPersonWidget()
 
-        self.returnButton = QPushButton("Valider")
-        self.returnButton.pressed.connect(self.returnMainWindows)
+        self.addValiderAnnulerWidget()
 
-        self.layout.addWidget(self.returnButton)
-    
     def addInfoWidget(self):
         self.infoWidget = QWidget()
         self.infoLayout = QHBoxLayout(self.infoWidget)
         self.infoLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.infoWidget)
 
-        self.infoPrint = QLabel("Bienvenue sur Mei-Chan, veuillez renseigner vos informations personnelles")
+        self.infoPrint = QLabel("Bienvenue sur MIC, veuillez renseigner vos informations personnelles")
 
         font = self.infoPrint.font()
         font.setPointSize(30)
@@ -135,12 +132,26 @@ class firstConnectionWidget(QWidget):
 
         self.addPersonLayout.addWidget(self.addPersonPrint)
 
+    def addValiderAnnulerWidget(self):
+        self.addButtonWidget = QWidget()
+        self.addButtonLayout = QHBoxLayout(self.addButtonWidget)
+        self.addButtonLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.addButtonWidget)
 
-    def returnMainWindows(self):
+        self.validerButton = QPushButton("Valider")
+        self.validerButton.released.connect(self.validerInfo)
+
+        self.annulerButton = QPushButton("Annuler")
+        self.annulerButton.released.connect(self.returnMainWindows)
+        self.annulerButton.setVisible(False)
+
+        self.addButtonLayout.addWidget(self.validerButton)
+        self.addButtonLayout.addWidget(self.annulerButton)
+
+    def validerInfo(self):
         nom = self. lastNameEntry.text()
         prenom = self.firstNameEntry.text()
         birthday = self.birthdayEntry.selectedDate().toString()
-        print(birthday)
         phone = self.phoneEntry.text()
         email = self.emailEntry.text()
         
@@ -148,6 +159,13 @@ class firstConnectionWidget(QWidget):
         user2 = person(nom,prenom,birthday,phone,email)
         c1 = contact(user2,1)
         acc = account(user,[c1])
+        acc.delete_contact(c1)
         acc.save()
         self.parent.account = acc
+
+        self.returnMainWindows()
+
+
+    def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)
+        self.annulerButton.setVisible(True)

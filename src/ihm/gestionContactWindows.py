@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QDate
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
@@ -31,7 +31,7 @@ class contactWidget(QWidget):
         self.layout.addWidget(self.personalInfoWidget)
         
         self.changePersonalInfo = QPushButton("Change Personal Information")
-
+        self.changePersonalInfo.released.connect(self.showModifyInformation)
         self.personalInfoLayout.addWidget(self.changePersonalInfo)
 
     def addContactsWidgets(self):
@@ -54,6 +54,25 @@ class contactWidget(QWidget):
 
     def showModifyContact(self):
         self.parent.mainLayout.setCurrentIndex(5)
+
+    def showModifyInformation(self):
+        personne = self.parent.account.get_user()
+
+        nom = personne.get_last_name()
+        prenom = personne.get_first_name()
+        date = personne.get_birthday()
+        date_format = "dd/MM/yyyy"
+        birthday = QDate.fromString(date, date_format)
+        phone = personne.get_phone()
+        mail = personne.get_email()
+
+        self.parent.userWidget.lastNameEntry.setText(nom)
+        self.parent.userWidget.firstNameEntry.setText(prenom)
+        self.parent.userWidget.birthdayEntry.setSelectedDate(birthday)
+        self.parent.userWidget.phoneEntry.setText(phone)
+        self.parent.userWidget.emailEntry.setText(mail)
+
+        self.parent.mainLayout.setCurrentIndex(4)
 
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)
