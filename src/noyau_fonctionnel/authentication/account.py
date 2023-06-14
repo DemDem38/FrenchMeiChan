@@ -74,15 +74,16 @@ class account():
             self.nb_contacts -= 1  
 
     def check_contacts(self):
-        list = []
-        for i in self.contacts:
+        list = [self.contacts[0].number]
+        add_first = False
+        for i in range(1, len(self.contacts)):
+            nb = self.contacts[i].number
             for j in list:
-                nb = i.number
                 if nb == j:
                     self.delete_contact(i)
                     warnings.warn("Deux conactes ont le meme numero",j,"le second a ete supprime")
-                else:
-                    list.append(nb)
+            list.append(nb)
+            
 
     def save(self):
         user = {"last name": self.user.last_name, "first name": self.user.first_name, \
