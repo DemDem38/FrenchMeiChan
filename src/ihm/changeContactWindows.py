@@ -1,11 +1,11 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QDate
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QComboBox, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from src.noyau_fonctionnel.authentication.account import account
 from  src.noyau_fonctionnel.authentication.person import person,contact
 
-class personWidget(QWidget):
+class modifyContactWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.initUI()
@@ -13,6 +13,8 @@ class personWidget(QWidget):
 
     def initUI(self):
         self.layout = QVBoxLayout(self)
+
+        self.addSelectionContact()
 
         self.addLastNameWidget()
 
@@ -26,10 +28,21 @@ class personWidget(QWidget):
 
         self.addAddPersonWidget()
 
-        self.returnButton = QPushButton("return")
+        self.returnButton = QPushButton("Annuler")
         self.returnButton.released.connect(self.returnMainWindows)
 
         self.layout.addWidget(self.returnButton)
+
+    def addSelectionContact(self):
+        self.selectionWidget = QWidget()
+        self.selectionLayout = QHBoxLayout(self.selectionWidget)
+        self.selectionLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.selectionWidget)
+
+        self.selectionComboWidget = QComboBox()
+        self.selectionComboWidget.currentIndexChanged.connect(self.displayInformation)
+
+        self.selectionLayout.addWidget(self.selectionComboWidget)
 
     def addLastNameWidget(self):
         self.lastNameWidget = QWidget()
@@ -120,24 +133,27 @@ class personWidget(QWidget):
         self.addPersonLayout.addWidget(self.addPersonPrint)
 
     def addContact(self):
-        nom = self.lastNameEntry.text()
+        nom = self. lastNameEntry.text()
         prenom = self.firstNameEntry.text()
         birthday = self.birthdayEntry.selectedDate().toString()
+        print(birthday)
         phone = self.phoneEntry.text()
         email = self.emailEntry.text()
         
         user = person(nom,prenom,birthday,phone,email)
-        id = self.parent.account.get_nb_contacts() - 1
+        id = self.parent.account.get_nb_contacts() + 1
         c1 = contact(user,id)
         self.parent.account.new_contact(c1)
 
-        self.parent.modifyContactWidget.selectionComboWidget.addItem(nom + " " + prenom)
+    def displayInformation(self):
+        id = self.selectionComboWidget.currentIndex()
 
-        self.lastNameEntry.clear()
-        self.firstNameEntry.clear()
-        self.birthdayEntry.setSelectedDate(QDate.currentDate())
-        self.phoneEntry.clear()
-        self.emailEntry.clear()
+        contact = self.parent.account.get_nb_contacts()
+
+        self.lastNameEntry.setText((str) (id))
+        self.firstNameEntry.setText((str) (contact))
+        self.phoneEntry.setText("")
+        self.emailEntry.setText("")
 
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)

@@ -12,7 +12,8 @@ from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
 from src.ihm.personWindows import personWidget
 from src.ihm.firstConnectionWindows import firstConnectionWidget
-
+from src.ihm.gestionContactWindows import contactWidget
+from src.ihm.changeContactWindows import modifyContactWidget
 from src.noyau_fonctionnel.authentication.account import account
 
 import os
@@ -27,7 +28,6 @@ class MainWindow(QMainWindow):
         self.account = None
         self.r = record(self)
 
-        
         self.mainWidget = QWidget()
         self.mainLayout = QStackedLayout(self.mainWidget)
         self.layout = QVBoxLayout()
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.person_layout = QHBoxLayout(self.person)
         self.person_layout.setAlignment(Qt.AlignRight)
 
-        self.person_button = QPushButton("Person")
+        self.person_button = QPushButton("Contact")
         self.person_button.pressed.connect(self.open_person)
         self.person_layout.addWidget(self.person_button)
 
@@ -96,11 +96,15 @@ class MainWindow(QMainWindow):
         self.generate_images()
 
         self.paraWidget = parametreWidget(self,self.mainWidget)
+        self.contactGestion = contactWidget(self)
         self.personWidget = personWidget(self)
         self.userWidget = firstConnectionWidget(self)
+        self.modifyContactWidget = modifyContactWidget(self)
         self.mainLayout.addWidget(self.paraWidget)
+        self.mainLayout.addWidget(self.contactGestion)
         self.mainLayout.addWidget(self.personWidget)
         self.mainLayout.addWidget(self.userWidget)
+        self.mainLayout.addWidget(self.modifyContactWidget)
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
@@ -115,7 +119,7 @@ class MainWindow(QMainWindow):
         if os.path.isfile(file_path):
             self.account = account()
         else:
-            self.mainLayout.setCurrentIndex(3)
+            self.mainLayout.setCurrentIndex(4)
 
     def init_internat_widget(self):
         """
