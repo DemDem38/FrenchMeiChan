@@ -9,7 +9,7 @@ from src.noyau_fonctionnel.authentication.account import account
 
 def account_test(print_result = False):
     if print_result:
-        print("Execution des tests unitaires de la fonction account avec affichage attendus et avancee")
+        print("Execution des tests unitaires de la classe account avec affichage de ce que l'on test")
         print("-"*80)
         print()
         print("Creation d'une personne et d'un contact dans un compte")
