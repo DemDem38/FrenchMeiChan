@@ -29,6 +29,8 @@
                 <next> 1
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -40,7 +42,8 @@
                 <next> 1
                     <question>2</question>
                 </next>
-                
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -52,6 +55,8 @@
                 <next> 1
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -63,6 +68,8 @@
                 <next> 1
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -74,6 +81,8 @@
                 <next> 1
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
         </list_reply>  
     </scenario>
@@ -115,6 +124,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -126,6 +137,8 @@
                 <next> 2
                     <question>2</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -137,6 +150,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -148,6 +163,8 @@
                 <next> 2
                     <question>3</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -159,6 +176,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -170,6 +189,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -181,6 +202,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -192,6 +215,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -203,6 +228,16 @@
                 <next> 1
                     <question>1</question>
                 </next>
+                <liste_alt>
+                    <cond>
+                        <min>22</min>
+                        <max>5</max>
+                        <txt>Ne tarder pas a vous coucher alors</txt>
+                        <next> 1
+                            <question>-1</question>
+                        </next>
+                    </cond>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -214,6 +249,8 @@
                 <next> 2
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
         </list_reply>
@@ -250,6 +287,8 @@
                 <next> 3
                     <question>2</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -261,6 +300,8 @@
                 <next> 3
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -272,6 +313,8 @@
                 <next> 3
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -283,6 +326,8 @@
                 <next> 3
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
         </list_reply>  
@@ -333,6 +378,8 @@
                 <next> 4
                     <question>2</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -344,6 +391,8 @@
                 <next> 4
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
             <reply>
@@ -355,6 +404,8 @@
                 <next> 4
                     <question>-1</question>
                 </next>
+                <liste_alt>
+                </liste_alt>
             </reply>
 
         </list_reply>  

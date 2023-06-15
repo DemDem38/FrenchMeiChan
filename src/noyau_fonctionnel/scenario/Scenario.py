@@ -8,17 +8,28 @@ class CondAlt :
         self.tMin = min
         self.tMax = max
         self.txt = txt
+        self.next = None
     
     #Recupere le texte
     def getTxt(self) :
         return self.txt
 
+    def addQuestion(self, q):
+        self.next = q
+
+    def getQuestion(self) :
+        return self.next
+
     #Retourne l'heure est dans l'intervalle [tMin, tMax[
     def condVrai(self) :
         now = datetime.now()
         time = int(now.strftime("%H"))
-        if time >= self.tMin and time < self.tMax :
-            return True
+        if min < max :
+            if time >= self.tMin and time < self.tMax :
+                return True
+        else :
+            if time >= self.tMin or time < self.tMax :
+                return True
         return False
 
 #Classe Question
@@ -59,6 +70,9 @@ class Question :
 
     #Affiche le texte sur la sortie standard
     def print(self) :
+        for c in self.condTime :
+            if c.condVrai() :
+                print(c.getTxt())
         print(self.txt)
 
 #Classe Reponse
@@ -68,12 +82,9 @@ class Reponse :
         self.cond = c
         self.txt = s
         self.robot = r
-        self.question = None
-
-        self.condTime = None
-        self.condTxt = None
-        self.condQ = None
-        self.bool = False
+        self.questionSuivante = None
+        self.condTime = []
+        self.nextAlt = None
 
     #Recupere l'identifiant
     def  getId(self) :
@@ -81,6 +92,11 @@ class Reponse :
 
     #Recupere le texte
     def  getTxt(self) :
+        self.nextAlt = None
+        for c in self.condTime :
+            if c.condVrai() :
+                self.nextAlt = c
+                return c.getTxt()
         return self.txt
     
     #Recupere l'identifiant de la tete du robot
@@ -89,23 +105,26 @@ class Reponse :
     
     #Pose la question suivante
     def setQuestion(self, q) :
-        self.question = q
+        self.questionSuivante = q
     
     #Recupere la question suivante
     def getQuestion(self) :
-        return self.question
+        if self.nextAlt != None :
+            return self.nextAlt.getQuestion()
+        return self.questionSuivante
     
-    #
-    def setCondTxt(self, t) :
-        self.condTxt = t
-
-    #
-    def addCondTime(self, min, max) :
-        self.condTime = [int(min), int(max)]
+    #Ajoute une reponse altenative
+    def addCondTime(self, c) :
+        self.condTime.append(c)
 
     #Affiche le texte sur la sortie standard
     def print(self) :
-        print(self.getTxt())
+        self.nextAlt = None
+        for c in self.condTime :
+            if c.condVrai() :
+                self.nextAlt = c
+                print(c.getTxt())
+        print(self.txt)
     
     #
     def compared(self, s) :
@@ -170,7 +189,7 @@ def ReadScenarioXML(name) :
             #Creation de la question
             question = Question(idQ, texte, robotFace)
             
-            #Ajout des question alternative dependant de l'heure
+            #Ajout des question alternatives dependant de l'heure
             for c in q[3] :
                 min = int(c[0].text)
                 max = int(c[1].text)
@@ -207,6 +226,19 @@ def ReadScenarioXML(name) :
             if scenarioSuivant != None :
                 questionSuivant = scenarioSuivant.getQuestion(int(r[5][0].text))
                 reponse.setQuestion(questionSuivant)
+
+            #Ajout des reponses alternatives dependant de l'heure
+            for c in r[6] :
+                min = int(c[0].text)
+                max = int(c[1].text)
+                txt = c[2].text
+                questionAlternative = CondAlt(min, max, txt)
+                #Ajout de la question suivante a la reponse alternative
+                scenarioSuivant = getScenario(listeScenario, int(c[3].text))
+                if scenarioSuivant != None :
+                    questionSuivant = scenarioSuivant.getQuestion(int(c[3][0].text))
+                    questionAlternative.addQuestion(questionSuivant)
+                question.addCondTime(questionAlternative)
 
     return listeScenario
 
