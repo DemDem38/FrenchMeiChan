@@ -112,7 +112,31 @@ class parametreWidget(QWidget):
 
     def changeParaSize(self,value):
         value = (int) (value)
-        self.parent.mainWidget.setStyleSheet((f"QPushButton {{ font-size: {value}px; }} QLabel{{ font-size: {value}px; }}"))
+        self.parent.mainWidget.setStyleSheet((f"""
+                                            QPushButton {{                 
+                                                font-size: {value}px;  
+                                                padding: 10px;    
+                                                border-radius: 10px; 
+                                                border-style: outset;
+                                                border-width: 2px;  
+                                                border-color: #333333;          
+                                                background-color: #C4BAB8;
+                                            }} 
+                                              
+                                            QPushButton:hover {{ 
+                                                background-color: white;
+                                            }}                                
+                                                                                
+                                            QLabel{{
+                                                font-size: {value}px;     
+                                            }}
+
+                                            QLineEdit{{
+                                                font-size: {value}px;     
+                                            }}
+                                            
+                                            
+                                            """))
 
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)

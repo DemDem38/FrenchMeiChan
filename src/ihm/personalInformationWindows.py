@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCale
 from PyQt5.QtGui import QPixmap, QColor, QKeySequence
 
 from src.noyau_fonctionnel.authentication.account import account
-from  src.noyau_fonctionnel.authentication.person import person,contact
+from src.noyau_fonctionnel.authentication.person import person,contact
 
 class personalInfoWidget(QWidget):
     def __init__(self, parent):
@@ -55,7 +55,6 @@ class personalInfoWidget(QWidget):
 
         self.lastNameLayout.addWidget(self.lastNamePrint)
         self.lastNameLayout.addWidget(self.lastNameEntry)
-        
 
     def addFirstNameWidget(self):
         self.firstNameWidget = QWidget()
