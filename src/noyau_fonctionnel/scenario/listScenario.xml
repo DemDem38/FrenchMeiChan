@@ -186,20 +186,13 @@
 
             <reply>
                 <id> 9 </id>
-                <texte>J'espere que vous pourrez avoir une bonne nuit de someil ce soir</texte>
+                <texte></texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>fatigue</cond>
-                <next> 2
-                    <question>-1</question>
+                <next> 1
+                    <question>1</question>
                 </next>
-                <cond_heure>
-                    <min>6</min>
-                    <max>20</max>
-                    <texte></texte>
-                    <secenario>1</secenario>
-                    <next>1</next>
-                </cond_heure>
             </reply>
 
             <reply>

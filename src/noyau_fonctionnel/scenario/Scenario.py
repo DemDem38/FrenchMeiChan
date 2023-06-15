@@ -172,9 +172,8 @@ def ReadScenarioXML(name) :
             #Ajout de la question suivante a la reponse
             scenarioSuivant = getScenario(listeScenario, int(r[5].text))
             if scenarioSuivant != None :
-                questionSuivant = scenario.getQuestion(int(r[5][0].text))
+                questionSuivant = scenarioSuivant.getQuestion(int(r[5][0].text))
                 reponse.setQuestion(questionSuivant)
-
     return listeScenario
 
 def init() :
@@ -198,15 +197,16 @@ class Noyau:
         self.ihm.signal_envoi_off.connect(self.traiter_string_sound_OFF)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.startScenario(0)
+        self.startScenario(1)
 
     def numnScenario(self):
         return len(self.listeScenario)
 
     def startScenario(self,i):
         self.scenario = i
-        if i < len(self.listeScenario):
-            self.q = self.listeScenario[i].getQuestion(1)
+        scenario = getScenario(self.listeScenario, i)
+        if scenario != None :
+            self.q = scenario.getQuestion(1)
             self.ihm.add_left_label(self.q.getTxt())
             self.b = True
 
