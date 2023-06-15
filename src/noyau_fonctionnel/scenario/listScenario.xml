@@ -7,11 +7,15 @@
                 <id> 1 </id>
                 <texte>Avez-vous bien dormi cette nuit?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
                 <texte>Pourquoi n'avez-vous pas bien dormi?</texte>
                 <robot>2</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
         </list_question>
 
@@ -82,16 +86,22 @@
                 <id> 1 </id>
                 <texte>Bonjour, comment allez-vous?</texte>
                 <robot>0</robot>
+                <liste_alt>
+                </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
                 <texte>Pourquoi vous sentez-vous mal?</texte>
                 <robot>2</robot>
+                <liste_alt>
+                </liste_alt>
             </question>
             <question>
                 <id> 3 </id>
                 <texte>Avez-vous pris rendez-vous chez le medecin ?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
         </list_question>
 
@@ -218,11 +228,15 @@
                 <id> 1 </id>
                 <texte>Fait-il chaud aujourd'hui ?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
                 <texte>Avez-vous penser a bien vous hydrater ?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
         </list_question>
 
@@ -276,17 +290,36 @@
 
     <scenario>
         <id> 4 </id>
-        <titre>Petit dejeuner</titre>
+        <titre>Manger</titre>
         <list_question>
             <question>
                 <id> 1 </id>
-                <texte>Avez-vous pris un petit dejeuner ?</texte>
+                <texte>Avez-vous manger ?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                    <cond>
+                        <min>7</min>
+                        <max>10</max>
+                        <txt>Avez-vous pris un petit dejeuner ?</txt>
+                    </cond>
+                    <cond>
+                        <min>12</min>
+                        <max>14</max>
+                        <txt>Avez-vous dejeuner ?</txt>
+                    </cond>
+                    <cond>
+                        <min>19</min>
+                        <max>22</max>
+                        <txt>Avez-vous diner ?</txt>
+                    </cond>
+                </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
                 <texte>Qu'avez-vous manger ?</texte>
                 <robot>0</robot> 
+                <liste_alt>
+                </liste_alt>
             </question>
         </list_question>
 
@@ -327,110 +360,5 @@
         </list_reply>  
     </scenario>
 
-    <scenario>
-        <id> 5 </id>
-        <titre>Dejeuner</titre>
-        <list_question>
-            <question>
-                <id> 1 </id>
-                <texte>Avez-vous deja dejeuner ?</texte>
-                <robot>0</robot> 
-            </question>
-            <question>
-                <id> 2 </id>
-                <texte>Qu'avez-vous manger ?</texte>
-                <robot>0</robot> 
-            </question>
-        </list_question>
-
-        <list_reply>
-            <reply>
-                <id> 1 </id>
-                <texte></texte>
-                <robot>0</robot> 
-                <pre> 1 </pre>
-                <cond>oui</cond>
-                <next> 5
-                    <question>2</question>
-                </next>
-            </reply>
-
-            <reply>
-                <id> 2 </id>
-                <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
-                <robot>0</robot> 
-                <pre> 1 </pre>
-                <cond>non</cond>
-                <next> 5
-                    <question>-1</question>
-                </next>
-            </reply>
-
-            <reply>
-                <id> 3 </id>
-                <texte>Tout ca a l'air bien delicieux</texte>
-                <robot>0</robot> 
-                <pre> 2 </pre>
-                <cond></cond>
-                <next> 5
-                    <question>-1</question>
-                </next>
-            </reply>
-
-        </list_reply>  
-    </scenario>
-
-    <scenario>
-        <id> 6 </id>
-        <titre>Diner</titre>
-        <list_question>
-            <question>
-                <id> 1 </id>
-                <texte>Avez-vous deja diner ?</texte>
-                <robot>0</robot> 
-            </question>
-            <question>
-                <id> 2 </id>
-                <texte>Qu'avez-vous manger ?</texte>
-                <robot>0</robot> 
-            </question>
-        </list_question>
-
-        <list_reply>
-            <reply>
-                <id> 1 </id>
-                <texte></texte>
-                <robot>0</robot> 
-                <pre> 1 </pre>
-                <cond>oui</cond>
-                <next> 6
-                    <question>2</question>
-                </next>
-            </reply>
-
-            <reply>
-                <id> 2 </id>
-                <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
-                <robot>0</robot> 
-                <pre> 1 </pre>
-                <cond>non</cond>
-                <next> 6
-                    <question>-1</question>
-                </next>
-            </reply>
-
-            <reply>
-                <id> 3 </id>
-                <texte>Tout ca a l'air bien delicieux</texte>
-                <robot>0</robot> 
-                <pre> 2 </pre>
-                <cond></cond>
-                <next> 6
-                    <question>-1</question>
-                </next>
-            </reply>
-
-        </list_reply>  
-    </scenario>
 
 </list_scenario>

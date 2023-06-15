@@ -2,6 +2,25 @@ import xml.etree.cElementTree as ET
 from PyQt5.QtCore import pyqtSignal
 from datetime import datetime
 
+#Classe CondAlt
+class CondAlt :
+    def __init__(self, min, max, txt) :
+        self.tMin = min
+        self.tMax = max
+        self.txt = txt
+    
+    #Recupere le texte
+    def getTxt(self) :
+        return self.txt
+
+    #Retourne l'heure est dans l'intervalle [tMin, tMax[
+    def condVrai(self) :
+        now = datetime.now()
+        time = int(now.strftime("%H"))
+        if time >= self.tMin and time < self.tMax :
+            return True
+        return False
+
 #Classe Question
 class Question :
     def __init__(self, i, s, r) :
@@ -9,7 +28,7 @@ class Question :
         self.txt = s
         self.robot = r
         self.listeReponse = []
-        self.condTime = None
+        self.condTime = []
     
     #Recupere l'identifiant
     def getId(self) :
@@ -17,6 +36,9 @@ class Question :
     
     #Recupere le texte
     def getTxt(self) :
+        for c in self.condTime :
+            if c.condVrai() :
+                return c.getTxt()
         return self.txt
 
     #Recupere l'identifiant de la tete du robot
@@ -31,9 +53,9 @@ class Question :
     def getReponse(self) :
         return self.listeReponse
     
-    #
-    def addCondTime(self, min, max) :
-        self.condTime = [int(min), int(max)]
+    #Ajoute une question alternative
+    def addCondTime(self, c) :
+        self.condTime.append(c)
 
     #Affiche le texte sur la sortie standard
     def print(self) :
@@ -147,7 +169,18 @@ def ReadScenarioXML(name) :
             robotFace = int(q[2].text)
             #Creation de la question
             question = Question(idQ, texte, robotFace)
+            
+            #Ajout des question alternative dependant de l'heure
+            for c in q[3] :
+                min = int(c[0].text)
+                max = int(c[1].text)
+                txt = c[2].text
+                questionAlternative = CondAlt(min, max, txt)
+                question.addCondTime(questionAlternative)
+
+            #Ajout de la question a la liste de question du scenario
             listeQuestion.append(question)
+
         #Creation du scenario
         scenario = Scenario(idS, titre, listeQuestion)
         listeScenario.append(scenario)
@@ -174,6 +207,7 @@ def ReadScenarioXML(name) :
             if scenarioSuivant != None :
                 questionSuivant = scenarioSuivant.getQuestion(int(r[5][0].text))
                 reponse.setQuestion(questionSuivant)
+
     return listeScenario
 
 def init() :
@@ -197,14 +231,15 @@ class Noyau:
         self.ihm.signal_envoi_off.connect(self.traiter_string_sound_OFF)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.startScenario(1)
+        self.startScenario(0)
 
     def numnScenario(self):
         return len(self.listeScenario)
 
     def startScenario(self,i):
+        #Decrementer le i de 1 -> scenario commence a 1 (penser a changer)
         self.scenario = i
-        scenario = getScenario(self.listeScenario, i)
+        scenario = getScenario(self.listeScenario, i+1)
         if scenario != None :
             self.q = scenario.getQuestion(1)
             self.ihm.add_left_label(self.q.getTxt())
