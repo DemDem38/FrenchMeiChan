@@ -19,46 +19,57 @@
             <reply>
                 <id> 1 </id>
                 <texte>Super !</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>oui</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 1
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte></texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
-                <next>2</next>
-                <robot>0</robot> 
+                <next> 1
+                    <question>2</question>
+                </next>
+                
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>Si vous avez trop froid, vous pouvez rajouter une couette ou couvrir vos extremite.</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>froid</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 1
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 4 </id>
                 <texte>Si vous avez trop chaud, verifier que la temperature est entre 16°C et 18°C</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>chaud</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 1
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 4 </id>
                 <texte>Des boules quies peuvent vous aider a diminuer le bruit que vous entendez</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>bruit</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 1
+                    <question>-1</question>
+                </next>
             </reply>
         </list_reply>  
     </scenario>
@@ -88,82 +99,100 @@
             <reply >
                 <id> 1 </id>
                 <texte>Super !</texte>
+                <robot>1</robot> 
                 <pre> 1 </pre>
                 <cond>bien</cond>
-                <next> -1 </next>
-                <robot>1</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte></texte>
+                <robot>2</robot> 
                 <pre> 1 </pre>
                 <cond>mal</cond>
-                <next>2</next>
-                <robot>2</robot> 
+                <next> 2
+                    <question>2</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>Si votre fièvre persiste, pensez a prendre rendez-vous chez le medecin</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>fièvre</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 4 </id>
                 <texte></texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>malade</cond>
-                <next>3</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>3</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 5 </id>
                 <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider a adoucir votre mal de gorge</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>gorge</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 6 </id>
                 <texte>Cela peut-etre du a une deshydratation ou une geule de bois, si c'est le cas pensez a boire de l'eau tout au long de la journee. Si ce n'est pas le cas, vous pouvez aussi prendre des medicament antalgique pour la douleur.</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>tête</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 7 </id>
                 <texte>Je ne peux alors que vous conseiller de vous reposer et de bien vous hydrater</texte>
+                <robot>0</robot> 
                 <pre> 3 </pre>
                 <cond>oui</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 8 </id>
                 <texte>Prenez rapidement un rendez-vous chez le medecin et reposer vous bien</texte>
+                <robot>0</robot> 
                 <pre> 3 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 9 </id>
                 <texte>J'espere que vous pourrez avoir une bonne nuit de someil ce soir</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>fatigue</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
                 <cond_heure>
                     <min>6</min>
                     <max>20</max>
@@ -176,10 +205,12 @@
             <reply>
                 <id> 11 </id>
                 <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond></cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 2
+                    <question>-1</question>
+                </next>
             </reply>
 
         </list_reply>
@@ -206,37 +237,45 @@
             <reply>
                 <id> 1 </id>
                 <texte>Super !</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>oui</cond>
-                <next>2</next>
-                <robot>0</robot> 
+                <next> 3
+                    <question>2</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte>Dommage</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 3
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>C'est bien, continuer a boire de maniere reguliere </texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>oui</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 3
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 4 </id>
                 <texte>Penser a boire regulierement</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 3
+                    <question>-1</question>
+                </next>
             </reply>
 
         </list_reply>  
@@ -262,28 +301,34 @@
             <reply>
                 <id> 1 </id>
                 <texte></texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>oui</cond>
-                <next>2</next>
-                <robot>0</robot> 
+                <next> 4
+                    <question>2</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 4
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>Tout ca a l'air bien delicieux</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond></cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 4
+                    <question>-1</question>
+                </next>
             </reply>
 
         </list_reply>  
@@ -309,28 +354,34 @@
             <reply>
                 <id> 1 </id>
                 <texte></texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>oui</cond>
-                <next>2</next>
-                <robot>0</robot> 
+                <next> 5
+                    <question>2</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 5
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>Tout ca a l'air bien delicieux</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond></cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 5
+                    <question>-1</question>
+                </next>
             </reply>
 
         </list_reply>  
@@ -356,28 +407,34 @@
             <reply>
                 <id> 1 </id>
                 <texte></texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>oui</cond>
-                <next>2</next>
-                <robot>0</robot> 
+                <next> 6
+                    <question>2</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 2 </id>
                 <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
+                <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 6
+                    <question>-1</question>
+                </next>
             </reply>
 
             <reply>
                 <id> 3 </id>
                 <texte>Tout ca a l'air bien delicieux</texte>
+                <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond></cond>
-                <next>-1</next>
-                <robot>0</robot> 
+                <next> 6
+                    <question>-1</question>
+                </next>
             </reply>
 
         </list_reply>  

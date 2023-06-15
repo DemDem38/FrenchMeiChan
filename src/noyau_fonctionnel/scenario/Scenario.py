@@ -2,6 +2,7 @@ import xml.etree.cElementTree as ET
 from PyQt5.QtCore import pyqtSignal
 from datetime import datetime
 
+#Classe Question
 class Question :
     def __init__(self, i, s, r) :
         self.id = i
@@ -10,68 +11,81 @@ class Question :
         self.listeReponse = []
         self.condTime = None
     
+    #Recupere l'identifiant
     def getId(self) :
         return self.id
     
+    #Recupere le texte
     def getTxt(self) :
         return self.txt
 
+    #Recupere l'identifiant de la tete du robot
+    def getIdRobotFace(self):
+        return self.robot
+    
+    #Ajoute une reponse possible a la question
     def addReponse(self, r) :
         self.listeReponse.append(r)
 
+    #Recupere la liste de reponse
+    def getReponse(self) :
+        return self.listeReponse
+    
+    #
     def addCondTime(self, min, max) :
         self.condTime = [int(min), int(max)]
 
-    def getReponse(self) :
-        return self.listeReponse
-
+    #Affiche le texte sur la sortie standard
     def print(self) :
         print(self.txt)
 
+#Classe Reponse
 class Reponse :  
-    def __init__(self, i,  c,  s, q, r) :
+    def __init__(self, i,  c,  s, r) :
         self.id = i
         self.cond = c
         self.txt = s
-        self.question = q
         self.robot = r
+        self.question = None
+
         self.condTime = None
         self.condTxt = None
         self.condQ = None
         self.bool = False
 
-    
+    #Recupere l'identifiant
     def  getId(self) :
         return self.id
 
+    #Recupere le texte
     def  getTxt(self) :
-        if self.condTime != None :
-            now = datetime.now()
-            current_time = int(now.strftime("%H"))
-            if current_time > self.condTime[0] and current_time < self.condTime[1] :
-                self.bool = True
-                return self.condTxt
         return self.txt
     
-    def setTxt(self, t) :
-        self.condTxt = t
-
+    #Recupere l'identifiant de la tete du robot
+    def getIdRobotFace(self):
+        return self.robot
+    
+    #Pose la question suivante
+    def setQuestion(self, q) :
+        self.question = q
+    
+    #Recupere la question suivante
     def getQuestion(self) :
-        if self.bool == True :
-            print("Question")
-            self.bool = False
-            return self.condQ
         return self.question
     
-    def setQuestion(self, q) :
-        self.condQ = q
+    #
+    def setCondTxt(self, t) :
+        self.condTxt = t
 
+    #
     def addCondTime(self, min, max) :
         self.condTime = [int(min), int(max)]
-    
+
+    #Affiche le texte sur la sortie standard
     def print(self) :
         print(self.getTxt())
     
+    #
     def compared(self, s) :
         if self.cond == None :
             return True
@@ -86,50 +100,81 @@ class Reponse :
                     return True
         return False
 
+#Classe Scenario
 class Scenario :
     def __init__(self, i,  t,  q) :
         self.id = i
         self.name = t
         self.question = q
 
+    #Recupere l'identifiant
     def  getId(self) :
         return self.id
 
+    #Recupere le nom
     def  getName(self) :
         return self.name
 
-    def getQuestion(self) :
-        return self.question[0]
+    #Recupere la question i du scenario
+    def getQuestion(self, i) :
+        for q in self.question :
+            if q.getId() == i :
+                return q
+        return None
 
-    def getListQuestion(self) :
-        return self.question
+#Recupere le scenario i de la liste L
+def getScenario(L, i) :
+    for e in L :
+        if e.getId() == i :
+            return e
+    return None
 
+#Retourne une liste de scenario a partir de nom de fichier xml
 def ReadScenarioXML(name) :
     tree = ET.parse(name)
     root = tree.getroot()
     listeScenario = []
+
+    #Creation des scenarios et des questions
     for e in root :
+        idS = int(e[0].text)
+        titre = e[1].text
         listeQuestion = []
+        #Creation des questions du scenario
         for q in e[2] :
-            question = Question(q[0].text, q[1].text, q[2].text)
+            idQ = int(q[0].text)
+            texte = q[1].text
+            robotFace = int(q[2].text)
+            #Creation de la question
+            question = Question(idQ, texte, robotFace)
             listeQuestion.append(question)
-        for r in e[3] :
-            if int(r[4].text) == -1 :
-                reponse = Reponse(r[0].text, r[3].text, r[1].text, None,r[5].text)
-            else :
-                reponse = Reponse(r[0].text, r[3].text, r[1].text, listeQuestion[int(r[4].text) -1], r[5].text)
-            if len(r) > 6 :
-                time = r[6]
-                reponse.addCondTime(time[0].text, time[1].text)
-                reponse.setTxt(time[2].text)
-                if time[3].text > e[0].text :
-                    print("setCondQuestion")
-                    reponse.setQuestion(listeScenario[int(time[3].text)-1].getListQuestion()[int(time[4].text)-1])
-
-            listeQuestion[int(r[2].text) -1].addReponse(reponse)
-
-        scenario = Scenario(e[0], e[1], listeQuestion)
+        #Creation du scenario
+        scenario = Scenario(idS, titre, listeQuestion)
         listeScenario.append(scenario)
+
+    #Parcourt des reponses dans les scenarios
+    for e in root :
+        #Creation des reponses dans le scenario
+        for r in e[3] :
+            idR = int(r[0].text)
+            texte = r[1].text
+            robotFace = int(q[2].text)
+            cond = r[4].text
+            #Creation de la reponse
+            reponse = Reponse(idR, cond, texte, robotFace)
+
+            #Ajout de la reponse dans la liste de reponse de la question precedente
+            scenario = getScenario(listeScenario, int(e[0].text))
+            questionPrecedent = scenario.getQuestion(int(r[3].text))
+            if questionPrecedent != None :
+                questionPrecedent.addReponse(reponse)
+
+            #Ajout de la question suivante a la reponse
+            scenarioSuivant = getScenario(listeScenario, int(r[5].text))
+            if scenarioSuivant != None :
+                questionSuivant = scenario.getQuestion(int(r[5][0].text))
+                reponse.setQuestion(questionSuivant)
+
     return listeScenario
 
 def init() :
@@ -161,7 +206,7 @@ class Noyau:
     def startScenario(self,i):
         self.scenario = i
         if i < len(self.listeScenario):
-            self.q = self.listeScenario[i].getQuestion()
+            self.q = self.listeScenario[i].getQuestion(1)
             self.ihm.add_left_label(self.q.getTxt())
             self.b = True
 
@@ -187,7 +232,7 @@ class Noyau:
                     txt = self.q.getTxt()
                     if txt != None :
                         print(self.listeReponse[i].getTxt())
-                        self.ihm.add_left_label(self.listeReponse[i].getTxt(),speak = speak)
+                        self.ihm.add_left_label(self.listeReponse[i].getTxt(),speak = speak, idImage = self.listeReponse[i].getIdRobotFace())
                     rep += 1
                     self.q = self.listeReponse[i].getQuestion()
                     if(self.q == None):
@@ -199,6 +244,6 @@ class Noyau:
                     else:
                         txt = self.q.getTxt()
                         if txt != None :
-                            self.ihm.add_left_label(txt,speak = speak)
+                            self.ihm.add_left_label(txt,speak = speak, idImage = self.q.getIdRobotFace())
             if rep == 0 :
                 self.ihm.add_left_label("Je ne comprend pas",speak = speak)
