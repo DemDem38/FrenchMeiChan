@@ -10,7 +10,7 @@ from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
-from src.ihm.personWindows import personWidget
+from src.ihm.addContactWindows import personWidget
 from src.ihm.personalInformationWindows import personalInfoWidget
 from src.ihm.gestionContactWindows import contactWidget
 from src.ihm.changeContactWindows import modifyContactWidget
@@ -112,6 +112,8 @@ class MainWindow(QMainWindow):
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
 
         self.first_windows()
+
+        self.paraWidget.changeSizeText()
 
     def first_windows(self):
         file_path = "data/account.json"

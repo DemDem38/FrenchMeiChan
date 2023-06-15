@@ -23,10 +23,7 @@ class parametreWidget(QWidget):
         self.chooseLeftColor()
         self.chooseRightColor()
         self.addSizeTextWidget()
-
-        self.returnButton = QPushButton("Return")
-        self.returnButton.pressed.connect(self.returnMainWindows)
-        self.returnButton.pressed.connect(self.exportSettings)
+        self.addReturnButton()       
 
         self.layout.addWidget(self.returnButton)
 
@@ -100,7 +97,7 @@ class parametreWidget(QWidget):
 
         self.sizeTextPrint = QLabel("Taille du texte")
         self.sizeTextEntry = QDoubleSpinBox()
-        self.sizeTextEntry.setValue(30)
+        self.sizeTextEntry.setValue(self.sizeText)
         self.sizeTextEntry.valueChanged.connect(self.changeSizeText)
 
         self.sizeTextLayout.addWidget(self.sizeTextPrint)
@@ -110,6 +107,12 @@ class parametreWidget(QWidget):
         self.sizeText = self.sizeTextEntry.value()
         for label,truc in self.parent.labels:
             self.parent.setLabelProp(label)
+
+        self.changeParaSize(self.sizeText)
+
+    def changeParaSize(self,value):
+        value = (int) (value)
+        self.parent.mainWidget.setStyleSheet((f"QPushButton {{ font-size: {value}px; }} QLabel{{ font-size: {value}px; }}"))
 
     def returnMainWindows(self):
         self.parent.mainLayout.setCurrentIndex(0)
@@ -156,3 +159,17 @@ class parametreWidget(QWidget):
         self.leftColor = data['leftColor']
         self.rightColor = data['rightColor']
         self.sizeText = data['sizeText']
+
+        
+
+    def addReturnButton(self):
+        self.returnWidget = QWidget()
+        self.returnLayout = QHBoxLayout(self.returnWidget)
+        self.returnLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.returnWidget)
+
+        self.returnButton= QPushButton("Return")
+        self.returnButton.pressed.connect(self.returnMainWindows)
+        self.returnButton.pressed.connect(self.exportSettings)
+
+        self.returnLayout.addWidget(self.returnButton)
