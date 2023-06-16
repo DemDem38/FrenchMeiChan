@@ -133,7 +133,6 @@ class personalInfoWidget(QWidget):
         
         arg: -text: str | chaine a evaluer 
         """
-        # Supprimer tous les caractères non numériques
         cleaned_text = ''.join(filter(str.isdigit, text))
         
         if len(cleaned_text) > 10:

@@ -117,8 +117,8 @@ class MainWindow(QMainWindow):
         
     def first_windows(self):
         """
-        determines which window is displayed first, depending on if the user's data has already been saved
-
+        determine quelle sera la premiere fenetre affiche, selon si le fichier contenant les informations de l'utilisateur existe, ou non
+        
         arg: None
 
         return: None
@@ -166,7 +166,7 @@ class MainWindow(QMainWindow):
 
     def generate_images(self):
         """
-        create all QPixmap and store them in self.listeImage
+        Creer tous les QPixmap et les store dans self.listeImage
 
         arg: None
 
@@ -311,7 +311,7 @@ class MainWindow(QMainWindow):
 
     def setLeftFrameApparence(self,frame):
         """
-        Change the StyleSheet of frame in order to have the same that all others frame on the left side
+        Change le StyleSheet de frame dans le but qu'il correspond au meme que les QFrame du cote gauche
 
         arg: -frame: QFrame | frame that we when to change the StyleSheet
 
@@ -321,7 +321,7 @@ class MainWindow(QMainWindow):
 
     def setLabelProp(self,label):
         """
-        Change the StyleSheet in order to change font size
+        Change le StyleSheet pour changer la taille du texte
 
         arg: -label: QLabel | label that we when to change the StyleSheet
 
@@ -333,7 +333,7 @@ class MainWindow(QMainWindow):
 
     def setRightFrameApparence(self,frame):
         """
-        Change the StyleSheet of frame in order to have the same that all others frame on the right side
+        Change le StyleSheet de frame dans le but qu'il correspond au meme que les QFrame du cote droit
 
         arg: -frame: QFrame | frame that we when to change the StyleSheet
 
