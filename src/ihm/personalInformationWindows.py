@@ -26,11 +26,12 @@ class personalInfoWidget(QWidget):
 
         self.addEmailWidget()
 
-        #self.addAddPersonWidget()
-
         self.addValiderAnnulerWidget()
 
     def addInfoWidget(self):
+        """
+        Ajoute le message de bienvenue au widget
+        """
         self.infoWidget = QWidget()
         self.infoLayout = QHBoxLayout(self.infoWidget)
         self.infoLayout.setAlignment(Qt.AlignCenter)
@@ -45,6 +46,9 @@ class personalInfoWidget(QWidget):
         self.infoLayout.addWidget(self.infoPrint)
 
     def addLastNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son nom
+        """
         self.lastNameWidget = QWidget()
         self.lastNameLayout = QHBoxLayout(self.lastNameWidget)
         self.lastNameLayout.setAlignment(Qt.AlignCenter)
@@ -57,6 +61,9 @@ class personalInfoWidget(QWidget):
         self.lastNameLayout.addWidget(self.lastNameEntry)
 
     def addFirstNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son prenom
+        """
         self.firstNameWidget = QWidget()
         self.firstNameLayout = QHBoxLayout(self.firstNameWidget)
         self.firstNameLayout.setAlignment(Qt.AlignCenter)
@@ -69,12 +76,15 @@ class personalInfoWidget(QWidget):
         self.firstNameLayout.addWidget(self.firstNameEntry)
 
     def addBirthdayWidget(self):
+        """
+        Ajoute les widget permettant de renseigner sa date de naissance
+        """
         self.birthdayWidget = QWidget()
         self.birthdayLayout = QHBoxLayout(self.birthdayWidget)
         self.birthdayLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.birthdayWidget)
 
-        self.birthdayPrint = QLabel("Date de naissance (jj.mm.aaaa)")
+        self.birthdayPrint = QLabel("Date de naissance")
         self.birthdayEntry = QCalendarWidget()
         self.birthdayEntry.setFixedSize(400, 400)
         #self.birthdayEntry.setDisplayFormat("dd.MM.yyyy")
@@ -83,6 +93,9 @@ class personalInfoWidget(QWidget):
         self.birthdayLayout.addWidget(self.birthdayEntry)
 
     def addPhoneWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son numero de telephone
+        """
         self.phoneWidget = QWidget()
         self.phoneLayout = QHBoxLayout(self.phoneWidget)
         self.phoneLayout.setAlignment(Qt.AlignCenter)
@@ -99,6 +112,9 @@ class personalInfoWidget(QWidget):
         self.phoneLayout.addWidget(self.phoneEntry)
 
     def addEmailWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son email
+        """
         self.emailWidget = QWidget()
         self.emailLayout = QHBoxLayout(self.emailWidget)
         self.emailLayout.setAlignment(Qt.AlignCenter)
@@ -112,6 +128,11 @@ class personalInfoWidget(QWidget):
 
 
     def validatePhoneNumber(self, text):
+        """
+        Verifie que les caracteres correspondent a un numero de telephone 
+        
+        arg: -text: str | chaine a evaluer 
+        """
         # Supprimer tous les caractères non numériques
         cleaned_text = ''.join(filter(str.isdigit, text))
         
@@ -121,17 +142,11 @@ class personalInfoWidget(QWidget):
         # Mettre à jour le texte du QLineEdit
         self.sender().setText(cleaned_text)
 
-    def addAddPersonWidget(self):
-        self.addPersonWidget = QWidget()
-        self.addPersonLayout = QHBoxLayout(self.addPersonWidget)
-        self.addPersonLayout.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.addPersonWidget)
-
-        self.addPersonPrint = QPushButton("addPerson")
-
-        self.addPersonLayout.addWidget(self.addPersonPrint)
 
     def addValiderAnnulerWidget(self):
+        """
+        Ajoute les widget permettant de valider ou annuler les modifications
+        """
         self.addButtonWidget = QWidget()
         self.addButtonLayout = QHBoxLayout(self.addButtonWidget)
         self.addButtonLayout.setAlignment(Qt.AlignCenter)
@@ -148,6 +163,9 @@ class personalInfoWidget(QWidget):
         self.addButtonLayout.addWidget(self.annulerButton)
 
     def validerInfo(self):
+        """
+        Met a jour les donnees de l'utilisateur
+        """
         nom = self. lastNameEntry.text()
         prenom = self.firstNameEntry.text()
         birthday = self.birthdayEntry.selectedDate().toString()
@@ -166,5 +184,8 @@ class personalInfoWidget(QWidget):
 
 
     def returnMainWindows(self):
+        """
+        Change le widget courant pour le main widget
+        """
         self.parent.mainLayout.setCurrentIndex(0)
         self.annulerButton.setVisible(True)

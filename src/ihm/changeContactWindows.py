@@ -34,6 +34,9 @@ class modifyContactWidget(QWidget):
         self.layout.addWidget(self.returnButton)
 
     def addSelectionContact(self):
+        """
+        Ajoute les widget permettant de choisir quel contact modifier
+        """
         self.selectionWidget = QWidget()
         self.selectionLayout = QHBoxLayout(self.selectionWidget)
         self.selectionLayout.setAlignment(Qt.AlignCenter)
@@ -45,6 +48,9 @@ class modifyContactWidget(QWidget):
         self.selectionLayout.addWidget(self.selectionComboWidget)
 
     def addLastNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son nom
+        """
         self.lastNameWidget = QWidget()
         self.lastNameLayout = QHBoxLayout(self.lastNameWidget)
         self.lastNameLayout.setAlignment(Qt.AlignCenter)
@@ -58,6 +64,9 @@ class modifyContactWidget(QWidget):
         
 
     def addFirstNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son prenom
+        """
         self.firstNameWidget = QWidget()
         self.firstNameLayout = QHBoxLayout(self.firstNameWidget)
         self.firstNameLayout.setAlignment(Qt.AlignCenter)
@@ -70,6 +79,9 @@ class modifyContactWidget(QWidget):
         self.firstNameLayout.addWidget(self.firstNameEntry)
 
     def addBirthdayWidget(self):
+        """
+        Ajoute les widget permettant de renseigner sa date de naissance
+        """
         self.birthdayWidget = QWidget()
         self.birthdayLayout = QHBoxLayout(self.birthdayWidget)
         self.birthdayLayout.setAlignment(Qt.AlignCenter)
@@ -84,6 +96,9 @@ class modifyContactWidget(QWidget):
         self.birthdayLayout.addWidget(self.birthdayEntry)
 
     def addPhoneWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son numero de telephone
+        """
         self.phoneWidget = QWidget()
         self.phoneLayout = QHBoxLayout(self.phoneWidget)
         self.phoneLayout.setAlignment(Qt.AlignCenter)
@@ -100,6 +115,9 @@ class modifyContactWidget(QWidget):
         self.phoneLayout.addWidget(self.phoneEntry)
 
     def addEmailWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son email
+        """
         self.emailWidget = QWidget()
         self.emailLayout = QHBoxLayout(self.emailWidget)
         self.emailLayout.setAlignment(Qt.AlignCenter)
@@ -113,6 +131,11 @@ class modifyContactWidget(QWidget):
 
 
     def validatePhoneNumber(self, text):
+        """
+        Verifie que les caracteres correspondent a un numero de telephone 
+        
+        arg: -text: str | chaine a evaluer 
+        """
         # Supprimer tous les caractères non numériques
         cleaned_text = ''.join(filter(str.isdigit, text))
         

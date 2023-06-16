@@ -114,8 +114,15 @@ class MainWindow(QMainWindow):
         self.first_windows()
 
         self.paraWidget.changeSizeText()
-
+        
     def first_windows(self):
+        """
+        determines which window is displayed first, depending on if the user's data has already been saved
+
+        arg: None
+
+        return: None
+        """
         file_path = "data/account.json"
 
         if os.path.isfile(file_path):
@@ -176,11 +183,23 @@ class MainWindow(QMainWindow):
         self.listeImage.append(self.tristeImage)
 
     def open_parametre(self):
-        
+        """
+        switch the current windows for the parametre windows
+
+        arg: None
+
+        return: None
+        """
         self.mainLayout.setCurrentIndex(1)
 
     def open_person(self):
-        
+        """
+        switch the current windows for the parametre windows
+
+        arg: None
+
+        return: None        
+        """
         self.mainLayout.setCurrentIndex(2)
 
 
@@ -291,14 +310,35 @@ class MainWindow(QMainWindow):
             self.scroll_to_bottom()
 
     def setLeftFrameApparence(self,frame):
+        """
+        Change the StyleSheet of frame in order to have the same that all others frame on the left side
+
+        arg: -frame: QFrame | frame that we when to change the StyleSheet
+
+        return: None
+        """
         frame.setStyleSheet("QFrame{{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
 
     def setLabelProp(self,label):
+        """
+        Change the StyleSheet in order to change font size
+
+        arg: -label: QLabel | label that we when to change the StyleSheet
+
+        return: None
+        """
         size = (str) ((int) (self.paraWidget.sizeText)) + "px"
         label.setStyleSheet("QTextEdit {{ color: black; font-size: {}; padding-top: 50%; padding-bottom: 50%; float: right; }}".format(size))
         
 
     def setRightFrameApparence(self,frame):
+        """
+        Change the StyleSheet of frame in order to have the same that all others frame on the right side
+
+        arg: -frame: QFrame | frame that we when to change the StyleSheet
+
+        return: None
+        """
         frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))
 
 
@@ -347,6 +387,10 @@ class MainWindow(QMainWindow):
     def scroll_to_bottom(self):
         """
         Scroll pour etre a la fin du ScrollArea
+
+        arg: None
+
+        return: None
         """
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
@@ -373,6 +417,13 @@ class MainWindow(QMainWindow):
         self.signal_envoi_off.emit(texte)
 
     def init_filename(self):
+        """
+        Initialise self.filename avec l'horodatage
+
+        arg: None
+
+        return: None
+        """
         horodatage_actuel = datetime.now()
         # Formater l'horodatage
         format_horodatage = "%Y-%m-%d_%H-%M-%S"
@@ -420,6 +471,13 @@ class MainWindow(QMainWindow):
         self.recordBoutton.setEnabled(True)
 
     def importCSV(self):
+        """
+        Permet de choisir un fichier csv, et remet le chat bot dans les meme conditions que lors de l'enregistrement du fichier
+
+        arg: None
+
+        return: None
+        """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
 

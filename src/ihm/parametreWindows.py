@@ -28,6 +28,9 @@ class parametreWidget(QWidget):
         self.layout.addWidget(self.returnButton)
 
     def addSaveWidget(self):
+        """
+        Ajoute la case checkable au widget parametre
+        """
         self.saveWidget = QWidget()
         self.saveLayout = QHBoxLayout(self.saveWidget)
         self.saveLayout.setAlignment(Qt.AlignCenter)
@@ -41,6 +44,9 @@ class parametreWidget(QWidget):
         self.saveLayout.addWidget(self.saveEntry)
 
     def chooseLeftColor(self):
+        """
+        Ajoute le bouton et le label permettant de choisir/visualiser la couleur des QFrame gauche
+        """
         self.leftColorWidget = QWidget()
         self.leftColorLayout = QHBoxLayout(self.leftColorWidget)
         self.leftColorLayout.setAlignment(Qt.AlignCenter)
@@ -57,6 +63,9 @@ class parametreWidget(QWidget):
         self.leftColorLayout.addWidget(self.leftColorEntry)
 
     def changeLeftColor(self):
+        """
+        Fais choisir une nouvelle couleur et change la couleur de tous les QFrame gauche
+        """
         color = QColorDialog.getColor()
         if color.isValid():
             self.leftColor = color.name()
@@ -65,6 +74,9 @@ class parametreWidget(QWidget):
                 self.parent.setLeftFrameApparence(frame)
 
     def chooseRightColor(self):
+        """
+        Ajoute le bouton et le label permettant de choisir/visualiser la couleur des QFrame droite
+        """
         self.rightColorWidget = QWidget()
         self.rightColorLayout = QHBoxLayout(self.rightColorWidget)
         self.rightColorLayout.setAlignment(Qt.AlignCenter)
@@ -81,6 +93,9 @@ class parametreWidget(QWidget):
         self.rightColorLayout.addWidget(self.rightColorEntry)
 
     def changeRightColor(self):
+        """
+        Fais choisir une nouvelle couleur et change la couleur de tous les QFrame droite
+        """
         color = QColorDialog.getColor()
         if color.isValid():
             self.rightColor = color.name()
@@ -90,6 +105,9 @@ class parametreWidget(QWidget):
                 self.parent.setRightFrameApparence(frame)
 
     def addSizeTextWidget(self):
+        """
+        Rajoute les widgets pour la changement de taille de texte
+        """
         self.sizeTextWidget = QWidget()
         self.sizeTextLayout = QHBoxLayout(self.sizeTextWidget)
         self.sizeTextLayout.setAlignment(Qt.AlignCenter)
@@ -104,13 +122,21 @@ class parametreWidget(QWidget):
         self.sizeTextLayout.addWidget(self.sizeTextEntry)
     
     def changeSizeText(self):
+        """
+        Change self.sizeText puis change la taille du texte des differents labels
+        """
         self.sizeText = self.sizeTextEntry.value()
-        for label,truc in self.parent.labels:
-            self.parent.setLabelProp(label)
+        #for label,truc in self.parent.labels:
+        #    self.parent.setLabelProp(label)
 
         self.changeParaSize(self.sizeText)
 
     def changeParaSize(self,value):
+        """
+        Change la taille du texte des differents labels pour qu'ils fassent value px
+
+        arg: -value: int | taille du texte (en px) 
+        """
         value = (int) (value)
         self.parent.mainWidget.setStyleSheet((f"""
                                             QPushButton {{                 
@@ -139,12 +165,22 @@ class parametreWidget(QWidget):
                                             """))
 
     def returnMainWindows(self):
+
+        """
+        Change le widget courant afin d'affiche la fenetre principale
+        """
         self.parent.mainLayout.setCurrentIndex(0)
 
     def settingsFileName(self):
+        """
+        initialise self.settingFileName
+        """
         self.settingFileName = "data/setting/setting.json"
 
     def addExportButton(self):
+        """
+        Ajoute un bouton exporter au widget parametre
+        """
         self.exportWidget = QWidget()
         self.exportLayout = QHBoxLayout(self.exportWidget)
         self.exportLayout.setAlignment(Qt.AlignCenter)
@@ -156,6 +192,9 @@ class parametreWidget(QWidget):
         self.exportLayout.addWidget(self.exportButton)
 
     def exportSettings(self):
+        """
+        Export les parametres au format JSON
+        """
         data = {
             'leftColor': self.leftColor,
             'rightColor': self.rightColor,
@@ -166,6 +205,9 @@ class parametreWidget(QWidget):
             json.dump(data, file)
 
     def addImportButton(self):
+        """
+        Ajoute un bouton exporter au widget parametre
+        """
         self.importWidget = QWidget()
         self.importLayout = QHBoxLayout(self.importWidget)
         self.importLayout.setAlignment(Qt.AlignCenter)
@@ -177,6 +219,9 @@ class parametreWidget(QWidget):
         self.importLayout.addWidget(self.importButton)
 
     def importSettings(self):
+        """
+        Importe les parametres du JSON et met a jour les variables en consequent
+        """
         with open(self.settingFileName, 'r') as file:
             data = json.load(file)
 
@@ -187,6 +232,9 @@ class parametreWidget(QWidget):
         
 
     def addReturnButton(self):
+        """
+        Ajoute le bouton return au widget parametre
+        """
         self.returnWidget = QWidget()
         self.returnLayout = QHBoxLayout(self.returnWidget)
         self.returnLayout.setAlignment(Qt.AlignCenter)

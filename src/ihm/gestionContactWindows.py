@@ -25,6 +25,9 @@ class contactWidget(QWidget):
         self.layout.addWidget(self.returnButton)
 
     def addChangePersonalInfoWidget(self):
+        """
+        Ajoute le bouton permettant de switch sur le widget de personalInformation
+        """
         self.personalInfoWidget = QWidget()
         self.personalInfoLayout = QHBoxLayout(self.personalInfoWidget)
         self.personalInfoLayout.setAlignment(Qt.AlignCenter)
@@ -35,6 +38,9 @@ class contactWidget(QWidget):
         self.personalInfoLayout.addWidget(self.changePersonalInfo)
 
     def addContactsWidgets(self):
+        """
+        Ajoute les boutons permettant de switch sur les widgets de addContact et changeContact
+        """
         self.contactWidget = QWidget()
         self.contactLayout = QHBoxLayout(self.contactWidget)
         self.contactLayout.setAlignment(Qt.AlignCenter)
@@ -50,12 +56,21 @@ class contactWidget(QWidget):
         self.contactLayout.addWidget(self.changeContact)
 
     def showAddContact(self):
+        """
+        Change la fenetre pour passer sur le widget d'ajout de contact
+        """
         self.parent.mainLayout.setCurrentIndex(3)
 
     def showModifyContact(self):
+        """
+        Change la fenetre pour passer sur le widget de modification de contact
+        """
         self.parent.mainLayout.setCurrentIndex(5)
 
     def showModifyInformation(self):
+        """
+        Change la fenetre pour passer sur le widget de changement d'information personel
+        """
         personne = self.parent.account.get_user()
 
         nom = personne.get_last_name()
@@ -75,4 +90,7 @@ class contactWidget(QWidget):
         self.parent.mainLayout.setCurrentIndex(4)
 
     def returnMainWindows(self):
+        """
+        Change la fenetre pour passer sur le widget principal
+        """
         self.parent.mainLayout.setCurrentIndex(0)

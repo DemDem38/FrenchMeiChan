@@ -32,6 +32,9 @@ class personWidget(QWidget):
         self.layout.addWidget(self.returnButton)
 
     def addLastNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son nom
+        """
         self.lastNameWidget = QWidget()
         self.lastNameLayout = QHBoxLayout(self.lastNameWidget)
         self.lastNameLayout.setAlignment(Qt.AlignCenter)
@@ -45,6 +48,9 @@ class personWidget(QWidget):
         
 
     def addFirstNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son prenom
+        """
         self.firstNameWidget = QWidget()
         self.firstNameLayout = QHBoxLayout(self.firstNameWidget)
         self.firstNameLayout.setAlignment(Qt.AlignCenter)
@@ -57,6 +63,9 @@ class personWidget(QWidget):
         self.firstNameLayout.addWidget(self.firstNameEntry)
 
     def addBirthdayWidget(self):
+        """
+        Ajoute les widget permettant de renseigner sa date de naissance
+        """
         self.birthdayWidget = QWidget()
         self.birthdayLayout = QHBoxLayout(self.birthdayWidget)
         self.birthdayLayout.setAlignment(Qt.AlignCenter)
@@ -71,6 +80,9 @@ class personWidget(QWidget):
         self.birthdayLayout.addWidget(self.birthdayEntry)
 
     def addPhoneWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son numero de telephone
+        """
         self.phoneWidget = QWidget()
         self.phoneLayout = QHBoxLayout(self.phoneWidget)
         self.phoneLayout.setAlignment(Qt.AlignCenter)
@@ -87,6 +99,9 @@ class personWidget(QWidget):
         self.phoneLayout.addWidget(self.phoneEntry)
 
     def addEmailWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son email
+        """
         self.emailWidget = QWidget()
         self.emailLayout = QHBoxLayout(self.emailWidget)
         self.emailLayout.setAlignment(Qt.AlignCenter)
@@ -100,6 +115,11 @@ class personWidget(QWidget):
 
 
     def validatePhoneNumber(self, text):
+        """
+        Verifie que les caracteres correspondent a un numero de telephone 
+        
+        arg: -text: str | chaine a evaluer 
+        """
         # Supprimer tous les caractères non numériques
         cleaned_text = ''.join(filter(str.isdigit, text))
         
@@ -110,6 +130,9 @@ class personWidget(QWidget):
         self.sender().setText(cleaned_text)
 
     def addAddPersonWidget(self):
+        """
+        Ajoute le bouton pour ajouter un contact
+        """
         self.addPersonWidget = QWidget()
         self.addPersonLayout = QHBoxLayout(self.addPersonWidget)
         self.addPersonLayout.setAlignment(Qt.AlignCenter)
@@ -120,6 +143,9 @@ class personWidget(QWidget):
         self.addPersonLayout.addWidget(self.addPersonPrint)
 
     def addContact(self):
+        """
+        Ajoute un contact a self.account
+        """
         nom = self.lastNameEntry.text()
         prenom = self.firstNameEntry.text()
         birthday = self.birthdayEntry.selectedDate().toString()
@@ -140,4 +166,7 @@ class personWidget(QWidget):
         self.emailEntry.clear()
 
     def returnMainWindows(self):
+        """
+        Change le widget courant pour afficher la fenetre principale
+        """
         self.parent.mainLayout.setCurrentIndex(0)
