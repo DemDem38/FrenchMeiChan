@@ -1,6 +1,5 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QCalendarWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton
 
 from src.noyau_fonctionnel.authentication.account import account
 from src.noyau_fonctionnel.authentication.person import person,contact

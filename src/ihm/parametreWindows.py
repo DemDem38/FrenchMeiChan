@@ -1,15 +1,13 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget,QCheckBox,QColorDialog , QDoubleSpinBox, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget,QCheckBox,QColorDialog , QDoubleSpinBox, QHBoxLayout, QVBoxLayout, QLabel, QPushButton
 import json
 
 
 class parametreWidget(QWidget):
-    def __init__(self, parent, mainW):
+    def __init__(self, parent):
         super().__init__(parent)
         self.initUI()
         self.parent = parent
-        self.mainW = mainW
 
     def initUI(self):
         self.setWindowTitle('Exemple de widget personnalisé')
@@ -64,7 +62,7 @@ class parametreWidget(QWidget):
 
     def changeLeftColor(self):
         """
-        Fais choisir une nouvelle couleur et change la couleur de tous les QFrame gauche
+        Fait choisir une nouvelle couleur et change la couleur de tous les QFrame gauche
         """
         color = QColorDialog.getColor()
         if color.isValid():
@@ -94,7 +92,7 @@ class parametreWidget(QWidget):
 
     def changeRightColor(self):
         """
-        Fais choisir une nouvelle couleur et change la couleur de tous les QFrame droite
+        Fait choisir une nouvelle couleur et change la couleur de tous les QFrame droite
         """
         color = QColorDialog.getColor()
         if color.isValid():
@@ -167,7 +165,7 @@ class parametreWidget(QWidget):
     def returnMainWindows(self):
 
         """
-        Change le widget courant afin d'affiche la fenetre principale
+        Change le widget courant afin d'afficher la fenetre principale
         """
         self.parent.mainLayout.setCurrentIndex(0)
 
@@ -176,20 +174,6 @@ class parametreWidget(QWidget):
         initialise self.settingFileName
         """
         self.settingFileName = "data/setting/setting.json"
-
-    def addExportButton(self):
-        """
-        Ajoute un bouton exporter au widget parametre
-        """
-        self.exportWidget = QWidget()
-        self.exportLayout = QHBoxLayout(self.exportWidget)
-        self.exportLayout.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.exportWidget)
-
-        self.exportButton= QPushButton("Export")
-        self.exportButton.pressed.connect(self.exportSettings)
-
-        self.exportLayout.addWidget(self.exportButton)
 
     def exportSettings(self):
         """
@@ -204,19 +188,6 @@ class parametreWidget(QWidget):
         with open(self.settingFileName, 'w+') as file:
             json.dump(data, file)
 
-    def addImportButton(self):
-        """
-        Ajoute un bouton exporter au widget parametre
-        """
-        self.importWidget = QWidget()
-        self.importLayout = QHBoxLayout(self.importWidget)
-        self.importLayout.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.importWidget)
-
-        self.importButton= QPushButton("Import")
-        self.importButton.pressed.connect(self.importSettings)
-
-        self.importLayout.addWidget(self.importButton)
 
     def importSettings(self):
         """
