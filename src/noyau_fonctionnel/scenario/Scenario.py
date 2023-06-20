@@ -24,7 +24,7 @@ class CondAlt :
     def condVrai(self) :
         now = datetime.now()
         time = int(now.strftime("%H"))
-        if min < max :
+        if self.tMin < self.tMax :
             if time >= self.tMin and time < self.tMax :
                 return True
         else :
