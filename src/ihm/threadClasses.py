@@ -9,7 +9,9 @@ from src.noyau_fonctionnel.language.voice.control_time_recorder import record
 from src.noyau_fonctionnel.language.voice.speak_french import speak_french
 
 class RecordingThread(QThread):
-
+    """
+    Permet de faire l'enregistrement vocal pour ensuite envoyer la chaine de caractere correspondante
+    """
     recording_finished = pyqtSignal(str)
 
     def __init__(self,ihm):
@@ -23,7 +25,9 @@ class RecordingThread(QThread):
 
 
 class SpeakThread(QThread):
-
+    """
+    Permet de faire lire une phrase
+    """
     def __init__(self,text,ihm):
         super().__init__()
         self.ihm=ihm
