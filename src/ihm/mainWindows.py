@@ -61,6 +61,7 @@ class MainWindow(QMainWindow):
         
         self.scenario_entry = QSlider()
         
+        
         self.scenario_entry.sliderReleased.connect(self.change_scenario) 
 
         self.text_entry = QLineEdit()
@@ -107,6 +108,7 @@ class MainWindow(QMainWindow):
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
+        self.scenario_entry.setValue(1)
         self.scenario_entry.setOrientation(Qt.Horizontal)
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
 
@@ -464,7 +466,7 @@ class MainWindow(QMainWindow):
 
         indice = self.scenario_entry.value()
         self.init_internat_widget()
-        self.scenario.startScenario(indice-1)
+        self.scenario.startScenario(indice)
 
         self.text_entry.setReadOnly(False)
         self.recordBoutton.setEnabled(True)
