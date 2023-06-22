@@ -1,16 +1,22 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication,QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import QMainWindow, QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton
+from PyQt5.QtGui import QPixmap
 
 from datetime import datetime
 import pandas as pd
 
 from src.noyau_fonctionnel.scenario.Scenario import Noyau
 from src.noyau_fonctionnel.language.voice.control_time_recorder import record
+from src.noyau_fonctionnel.authentication.account import account
 
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
-from src.ihm.personWindows import personWidget
+from src.ihm.addContactWindows import personWidget
+from src.ihm.personalInformationWindows import personalInfoWidget
+from src.ihm.gestionContactWindows import contactWidget
+from src.ihm.changeContactWindows import modifyContactWidget
+
+import os
 
 class MainWindow(QMainWindow):
     signal_envoi_on = pyqtSignal(str)
@@ -19,10 +25,8 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.account = None
 
-        self.r = record(self)
-
-        
         self.mainWidget = QWidget()
         self.mainLayout = QStackedLayout(self.mainWidget)
         self.layout = QVBoxLayout()
@@ -49,13 +53,14 @@ class MainWindow(QMainWindow):
         self.person_layout = QHBoxLayout(self.person)
         self.person_layout.setAlignment(Qt.AlignRight)
 
-        self.person_button = QPushButton("Person")
+        self.person_button = QPushButton("Contact")
         self.person_button.pressed.connect(self.open_person)
         self.person_layout.addWidget(self.person_button)
 
         self.init_internat_widget()
         
         self.scenario_entry = QSlider()
+        
         
         self.scenario_entry.sliderReleased.connect(self.change_scenario) 
 
@@ -90,15 +95,44 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainWidget)
         self.generate_images()
 
-        self.paraWidget = parametreWidget(self,self.mainWidget)
+        self.paraWidget = parametreWidget(self)
+        self.contactGestion = contactWidget(self)
         self.personWidget = personWidget(self)
+        self.userWidget = personalInfoWidget(self)
+        self.modifyContactWidget = modifyContactWidget(self)
         self.mainLayout.addWidget(self.paraWidget)
+        self.mainLayout.addWidget(self.contactGestion)
         self.mainLayout.addWidget(self.personWidget)
+        self.mainLayout.addWidget(self.userWidget)
+        self.mainLayout.addWidget(self.modifyContactWidget)
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
+        self.scenario_entry.setValue(1)
         self.scenario_entry.setOrientation(Qt.Horizontal)
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
+
+        self.first_windows()
+
+        self.paraWidget.changeSizeText()
+        
+    def first_windows(self):
+        """
+        determine quelle sera la premiere fenetre affiche, selon si le fichier contenant les informations de l'utilisateur existe, ou non
+        
+        arg: None
+
+        return: None
+        """
+        file_path = "data/account.json"
+
+        if os.path.isfile(file_path):
+            self.account = account()
+
+            self.userWidget.infoPrint.setVisible(False)
+            self.userWidget.annulerButton.setVisible(True)
+        else:
+            self.mainLayout.setCurrentIndex(4)
 
     def init_internat_widget(self):
         """
@@ -123,13 +157,17 @@ class MainWindow(QMainWindow):
                 self.widget_internal_layout.addItem(spacer_item,row,0,1,3)
 
         self.labels = []
+
+        self.leftQFrame = []
+
+        self.rightQFrame = []
         
 
         self.scroll_area.setWidget(self.widget_internal)
 
     def generate_images(self):
         """
-        create all QPixmap and store them in self.listeImage
+        Creer tous les QPixmap et les store dans self.listeImage
 
         arg: None
 
@@ -146,11 +184,23 @@ class MainWindow(QMainWindow):
         self.listeImage.append(self.tristeImage)
 
     def open_parametre(self):
-        
+        """
+        Change la fenêtre courante pour afficher la fenêtre de paramètre
+
+        arg: None
+
+        return: None
+        """
         self.mainLayout.setCurrentIndex(1)
 
     def open_person(self):
-        
+        """
+        switch the current windows for the parametre windows
+
+        arg: None
+
+        return: None        
+        """
         self.mainLayout.setCurrentIndex(2)
 
 
@@ -182,13 +232,14 @@ class MainWindow(QMainWindow):
             size = self.scroll_area.size()
 
             frame = QFrame()
-            frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #90EE90; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
+            frame.setLineWidth(1)   
+            self.setLeftFrameApparence(frame)
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setFixedHeight(200)
+            self.leftQFrame.append(frame)
 
-            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; }")
-
+            self.setLabelProp(new_label)
+            
             frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
             frame_layout.setContentsMargins(0, 0, 0, 0)
@@ -212,7 +263,7 @@ class MainWindow(QMainWindow):
 
     def add_right_label(self, text):
         """
-        Genere un QFrame a droite du ScrollArea, qui contient un QTextEdit avec text comme contenu ainsi qu'une image de robot
+        Genere un QFrame a droite du ScrollArea, qui contient un QTextEdit avec text comme contenu
 
         arg: -text: str | Texte a afficher dans le QFrame
 
@@ -237,12 +288,13 @@ class MainWindow(QMainWindow):
             frame = QFrame()
             frame.setFrameShape(QFrame.Box)
             frame.setLineWidth(1)
-            frame.setStyleSheet("QFrame { background-color: #ADD8E6; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }")
-
+            self.setRightFrameApparence(frame)
+            self.rightQFrame.append(frame)
             frame.setMaximumWidth(int(0.70 * size.width()))  # Définir la largeur maximale du QFrame
             frame.setMinimumHeight(200)
 
-            new_label.setStyleSheet("QTextEdit { color: black; padding-top: 50%; padding-bottom: 50%; float: right; }")
+            self.setLabelProp(new_label)
+            print(new_label)
 
             frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
@@ -255,9 +307,40 @@ class MainWindow(QMainWindow):
 
             lay.addWidget(frame)
             if self.paraWidget.saveEntry.isChecked():
-                print("save")
                 self.toCSV()
             self.scroll_to_bottom()
+
+    def setLeftFrameApparence(self,frame):
+        """
+        Change le StyleSheet de frame dans le but qu'il correspond au meme que les QFrame du cote gauche
+
+        arg: -frame: QFrame | frame that we when to change the StyleSheet
+
+        return: None
+        """
+        frame.setStyleSheet("QFrame{{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; text}}".format(self.paraWidget.leftColor))
+
+    def setLabelProp(self,label):
+        """
+        Change le StyleSheet pour changer la taille du texte
+
+        arg: -label: QLabel | label that we when to change the StyleSheet
+
+        return: None
+        """
+        size = (str) ((int) (self.paraWidget.sizeText)) + "px"
+        label.setStyleSheet("QTextEdit {{ color: black; font-size: {}; padding-top: 50%; padding-bottom: 50%; float: right; }}".format(size))
+        
+
+    def setRightFrameApparence(self,frame):
+        """
+        Change le StyleSheet de frame dans le but qu'il correspond au meme que les QFrame du cote droit
+
+        arg: -frame: QFrame | frame that we when to change the StyleSheet
+
+        return: None
+        """
+        frame.setStyleSheet("QFrame {{ background-color: {}; border-radius: 20px; border-style: outset; border-width: 1px; border-color: #555555; }}".format(self.paraWidget.rightColor))
 
 
     def add_reply(self):
@@ -276,7 +359,7 @@ class MainWindow(QMainWindow):
 
     def add_oral_reply(self):
         """
-        Lance un enregistrement vocal et change le boutton pour celui qui stop le record
+        Lance un enregistrement vocal et change le bouton pour celui qui stop le record
 
         arg: None
 
@@ -305,6 +388,10 @@ class MainWindow(QMainWindow):
     def scroll_to_bottom(self):
         """
         Scroll pour etre a la fin du ScrollArea
+
+        arg: None
+
+        return: None
         """
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
@@ -331,6 +418,13 @@ class MainWindow(QMainWindow):
         self.signal_envoi_off.emit(texte)
 
     def init_filename(self):
+        """
+        Initialise self.filename avec l'horodatage
+
+        arg: None
+
+        return: None
+        """
         horodatage_actuel = datetime.now()
         # Formater l'horodatage
         format_horodatage = "%Y-%m-%d_%H-%M-%S"
@@ -367,14 +461,24 @@ class MainWindow(QMainWindow):
 
         return: None
         """
+        if self.paraWidget.saveEntry.isChecked():
+                self.toCSV()
+
         indice = self.scenario_entry.value()
         self.init_internat_widget()
-        self.scenario.startScenario(indice-1)
+        self.scenario.startScenario(indice)
 
         self.text_entry.setReadOnly(False)
         self.recordBoutton.setEnabled(True)
 
     def importCSV(self):
+        """
+        Permet de choisir un fichier csv, et remet le chat bot dans les meme conditions que lors de l'enregistrement du fichier
+
+        arg: None
+
+        return: None
+        """
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
 
