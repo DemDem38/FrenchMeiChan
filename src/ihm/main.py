@@ -5,6 +5,7 @@ fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.append(fc_path)
 
 from PyQt5.QtWidgets import QApplication, QDesktopWidget
+
 from src.ihm.mainWindows import MainWindow
 
 
