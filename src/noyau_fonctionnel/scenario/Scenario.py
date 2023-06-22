@@ -14,9 +14,11 @@ class CondAlt :
     def getTxt(self) :
         return self.txt
 
+    #Ajoute une question suivante alternative
     def addQuestion(self, q):
         self.next = q
 
+    #Retourne la question suivante alternative
     def getQuestion(self) :
         return self.next
 
@@ -24,7 +26,7 @@ class CondAlt :
     def condVrai(self) :
         now = datetime.now()
         time = int(now.strftime("%H"))
-        if min < max :
+        if self.tMin < self.tMax :
             if time >= self.tMin and time < self.tMax :
                 return True
         else :
@@ -242,19 +244,7 @@ def ReadScenarioXML(name) :
 
     return listeScenario
 
-def init() :
-    q1 = Question(1, "Fait-il chaud aujourd'hui ?")
-    q2 = Question(2, "Avez-vous penser a bien vous hydrater ?")
-    r1 = Reponse(1, "oui", "Super !", q2)
-    r2 = Reponse(2, "non", "Dommage", None)
-    r3 = Reponse(3, "oui", "C'est bien, continuer a boire de maniere reguliere", None)
-    r4 = Reponse(4, "non", "Penser a boire regulierement", None)
-    q1.addReponse(r1)
-    q1.addReponse(r2)
-    q2.addReponse(r3)
-    q2.addReponse(r4)
-    return q1
-    
+
 class Noyau:
     def __init__(self,IHM):
         self.scenario = 0
@@ -265,52 +255,65 @@ class Noyau:
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
         self.startScenario(0)
 
+    #Retourne le nombre de scenario
     def numnScenario(self):
         return len(self.listeScenario)
 
+    #Debute le scenario i
     def startScenario(self,i):
-        #Decrementer le i de 1 -> scenario commence a 1 (penser a changer)
         self.scenario = i
-        scenario = getScenario(self.listeScenario, i+1)
+        scenario = getScenario(self.listeScenario, i)
         if scenario != None :
             self.q = scenario.getQuestion(1)
             self.ihm.add_left_label(self.q.getTxt())
             self.b = True
 
+    #Retourne l'id du scenario en cours
     def getIDscenario(self):
         return self.scenario
 
-
+    #
     def traiter_string_sound_ON(self,texte):
         self.traiter_string(texte,speak = True)
 
+    #
     def traiter_string_sound_OFF(self,texte):
         self.traiter_string(texte,speak = False)
 
+    #Analyse texte  a la suite du scenario et repond
     def traiter_string(self, texte, speak = True):
+        #Si un scenario est en cours
         if(self.b == True):
             print("Chaîne reçue :", texte)
             self.reponse = texte
+            #Recupere les reponse possible
             self.listeReponse = self.q.getReponse()
-            rep = 0
+            rep = 0 
+            #Parcours la liste de reponse
             for i in range (len(self.listeReponse)) :
-                
+                #Si la condition de la reponse est dans le texte (et que le bot n'a pas repondu)
                 if self.listeReponse[i].compared(self.reponse) and rep == 0 :
                     txt = self.q.getTxt()
+                    #Affiche le texte de la reponse s'il existe
                     if txt != None :
                         print(self.listeReponse[i].getTxt())
                         self.ihm.add_left_label(self.listeReponse[i].getTxt(),speak = speak, idImage = self.listeReponse[i].getIdRobotFace())
                     rep += 1
+                    #Passe a la question suivante
                     self.q = self.listeReponse[i].getQuestion()
+                    #Si on arrive a la fin du scenario
                     if(self.q == None):
                         self.b == False
                         self.ihm.add_left_label("Fin du scenario",speak = speak)
                         self.ihm.toCSV()
                         self.ihm.text_entry.setReadOnly(True)
                         self.ihm.recordBoutton.setEnabled(False)
+                    #Si il existe une question suivante
                     else:
                         txt = self.q.getTxt()
+                        #Affiche le texte de la question
                         if txt != None :
                             self.ihm.add_left_label(txt,speak = speak, idImage = self.q.getIdRobotFace())
+            #Si aucune reponse correct
             if rep == 0 :
                 self.ihm.add_left_label("Je ne comprend pas",speak = speak)
