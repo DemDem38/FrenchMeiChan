@@ -1,8 +1,6 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QComboBox, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QComboBox, QCalendarWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton
 
-from src.noyau_fonctionnel.authentication.account import account
 from  src.noyau_fonctionnel.authentication.person import person,contact
 
 class modifyContactWidget(QWidget):
@@ -168,6 +166,9 @@ class modifyContactWidget(QWidget):
         self.parent.account.new_contact(c1)
 
     def displayInformation(self):
+        """
+        Recupere les informations du contact selectionne et met a jour les widgets pour que les informations correspondent
+        """
         id = self.selectionComboWidget.currentIndex()
 
         contact = self.parent.account.get_nb_contacts()
@@ -178,4 +179,7 @@ class modifyContactWidget(QWidget):
         self.emailEntry.setText("")
 
     def returnMainWindows(self):
+        """
+        Change le widget courant pour afficher la fenetre principale
+        """
         self.parent.mainLayout.setCurrentIndex(0)

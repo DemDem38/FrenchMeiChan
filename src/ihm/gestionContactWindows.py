@@ -1,9 +1,5 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QDate
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
-
-from src.noyau_fonctionnel.authentication.account import account
-from  src.noyau_fonctionnel.authentication.person import person,contact
+from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton
 
 class contactWidget(QWidget):
     def __init__(self, parent):
