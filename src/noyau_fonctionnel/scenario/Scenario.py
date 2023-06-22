@@ -247,13 +247,13 @@ def ReadScenarioXML(name) :
 
 class Noyau:
     def __init__(self,IHM):
-        self.scenario = 0
+        self.scenario = 1
         self.ihm = IHM
         self.ihm.signal_envoi_on.connect(self.traiter_string_sound_ON)
         self.ihm.signal_envoi_off.connect(self.traiter_string_sound_OFF)
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
-        self.startScenario(0)
+        self.startScenario(1)
 
     #Retourne le nombre de scenario
     def numnScenario(self):
