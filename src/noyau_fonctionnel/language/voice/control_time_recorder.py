@@ -2,12 +2,11 @@
 
 import queue
 import sys
-import keyboard
 from pynput.keyboard import Listener
 
 import os
-from src.noyau_fonctionnel.language.voice.reco_language import wispAnalyse as wa
-#from reco_language import wispAnalyse as wa
+from src.noyau_fonctionnel.language.voice.wispAnalyse import wispAnalyse as wa
+#from wispAnalyse import wispAnalyse as wa
 
 import sounddevice as sd
 import soundfile as sf

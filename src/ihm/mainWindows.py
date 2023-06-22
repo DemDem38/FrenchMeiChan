@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import QMainWindow, QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QMainWindow, QSlider,QProgressBar, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton
+from PyQt5.QtGui import QPixmap,QPalette, QColor
 
 from datetime import datetime
 import pandas as pd
@@ -74,6 +74,15 @@ class MainWindow(QMainWindow):
         self.stopBoutton.pressed.connect(self.stop_record)
         self.stopBoutton.setVisible(False)
 
+        self.progressRecordBar = QProgressBar()
+        self.progressRecordBar.setRange(0, 0)
+        self.progressRecordBar.setVisible(False)
+
+        palette = self.progressRecordBar.palette()
+        palette.setColor(QPalette.Highlight, QColor(0, 120, 215))  # Couleur de remplissage
+        palette.setColor(QPalette.Background, Qt.white)  # Couleur de fond
+        self.progressRecordBar.setPalette(palette)
+
         self.csvButton = QPushButton("Enregistrer")
         self.csvButton.pressed.connect(self.toCSV)
 
@@ -89,6 +98,7 @@ class MainWindow(QMainWindow):
         self.chatbox_layout.addWidget(self.text_entry)
         self.chatbox_layout.addWidget(self.recordBoutton)
         self.chatbox_layout.addWidget(self.stopBoutton)
+        self.chatbox_layout.addWidget(self.progressRecordBar)
         self.chatbox_layout.addWidget(self.csvButton)
         self.chatbox_layout.addWidget(self.importButton)
 
@@ -365,7 +375,10 @@ class MainWindow(QMainWindow):
 
         return: None
         """
+
         self.recordBoutton.setVisible(False)
+        self.recordBoutton.setEnabled(False)
+        self.text_entry.setReadOnly(True)
         self.stopBoutton.setVisible(True)
         self.recThread = RecordingThread(self)
         self.recThread.recording_finished.connect(self.add_right_label)
@@ -382,7 +395,7 @@ class MainWindow(QMainWindow):
         return: None
         """
         self.signal_stop.emit()
-        self.recordBoutton.setVisible(True)
+        self.progressRecordBar.setVisible(True)
         self.stopBoutton.setVisible(False)
 
     def scroll_to_bottom(self):
@@ -405,6 +418,10 @@ class MainWindow(QMainWindow):
 
         return: None
         """
+        self.recordBoutton.setEnabled(True)
+        self.text_entry.setReadOnly(False)
+        self.progressRecordBar.setVisible(False)
+        self.recordBoutton.setVisible(True)
         self.signal_envoi_on.emit(texte)
 
     def envoyer_string_off(self, texte):
@@ -466,6 +483,7 @@ class MainWindow(QMainWindow):
 
         indice = self.scenario_entry.value()
         self.init_internat_widget()
+        print(indice)
         self.scenario.startScenario(indice)
 
         self.text_entry.setReadOnly(False)
