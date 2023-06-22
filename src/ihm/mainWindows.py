@@ -1,12 +1,13 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication,QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import QMainWindow, QSlider, QFileDialog, QStackedLayout, QWidget,  QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton
+from PyQt5.QtGui import QPixmap
 
 from datetime import datetime
 import pandas as pd
 
 from src.noyau_fonctionnel.scenario.Scenario import Noyau
 from src.noyau_fonctionnel.language.voice.control_time_recorder import record
+from src.noyau_fonctionnel.authentication.account import account
 
 from src.ihm.threadClasses import RecordingThread, SpeakThread
 from src.ihm.parametreWindows import parametreWidget
@@ -14,7 +15,6 @@ from src.ihm.addContactWindows import personWidget
 from src.ihm.personalInformationWindows import personalInfoWidget
 from src.ihm.gestionContactWindows import contactWidget
 from src.ihm.changeContactWindows import modifyContactWidget
-from src.noyau_fonctionnel.authentication.account import account
 
 import os
 
@@ -26,7 +26,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.account = None
-        self.r = record(self)
 
         self.mainWidget = QWidget()
         self.mainLayout = QStackedLayout(self.mainWidget)
@@ -62,6 +61,7 @@ class MainWindow(QMainWindow):
         
         self.scenario_entry = QSlider()
         
+        
         self.scenario_entry.sliderReleased.connect(self.change_scenario) 
 
         self.text_entry = QLineEdit()
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainWidget)
         self.generate_images()
 
-        self.paraWidget = parametreWidget(self,self.mainWidget)
+        self.paraWidget = parametreWidget(self)
         self.contactGestion = contactWidget(self)
         self.personWidget = personWidget(self)
         self.userWidget = personalInfoWidget(self)
@@ -108,6 +108,7 @@ class MainWindow(QMainWindow):
         self.scenario = Noyau(self)
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
+        self.scenario_entry.setValue(1)
         self.scenario_entry.setOrientation(Qt.Horizontal)
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
 
@@ -184,7 +185,7 @@ class MainWindow(QMainWindow):
 
     def open_parametre(self):
         """
-        switch the current windows for the parametre windows
+        Change la fenêtre courante pour afficher la fenêtre de paramètre
 
         arg: None
 
@@ -262,7 +263,7 @@ class MainWindow(QMainWindow):
 
     def add_right_label(self, text):
         """
-        Genere un QFrame a droite du ScrollArea, qui contient un QTextEdit avec text comme contenu ainsi qu'une image de robot
+        Genere un QFrame a droite du ScrollArea, qui contient un QTextEdit avec text comme contenu
 
         arg: -text: str | Texte a afficher dans le QFrame
 
@@ -358,7 +359,7 @@ class MainWindow(QMainWindow):
 
     def add_oral_reply(self):
         """
-        Lance un enregistrement vocal et change le boutton pour celui qui stop le record
+        Lance un enregistrement vocal et change le bouton pour celui qui stop le record
 
         arg: None
 
@@ -465,7 +466,7 @@ class MainWindow(QMainWindow):
 
         indice = self.scenario_entry.value()
         self.init_internat_widget()
-        self.scenario.startScenario(indice-1)
+        self.scenario.startScenario(indice)
 
         self.text_entry.setReadOnly(False)
         self.recordBoutton.setEnabled(True)

@@ -1,8 +1,6 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QDate
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtWidgets import QWidget, QCalendarWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton
 
-from src.noyau_fonctionnel.authentication.account import account
 from src.noyau_fonctionnel.authentication.person import person,contact
 
 class personWidget(QWidget):
@@ -120,7 +118,6 @@ class personWidget(QWidget):
         
         arg: -text: str | chaine a evaluer 
         """
-        # Supprimer tous les caractères non numériques
         cleaned_text = ''.join(filter(str.isdigit, text))
         
         if len(cleaned_text) > 10:
@@ -144,7 +141,7 @@ class personWidget(QWidget):
 
     def addContact(self):
         """
-        Ajoute un contact a self.account
+        Ajoute un contact a self.parent.account
         """
         nom = self.lastNameEntry.text()
         prenom = self.firstNameEntry.text()
