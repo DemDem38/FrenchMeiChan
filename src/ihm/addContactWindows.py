@@ -1,8 +1,7 @@
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QDateEdit, QCalendarWidget, QHBoxLayout,QSpacerItem, QSizePolicy, QVBoxLayout,QTextEdit, QScrollArea, QLabel, QFrame, QGridLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtGui import QPixmap, QColor, QKeySequence
+from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtWidgets import QWidget, QCalendarWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton
 
-
+from src.noyau_fonctionnel.authentication.person import person,contact
 
 class personWidget(QWidget):
     def __init__(self, parent):
@@ -11,9 +10,6 @@ class personWidget(QWidget):
         self.parent = parent
 
     def initUI(self):
-        self.setWindowTitle('Exemple de widget personnalisé')
-        self.setGeometry(200, 200, 300, 200)
-        
         self.layout = QVBoxLayout(self)
 
         self.addLastNameWidget()
@@ -26,12 +22,17 @@ class personWidget(QWidget):
 
         self.addEmailWidget()
 
+        self.addAddPersonWidget()
+
         self.returnButton = QPushButton("return")
-        self.returnButton.pressed.connect(self.returnMainWindows)
+        self.returnButton.released.connect(self.returnMainWindows)
 
         self.layout.addWidget(self.returnButton)
 
     def addLastNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son nom
+        """
         self.lastNameWidget = QWidget()
         self.lastNameLayout = QHBoxLayout(self.lastNameWidget)
         self.lastNameLayout.setAlignment(Qt.AlignCenter)
@@ -45,6 +46,9 @@ class personWidget(QWidget):
         
 
     def addFirstNameWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son prenom
+        """
         self.firstNameWidget = QWidget()
         self.firstNameLayout = QHBoxLayout(self.firstNameWidget)
         self.firstNameLayout.setAlignment(Qt.AlignCenter)
@@ -57,6 +61,9 @@ class personWidget(QWidget):
         self.firstNameLayout.addWidget(self.firstNameEntry)
 
     def addBirthdayWidget(self):
+        """
+        Ajoute les widget permettant de renseigner sa date de naissance
+        """
         self.birthdayWidget = QWidget()
         self.birthdayLayout = QHBoxLayout(self.birthdayWidget)
         self.birthdayLayout.setAlignment(Qt.AlignCenter)
@@ -64,12 +71,16 @@ class personWidget(QWidget):
 
         self.birthdayPrint = QLabel("Date de naissance (jj.mm.aaaa)")
         self.birthdayEntry = QCalendarWidget()
+        self.birthdayEntry.setFixedSize(400, 400)
         #self.birthdayEntry.setDisplayFormat("dd.MM.yyyy")
 
         self.birthdayLayout.addWidget(self.birthdayPrint)
         self.birthdayLayout.addWidget(self.birthdayEntry)
 
     def addPhoneWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son numero de telephone
+        """
         self.phoneWidget = QWidget()
         self.phoneLayout = QHBoxLayout(self.phoneWidget)
         self.phoneLayout.setAlignment(Qt.AlignCenter)
@@ -86,6 +97,9 @@ class personWidget(QWidget):
         self.phoneLayout.addWidget(self.phoneEntry)
 
     def addEmailWidget(self):
+        """
+        Ajoute les widget permettant de renseigner son email
+        """
         self.emailWidget = QWidget()
         self.emailLayout = QHBoxLayout(self.emailWidget)
         self.emailLayout.setAlignment(Qt.AlignCenter)
@@ -99,7 +113,11 @@ class personWidget(QWidget):
 
 
     def validatePhoneNumber(self, text):
-        # Supprimer tous les caractères non numériques
+        """
+        Verifie que les caracteres correspondent a un numero de telephone 
+        
+        arg: -text: str | chaine a evaluer 
+        """
         cleaned_text = ''.join(filter(str.isdigit, text))
         
         if len(cleaned_text) > 10:
@@ -108,6 +126,44 @@ class personWidget(QWidget):
         # Mettre à jour le texte du QLineEdit
         self.sender().setText(cleaned_text)
 
+    def addAddPersonWidget(self):
+        """
+        Ajoute le bouton pour ajouter un contact
+        """
+        self.addPersonWidget = QWidget()
+        self.addPersonLayout = QHBoxLayout(self.addPersonWidget)
+        self.addPersonLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.addPersonWidget)
+
+        self.addPersonPrint = QPushButton("addPerson")
+        self.addPersonPrint.released.connect(self.addContact)
+        self.addPersonLayout.addWidget(self.addPersonPrint)
+
+    def addContact(self):
+        """
+        Ajoute un contact a self.parent.account
+        """
+        nom = self.lastNameEntry.text()
+        prenom = self.firstNameEntry.text()
+        birthday = self.birthdayEntry.selectedDate().toString()
+        phone = self.phoneEntry.text()
+        email = self.emailEntry.text()
+        
+        user = person(nom,prenom,birthday,phone,email)
+        id = self.parent.account.get_nb_contacts() - 1
+        c1 = contact(user,id)
+        self.parent.account.new_contact(c1)
+
+        self.parent.modifyContactWidget.selectionComboWidget.addItem(nom + " " + prenom)
+
+        self.lastNameEntry.clear()
+        self.firstNameEntry.clear()
+        self.birthdayEntry.setSelectedDate(QDate.currentDate())
+        self.phoneEntry.clear()
+        self.emailEntry.clear()
 
     def returnMainWindows(self):
+        """
+        Change le widget courant pour afficher la fenetre principale
+        """
         self.parent.mainLayout.setCurrentIndex(0)
