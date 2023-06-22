@@ -21,8 +21,8 @@ class account():
             else:
                 if self.nb_contacts > 5:
                     self.nb_contacts = 5
-                    warnings.warn("Le nombre maximum de contact est de 5 personnes,\
-                                il y en a trop, seulement les 5 premiers seront enregistres")
+                    warnings.warn("Le nombre maximum de contact est de 5 personnes,\n\
+il y en a trop, seulement les 5 premiers seront enregistres")
                 self.contacts = contacts
                 self.check_contacts()
         else:
@@ -69,7 +69,7 @@ class account():
                 self.delete_contact(i)
                 del_contact = True
         if not(del_contact):
-            warnings.warn("Le contact aue vous voulez supprimer n'existe pas")
+            warnings.warn("Le contact que vous voulez supprimer n'existe pas")
 
     def delete_contact(self, contact):
             self.contacts.remove(contact)
@@ -83,7 +83,7 @@ class account():
             for j in list:
                 if nb == j:
                     self.delete_contact(i)
-                    warnings.warn("Deux conactes ont le meme numero",j,"le second a ete supprime")
+                    warnings.warn("Deux contactes ont le meme numero",j,"le second a ete supprime")
             list.append(nb)
             
 
