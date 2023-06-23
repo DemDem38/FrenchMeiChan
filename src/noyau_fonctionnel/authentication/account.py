@@ -10,17 +10,19 @@ import warnings
 import json 
 
 class account():
-    def __init__(self, user = None, contacts = None):
+    def __init__(self, user = None, contacts = None, warning = False):
+        if not(warning):
+            warnings.simplefilter("ignore")
         if user != None or contacts != None:
             self.user = user
             self.nb_contacts = len(contacts)
             if self.nb_contacts < 1:
-                warnings.warn("il faut au ;oins un contact")
+                warnings.warn("il faut au moins un contact")
             else:
                 if self.nb_contacts > 5:
                     self.nb_contacts = 5
-                    warnings.warn("Le nombre maximum de contact est de 5 personnes,\
-                                il y en a trop, seulement les 5 premiers seront enregistres")
+                    warnings.warn("Le nombre maximum de contact est de 5 personnes,\n\
+il y en a trop, seulement les 5 premiers seront enregistres")
                 self.contacts = contacts
                 self.check_contacts()
         else:
@@ -67,22 +69,23 @@ class account():
                 self.delete_contact(i)
                 del_contact = True
         if not(del_contact):
-            warnings.warn("Le contact aue vous voulez supprimer n'existe pas")
+            warnings.warn("Le contact que vous voulez supprimer n'existe pas")
 
     def delete_contact(self, contact):
             self.contacts.remove(contact)
             self.nb_contacts -= 1  
 
     def check_contacts(self):
-        list = []
-        for i in self.contacts:
+        list = [self.contacts[0].number]
+        add_first = False
+        for i in range(1, len(self.contacts)):
+            nb = self.contacts[i].number
             for j in list:
-                nb = i.number
                 if nb == j:
                     self.delete_contact(i)
-                    warnings.warn("Deux conactes ont le meme numero",j,"le second a ete supprime")
-                else:
-                    list.append(nb)
+                    warnings.warn("Deux contactes ont le meme numero",j,"le second a ete supprime")
+            list.append(nb)
+            
 
     def save(self):
         user = {"last name": self.user.last_name, "first name": self.user.first_name, \
