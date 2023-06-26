@@ -113,6 +113,7 @@ class parametreWidget(QWidget):
 
         self.sizeTextPrint = QLabel("Taille du texte")
         self.sizeTextEntry = QDoubleSpinBox()
+        self.sizeTextEntry.setDecimals(0)
         self.sizeTextEntry.setValue(self.sizeText)
         self.sizeTextEntry.valueChanged.connect(self.changeSizeText)
 
