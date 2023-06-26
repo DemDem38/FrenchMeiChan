@@ -237,7 +237,6 @@ def ReadScenarioXML(name) :
                 txt = c[2].text
                 questionAlternative = CondAlt(min, max, txt)
                 question.addCondTime(questionAlternative)
-
             #Ajout de la question a la liste de question du scenario
             listeQuestion.append(question)
 
@@ -279,8 +278,7 @@ def ReadScenarioXML(name) :
                 if scenarioSuivant != None :
                     questionSuivant = scenarioSuivant.getQuestion(int(c[3][0].text))
                     questionAlternative.addQuestion(questionSuivant)
-                question.addCondTime(questionAlternative)
-
+                reponse.addCondTime(questionAlternative)
     return listeScenario
 
 
