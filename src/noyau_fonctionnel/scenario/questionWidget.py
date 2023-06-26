@@ -23,6 +23,7 @@ class questionWidget(QWidget):
         self.valideButton()
 
         self.showAlt()
+
     def selectQuestion(self):
         self.selectQuestionWidget = QWidget()
         self.selectQuestionLayout = QHBoxLayout(self.selectQuestionWidget)
@@ -30,7 +31,7 @@ class questionWidget(QWidget):
         self.layout.addWidget(self.selectQuestionWidget)
 
         self.selectQuestionBox = QComboBox()
-
+        self.selectQuestionBox.currentIndexChanged.connect(self.actualiseInfo)
         self.selectQuestionLayout.addWidget(self.selectQuestionBox)
 
     def showID(self):
@@ -68,8 +69,8 @@ class questionWidget(QWidget):
 
         self.selectRobotImage = QComboBox()
         self.selectRobotImage.addItem("Normal")
-        self.selectRobotImage.addItem("Triste")
         self.selectRobotImage.addItem("Content")
+        self.selectRobotImage.addItem("Triste")
 
         self.selectRobotImageLayout.addWidget(self.selectRobotImage)
   
@@ -154,8 +155,19 @@ class questionWidget(QWidget):
         self.showIDEntry.setText((str)(id))
 
     def addAllQuestions(self):
+        self.selectQuestionBox.clear()
         scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
-        listeQuestions = []
+        listeQuestions = scenario.getListQuestion()
+        self.listID = []
         for question in listeQuestions:
             text = question.getTxt()
+            self.listID.append(question.getId())
             self.selectQuestionBox.addItem(text)
+
+    def actualiseInfo(self):
+        scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
+        id = self.listID[self.selectQuestionBox.currentIndex()]
+        question = scenario.getQuestion(id)
+        self.showIDEntry.setText((str)(id))
+        self.questionTextEntry.setText(question.getTxt())
+        self.selectRobotImage.setCurrentIndex(question.getIdRobotFace())
