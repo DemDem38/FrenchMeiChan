@@ -11,7 +11,7 @@ class CondAlt :
         self.next = None
     
     def getTime(self):
-        return [self.min, self.max]
+        return [self.tMin, self.tMax]
 
     #Recupere le texte
     def getTxt(self) :
@@ -75,7 +75,6 @@ class Question :
 
     def getCondAlt(self) :
         return self.condTime
-    
 
     #Affiche le texte sur la sortie standard
     def print(self) :
@@ -237,7 +236,6 @@ def ReadScenarioXML(name) :
                 txt = c[2].text
                 questionAlternative = CondAlt(min, max, txt)
                 question.addCondTime(questionAlternative)
-
             #Ajout de la question a la liste de question du scenario
             listeQuestion.append(question)
 
@@ -279,8 +277,7 @@ def ReadScenarioXML(name) :
                 if scenarioSuivant != None :
                     questionSuivant = scenarioSuivant.getQuestion(int(c[3][0].text))
                     questionAlternative.addQuestion(questionSuivant)
-                question.addCondTime(questionAlternative)
-
+                reponse.addCondTime(questionAlternative)
     return listeScenario
 
 
