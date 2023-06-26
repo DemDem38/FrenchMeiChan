@@ -11,7 +11,7 @@ class CondAlt :
         self.next = None
     
     def getTime(self):
-        return [self.min, self.max]
+        return [self.tMin, self.tMax]
 
     #Recupere le texte
     def getTxt(self) :
@@ -75,7 +75,6 @@ class Question :
 
     def getCondAlt(self) :
         return self.condTime
-    
 
     #Affiche le texte sur la sortie standard
     def print(self) :
