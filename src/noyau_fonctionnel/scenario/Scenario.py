@@ -158,6 +158,10 @@ class Scenario :
     def  getName(self) :
         return self.name
 
+    #Recupere la liste des question du scenario
+    def getListQuestion(self) :
+        return self.question
+
     #Recupere la question i du scenario
     def getQuestion(self, i) :
         for q in self.question :
@@ -171,6 +175,24 @@ def getScenario(L, i) :
         if e.getId() == i :
             return e
     return None
+
+def depouperCond(string) :
+    listCond = []
+    Cond = []
+    mot = ''
+    for char in string :
+        if char == ',' :
+            Cond.append(mot)
+            mot = ''
+        elif char == ';' :
+            Cond.append(mot)
+            listCond.append(Cond)
+            Cond = []
+            mot = ''
+        else :
+            mot.append(char)
+    return listCond
+
 
 #Retourne une liste de scenario a partir de nom de fichier xml
 def ReadScenarioXML(name) :
