@@ -10,6 +10,9 @@ class CondAlt :
         self.txt = txt
         self.next = None
     
+    def getTime(self):
+        return [self.min, self.max]
+
     #Recupere le texte
     def getTxt(self) :
         return self.txt
@@ -69,6 +72,10 @@ class Question :
     #Ajoute une question alternative
     def addCondTime(self, c) :
         self.condTime.append(c)
+
+    def getCondAlt(self) :
+        return self.condTime
+    
 
     #Affiche le texte sur la sortie standard
     def print(self) :
@@ -138,14 +145,14 @@ class Reponse :
     def compared(self, s) :
         if self.cond == None :
             return True
-        if len(s) >= len(self.cond) :
+        if len(s) >= len(self.cond[0][0]) :
             indice = 0
             for e in s :
-                if e.lower() == self.cond[indice]:
+                if e.lower() == self.cond[0][0][indice]:
                     indice += 1
                 else :
                     indice == 0
-                if indice == len(self.cond) -1 :
+                if indice == len(self.cond[0][0]) :
                     return True
         return False
 
@@ -201,7 +208,6 @@ def depouperCond(string) :
             mot += char
     Cond.append(mot)
     listCond.append(Cond)
-    print(listCond)
     return listCond
 
 
@@ -246,7 +252,7 @@ def ReadScenarioXML(name) :
             idR = int(r[0].text)
             texte = r[1].text
             robotFace = int(q[2].text)
-            cond = r[4].text
+            cond = depouperCond(r[4].text)
             #Creation de la reponse
             reponse = Reponse(idR, cond, texte, robotFace)
 
