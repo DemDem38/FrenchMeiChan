@@ -115,6 +115,12 @@ class Reponse :
             return self.nextAlt.getQuestion()
         return self.questionSuivante
     
+    def getCond(self) :
+        return self.cond
+    
+    def getCondAlt(self) :
+        return self.condTime
+    
     #Ajoute une reponse altenative
     def addCondTime(self, c) :
         self.condTime.append(c)
@@ -177,6 +183,8 @@ def getScenario(L, i) :
     return None
 
 def depouperCond(string) :
+    if (string == None) :
+        return None
     listCond = []
     Cond = []
     mot = ''
@@ -189,8 +197,11 @@ def depouperCond(string) :
             listCond.append(Cond)
             Cond = []
             mot = ''
-        else :
-            mot.append(char)
+        elif char != ' ' :
+            mot += char
+    Cond.append(mot)
+    listCond.append(Cond)
+    print(listCond)
     return listCond
 
 
