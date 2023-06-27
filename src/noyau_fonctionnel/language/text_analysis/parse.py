@@ -1,7 +1,10 @@
 import spacy
+#import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 import numpy as np
+
+#nltk.download('stopwords')
 
 class parse():
 

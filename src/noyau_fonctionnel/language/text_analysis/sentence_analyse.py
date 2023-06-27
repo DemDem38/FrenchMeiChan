@@ -1,7 +1,6 @@
-from parse import parse
+#from parse import parse
 
-def count_same_word(check_list_word, sentence):
-    par = parse()
+def count_same_word(check_list_word, sentence, par):
     cpt_same_word = 0
     list_sentence = par.return_token_sentence(sentence = sentence)
     stem_check_list = []
@@ -17,8 +16,7 @@ def count_same_word(check_list_word, sentence):
                     cpt_same_word += 1 
     return cpt_same_word
 
-def count_similar_sentence(check_list_sentence, sentence):
-    par = parse()
+def count_similar_sentence(check_list_sentence, sentence, par):
     cpt_similar_sentence = 0
     list_sentence = par.return_token_sentence(sentence = sentence)
     for i in list_sentence:
