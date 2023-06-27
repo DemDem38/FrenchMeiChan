@@ -106,7 +106,7 @@ def ReadScenarioXML(name) :
         for r in e[3] :
             idR = int(r[0].text)
             texte = r[1].text
-            robotFace = int(q[2].text)
+            robotFace = int(r[2].text)
             cond = depouperCond(r[4].text)
             #Creation de la reponse
             reponse = Reponse(idR, cond, texte, robotFace)
