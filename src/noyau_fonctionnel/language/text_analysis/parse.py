@@ -64,15 +64,15 @@ class parse():
     def return_mean_embedding(self, sentence):
         # value of sentence
         doc =  self.nlp(sentence)
-        return np.mean([(X.vector) for X in doc], axis=0)
+        return np.mean([(X.vector) for X in doc])
     
     def compare_sentences(self, sentence1, sentence2, dist):
         calc_dist = self.return_mean_embedding(sentence1)-self.return_mean_embedding(sentence2)
         print(calc_dist)
-        if(calc_dist > -dist and calc_dist < dist):
-            return True
-        else:
-            return False
+        #if(calc_dist > -dist and calc_dist < dist):
+        #    return True
+        #else:
+        #    return False
 
 if __name__ == '__main__':
     test = "oui, MeiChan, j'ai passé une bonne nuit dans mon lit a Kobe, merci... Et toi ?"
