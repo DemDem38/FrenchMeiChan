@@ -45,7 +45,7 @@ def getScenario(L, i) :
             return e
     return None
 
-def depouperCond(string) :
+def decouperCond(string) :
     if (string == None) :
         return None
     listCond = []
@@ -107,7 +107,7 @@ def ReadScenarioXML(name) :
             idR = int(r[0].text)
             texte = r[1].text
             robotFace = int(r[2].text)
-            cond = depouperCond(r[4].text)
+            cond = decouperCond(r[4].text)
             #Creation de la reponse
             reponse = Reponse(idR, cond, texte, robotFace)
 
