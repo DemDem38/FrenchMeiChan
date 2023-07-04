@@ -40,7 +40,7 @@ il y en a trop, seulement les 5 premiers seront enregistres")
                     self.contacts.append(conta)
             self.nb_contacts = len(self.contacts)
 
-    def get_person(self):
+    def get_user(self):
         return self.user
     
     def get_contacts(self):
