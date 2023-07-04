@@ -74,15 +74,3 @@ class Reponse :
         if compteur == len(self.cond) :
             return True
         return False
-
-        for c in self.cond[0] :
-            if len(s) >= len(c) :
-                indice = 0
-                for e in s :
-                    if e.lower() == c[indice]:
-                        indice += 1
-                    else :
-                        indice == 0
-                    if indice == len(c) :
-                        return True
-        return False

@@ -45,6 +45,7 @@ def getScenario(L, i) :
             return e
     return None
 
+#Decoupe le string en liste de liste de mot
 def decouperCond(string) :
     if (string == None) :
         return None
