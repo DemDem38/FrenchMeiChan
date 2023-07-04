@@ -1,0 +1,5 @@
+auteur,contenu,scenario
+bot,"Bonjour, comment allez-vous?",2
+user,bien,2
+bot,Super !,2
+bot,Fin du scenario,2

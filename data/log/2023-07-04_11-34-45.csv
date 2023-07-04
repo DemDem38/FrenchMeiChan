@@ -1,0 +1,8 @@
+auteur,contenu,scenario
+bot,Avez-vous mangé ?,4
+user,non,4
+bot,N'oubliez pas de manger lorsque ce sera l'heure,4
+bot,Qu'avez-vous fait aujourd'hui ?,4
+user,j'ai sorti mon adorable petit chien au parc,4
+bot,Une balade fait toujours du bien,4
+bot,Fin du scenario,4
