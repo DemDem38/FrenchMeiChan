@@ -1,0 +1,5 @@
+auteur,contenu,scenario
+bot,Fait-il chaud aujourd'hui ?,3
+user,"non, il fait froid",3
+bot,Dommage,3
+bot,Fin du scenario,3

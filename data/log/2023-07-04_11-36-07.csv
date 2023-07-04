@@ -1,0 +1,7 @@
+auteur,contenu,scenario
+bot,Avez-vous mangé ?,4
+user,oui,4
+bot,Qu'avez-vous mangé ?,4
+user,de la salade,4
+bot,Tout ca a l'air bien delicieux,4
+bot,Fin du scenario,4
