@@ -1,0 +1,40 @@
+{
+  "build": "py310haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [
+    "conda-libmamba-solver >=22.12.0",
+    "conda-content-trust >=0.1.1",
+    "conda-build >=3",
+    "conda-env >=2.6",
+    "cytoolz >=0.8.1"
+  ],
+  "depends": [
+    "conda-package-handling >=1.3.0",
+    "menuinst >=1.4.11,<2",
+    "pluggy >=1.0.0",
+    "pycosat >=0.6.3",
+    "pyopenssl >=16.2.0",
+    "python >=3.10,<3.11.0a0",
+    "requests >=2.20.1,<3",
+    "ruamel.yaml >=0.11.14,<0.18",
+    "setuptools >=31.0.1",
+    "toolz >=0.8.1",
+    "tqdm >=4"
+  ],
+  "features": "",
+  "fn": "conda-23.1.0-py310haa95532_0.conda",
+  "legacy_bz2_md5": "830d4016ede2724fd7effbc2c263fc0e",
+  "legacy_bz2_size": 1013989,
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "md5": "9f5e20917f9a442230ad49f08b2cbb11",
+  "name": "conda",
+  "sha256": "13abf72cf0157d8bd4f5550687f3371baee396beb1a223db8fd5b4db70fb4ddf",
+  "size": 979486,
+  "subdir": "win-64",
+  "timestamp": 1674575201270,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/conda-23.1.0-py310haa95532_0.conda",
+  "version": "23.1.0"
+}

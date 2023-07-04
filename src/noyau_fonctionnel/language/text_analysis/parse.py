@@ -1,7 +1,10 @@
 import spacy
+#import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 import numpy as np
+
+#nltk.download('stopwords')
 
 class parse():
 
@@ -67,8 +70,9 @@ class parse():
         return np.mean([(X.vector) for X in doc], axis=0)
     
     def compare_sentences(self, sentence1, sentence2, dist):
-        dist = self.return_mean_embedding(sentence1)-self.return_mean_embedding(sentence2)
-        if(dist > -dist and dist < dist):
+        calc_dist = self.return_mean_embedding(sentence1)-self.return_mean_embedding(sentence2)
+        print(calc_dist)
+        if(calc_dist > -dist and calc_dist < dist):
             return True
         else:
             return False
@@ -99,4 +103,8 @@ if __name__ == '__main__':
 
     pos = par.return_POS(test)
 
-    print(sep_sentence)
+    mean_sentences = par.return_mean_embedding(test)
+
+    mean_word = par.return_word_embedding("hello")
+
+    print(mean_word)

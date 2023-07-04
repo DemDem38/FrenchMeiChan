@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "_path": "Library/bin/sqlite3.dll",
+      "path_type": "hardlink",
+      "sha256": "b478604b89752daa828ed4d931264f82e06c72167169a496cefad92359a7c8a8",
+      "size_in_bytes": 1466368
+    },
+    {
+      "_path": "Library/bin/sqlite3.exe",
+      "path_type": "hardlink",
+      "sha256": "cf7d7654c4c1286fc9aae91062e3fa0036dfd70df919d21eb7ff36d77152c9aa",
+      "size_in_bytes": 1829888
+    },
+    {
+      "_path": "Library/include/sqlite3.h",
+      "path_type": "hardlink",
+      "sha256": "d062b918fcfd28cb57837ae2d8763cf5835740c44242d67a9ffe1b2ef52fad07",
+      "size_in_bytes": 616492
+    },
+    {
+      "_path": "Library/include/sqlite3ext.h",
+      "path_type": "hardlink",
+      "sha256": "9caf6631f26c5464e90ade7ba54397febeea2c8bbc7c23fa8a890753bf55ea2a",
+      "size_in_bytes": 37494
+    },
+    {
+      "_path": "Library/lib/sqlite3.lib",
+      "path_type": "hardlink",
+      "sha256": "1ae2b11eee2eca375b43c3f588be837e3c08dd60601024a45a0fd28e8bea153a",
+      "size_in_bytes": 66758
+    }
+  ],
+  "paths_version": 1
+}
