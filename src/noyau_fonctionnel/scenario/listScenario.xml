@@ -366,6 +366,28 @@
                 <liste_alt>
                 </liste_alt>
             </question>
+            <question>
+                <id> 3 </id>
+                <texte>Qu'avez-vous fait aujourd'hui ?</texte>
+                <robot>0</robot> 
+                <liste_alt>
+                <cond>
+                        <min>7</min>
+                        <max>10</max>
+                        <txt>Qu'avez-vous fait ce matin ?</txt>
+                    </cond>
+                    <cond>
+                        <min>12</min>
+                        <max>14</max>
+                        <txt>Qu'avez-vous fait ce midi ?</txt>
+                    </cond>
+                    <cond>
+                        <min>19</min>
+                        <max>22</max>
+                        <txt>Qu'avez-vous fait ce soir ?</txt>
+                    </cond>
+                </liste_alt>
+            </question>
         </list_question>
 
         <list_reply>
@@ -389,7 +411,7 @@
                 <pre> 1 </pre>
                 <cond>non</cond>
                 <next> 4
-                    <question>-1</question>
+                    <question>3</question>
                 </next>
                 <liste_alt>
                 </liste_alt>
@@ -400,6 +422,32 @@
                 <texte>Tout ca a l'air bien delicieux</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
+                <cond></cond>
+                <next> 4
+                    <question>-1</question>
+                </next>
+                <liste_alt>
+                </liste_alt>
+            </reply>
+
+            <reply>
+                <id> 4 </id>
+                <texte>Une balade fait toujours du bien</texte>
+                <robot>0</robot> 
+                <pre> 3 </pre>
+                <cond>aller,promener,sortir;chien,chat,animal</cond>
+                <next> 4
+                    <question>-1</question>
+                </next>
+                <liste_alt>
+                </liste_alt>
+            </reply>
+
+            <reply>
+                <id> 5 </id>
+                <texte>C'est bien</texte>
+                <robot>0</robot> 
+                <pre> 3 </pre>
                 <cond></cond>
                 <next> 4
                     <question>-1</question>
