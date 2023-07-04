@@ -1,0 +1,11 @@
+auteur,contenu,scenario
+bot,Avez-vous bien dormi cette nuit?,1
+user,non,1
+bot,Pourquoi n'avez-vous pas bien dormi?,1
+user,j'ai mal a la tete,1
+bot,Je ne comprend pas,1
+user,je ne me sens pas bien,1
+bot,Je ne comprend pas,1
+user,j'ai eu trop chaud,1
+bot,"Si vous avez trop chaud, verifier que la temperature est entre 16°C et 18°C",1
+bot,Fin du scenario,1

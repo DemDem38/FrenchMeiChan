@@ -1,0 +1,6 @@
+auteur,contenu,scenario
+bot,Avez-vous bien dormi cette nuit?,1
+user,oui,1
+bot,Super !,1
+bot,Fin du scenario,1
+user,Oui.,1

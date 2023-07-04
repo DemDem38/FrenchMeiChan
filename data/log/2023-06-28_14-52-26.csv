@@ -1,0 +1,8 @@
+auteur,contenu,scenario
+bot,Fait-il chaud aujourd'hui ?,3
+user,oui,3
+bot,Super !,3
+bot,Avez-vous penser a bien vous hydrater ?,3
+user,oui,3
+bot,"C'est bien, continuer a boire de maniere reguliere ",3
+bot,Fin du scenario,3
