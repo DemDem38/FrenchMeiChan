@@ -555,4 +555,4 @@ class MainWindow(QMainWindow):
         self.scenario_entry.setVisible(self.boolMode)
 
     def receive_llm_reply(self,texte):
-        self.ihm.add_left_label(texte, speak = False, idImage = 0)
+        self.add_left_label(texte, speak = False, idImage = 0)
