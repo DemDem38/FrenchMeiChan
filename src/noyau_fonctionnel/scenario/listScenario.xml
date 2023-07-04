@@ -5,14 +5,14 @@
         <list_question>
             <question>
                 <id> 1 </id>
-                <texte>Avez-vous bien dormi cette nuit?</texte>
+                <texte>Avez-vous bien dormi cette nuit ?</texte>
                 <robot>0</robot> 
                 <liste_alt>
                 </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
-                <texte>Pourquoi n'avez-vous pas bien dormi?</texte>
+                <texte>Pourquoi n'avez-vous pas bien dormi ?</texte>
                 <robot>2</robot> 
                 <liste_alt>
                 </liste_alt>
@@ -25,7 +25,7 @@
                 <texte>Super !</texte>
                 <robot>0</robot> 
                 <pre> 1 </pre>
-                <cond>oui</cond>
+                <cond>oui, bien</cond>
                 <next> 1
                     <question>-1</question>
                 </next>
@@ -38,7 +38,7 @@
                 <texte></texte>
                 <robot>0</robot> 
                 <pre> 1 </pre>
-                <cond>non</cond>
+                <cond>non, mal</cond>
                 <next> 1
                     <question>2</question>
                 </next>
@@ -48,7 +48,7 @@
 
             <reply>
                 <id> 3 </id>
-                <texte>Si vous avez trop froid, vous pouvez rajouter une couette ou couvrir vos extremite.</texte>
+                <texte>Si vous avez trop froid, vous pouvez rajouter une couette ou couvrir vos extrémités.</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>froid</cond>
@@ -61,7 +61,7 @@
 
             <reply>
                 <id> 4 </id>
-                <texte>Si vous avez trop chaud, verifier que la temperature est entre 16°C et 18°C</texte>
+                <texte>Si vous avez trop chaud, vérifiez que la température est entre 16°C et 18°C</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>chaud</cond>
@@ -74,7 +74,7 @@
 
             <reply>
                 <id> 4 </id>
-                <texte>Des boules quies peuvent vous aider a diminuer le bruit que vous entendez</texte>
+                <texte>Des boules quies peuvent vous aider à diminuer le bruit que vous entendez</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>bruit</cond>
@@ -93,14 +93,14 @@
         <list_question>
             <question>
                 <id> 1 </id>
-                <texte>Bonjour, comment allez-vous?</texte>
+                <texte>Bonjour, comment allez-vous ?</texte>
                 <robot>0</robot>
                 <liste_alt>
                 </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
-                <texte>Pourquoi vous sentez-vous mal?</texte>
+                <texte>Pourquoi vous sentez-vous mal ?</texte>
                 <robot>2</robot>
                 <liste_alt>
                 </liste_alt>
@@ -143,7 +143,7 @@
 
             <reply>
                 <id> 3 </id>
-                <texte>Si votre fièvre persiste, pensez a prendre rendez-vous chez le medecin</texte>
+                <texte>Si votre fièvre persiste, pensez à prendre rendez-vous chez le médecin</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>fièvre</cond>
@@ -169,7 +169,7 @@
 
             <reply>
                 <id> 5 </id>
-                <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider a adoucir votre mal de gorge</texte>
+                <texte>Sucer des pastilles disponible en pharmacie ou des bonbons peut aider à adoucir votre mal de gorge</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>gorge</cond>
@@ -182,7 +182,7 @@
 
             <reply>
                 <id> 6 </id>
-                <texte>Cela peut-etre du a une deshydratation ou une geule de bois, si c'est le cas pensez a boire de l'eau tout au long de la journee. Si ce n'est pas le cas, vous pouvez aussi prendre des medicament antalgique pour la douleur.</texte>
+                <texte>Cela peut être dû à une déshydratation ou une gueule de bois, si c'est le cas pensez à boire de l'eau tout au long de la journée. Si ce n'est pas le cas, vous pouvez aussi prendre des médicaments antalgiques pour la douleur.</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>tête</cond>
@@ -208,7 +208,7 @@
 
             <reply>
                 <id> 8 </id>
-                <texte>Prenez rapidement un rendez-vous chez le medecin et reposer vous bien</texte>
+                <texte>Prenez rapidement un rendez-vous chez le médecin et reposez vous bien</texte>
                 <robot>0</robot> 
                 <pre> 3 </pre>
                 <cond>non</cond>
@@ -232,7 +232,7 @@
                     <cond>
                         <min>22</min>
                         <max>5</max>
-                        <txt>Ne tarder pas a vous coucher alors</txt>
+                        <txt>Ne tarder pas à vous coucher alors</txt>
                         <next> 1
                             <question>-1</question>
                         </next>
@@ -242,7 +242,7 @@
 
             <reply>
                 <id> 11 </id>
-                <texte>J'espere que les choses s'amelioreront rapidement ! </texte>
+                <texte>J'espère que les choses s'amélioreront rapidement !</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond></cond>
@@ -270,7 +270,7 @@
             </question>
             <question>
                 <id> 2 </id>
-                <texte>Avez-vous penser a bien vous hydrater ?</texte>
+                <texte>Avez-vous pensé à bien vous hydrater ?</texte>
                 <robot>0</robot> 
                 <liste_alt>
                 </liste_alt>
@@ -306,7 +306,7 @@
 
             <reply>
                 <id> 3 </id>
-                <texte>C'est bien, continuer a boire de maniere reguliere </texte>
+                <texte>C'est bien, continuer a boire de manière régulière</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>oui</cond>
@@ -319,7 +319,7 @@
 
             <reply>
                 <id> 4 </id>
-                <texte>Penser a boire regulierement</texte>
+                <texte>Pensez à boire régulièrement</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
                 <cond>non</cond>
@@ -339,31 +339,53 @@
         <list_question>
             <question>
                 <id> 1 </id>
-                <texte>Avez-vous manger ?</texte>
+                <texte>Avez-vous mangé ?</texte>
                 <robot>0</robot> 
                 <liste_alt>
                     <cond>
                         <min>7</min>
                         <max>10</max>
-                        <txt>Avez-vous pris un petit dejeuner ?</txt>
+                        <txt>Avez-vous pris un petit déjeuner ?</txt>
                     </cond>
                     <cond>
                         <min>12</min>
                         <max>14</max>
-                        <txt>Avez-vous dejeuner ?</txt>
+                        <txt>Avez-vous déjeuné ?</txt>
                     </cond>
                     <cond>
                         <min>19</min>
                         <max>22</max>
-                        <txt>Avez-vous diner ?</txt>
+                        <txt>Avez-vous dîner ?</txt>
                     </cond>
                 </liste_alt>
             </question>
             <question>
                 <id> 2 </id>
-                <texte>Qu'avez-vous manger ?</texte>
+                <texte>Qu'avez-vous mangé ?</texte>
                 <robot>0</robot> 
                 <liste_alt>
+                </liste_alt>
+            </question>
+            <question>
+                <id> 3 </id>
+                <texte>Qu'avez-vous fait aujourd'hui ?</texte>
+                <robot>0</robot> 
+                <liste_alt>
+                <cond>
+                        <min>7</min>
+                        <max>10</max>
+                        <txt>Qu'avez-vous fait ce matin ?</txt>
+                    </cond>
+                    <cond>
+                        <min>12</min>
+                        <max>14</max>
+                        <txt>Qu'avez-vous fait ce midi ?</txt>
+                    </cond>
+                    <cond>
+                        <min>19</min>
+                        <max>22</max>
+                        <txt>Qu'avez-vous fait ce soir ?</txt>
+                    </cond>
                 </liste_alt>
             </question>
         </list_question>
@@ -384,12 +406,12 @@
 
             <reply>
                 <id> 2 </id>
-                <texte>N'oublier pas de manger lorsque ce sera l'heure</texte>
+                <texte>N'oubliez pas de manger lorsque ce sera l'heure</texte>
                 <robot>0</robot> 
                 <pre> 1 </pre>
                 <cond>non</cond>
                 <next> 4
-                    <question>-1</question>
+                    <question>3</question>
                 </next>
                 <liste_alt>
                 </liste_alt>
@@ -400,6 +422,32 @@
                 <texte>Tout ca a l'air bien delicieux</texte>
                 <robot>0</robot> 
                 <pre> 2 </pre>
+                <cond></cond>
+                <next> 4
+                    <question>-1</question>
+                </next>
+                <liste_alt>
+                </liste_alt>
+            </reply>
+
+            <reply>
+                <id> 4 </id>
+                <texte>Une balade fait toujours du bien</texte>
+                <robot>0</robot> 
+                <pre> 3 </pre>
+                <cond>aller,promener,sortir;chien,chat,animal</cond>
+                <next> 4
+                    <question>-1</question>
+                </next>
+                <liste_alt>
+                </liste_alt>
+            </reply>
+
+            <reply>
+                <id> 5 </id>
+                <texte>C'est bien</texte>
+                <robot>0</robot> 
+                <pre> 3 </pre>
                 <cond></cond>
                 <next> 4
                     <question>-1</question>

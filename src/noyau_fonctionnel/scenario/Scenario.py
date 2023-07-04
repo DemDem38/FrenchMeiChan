@@ -1,147 +1,16 @@
 import xml.etree.cElementTree as ET
 from PyQt5.QtCore import pyqtSignal
 from datetime import datetime
+import sys 
+import os
 
-#Classe CondAlt
-class CondAlt :
-    def __init__(self, min, max, txt) :
-        self.tMin = min
-        self.tMax = max
-        self.txt = txt
-        self.next = None
-    
-    #Recupere le texte
-    def getTxt(self) :
-        return self.txt
+fc_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.append(fc_path)
 
-    #Ajoute une question suivante alternative
-    def addQuestion(self, q):
-        self.next = q
-
-    #Retourne la question suivante alternative
-    def getQuestion(self) :
-        return self.next
-
-    #Retourne l'heure est dans l'intervalle [tMin, tMax[
-    def condVrai(self) :
-        now = datetime.now()
-        time = int(now.strftime("%H"))
-        if self.tMin < self.tMax :
-            if time >= self.tMin and time < self.tMax :
-                return True
-        else :
-            if time >= self.tMin or time < self.tMax :
-                return True
-        return False
-
-#Classe Question
-class Question :
-    def __init__(self, i, s, r) :
-        self.id = i
-        self.txt = s
-        self.robot = r
-        self.listeReponse = []
-        self.condTime = []
-    
-    #Recupere l'identifiant
-    def getId(self) :
-        return self.id
-    
-    #Recupere le texte
-    def getTxt(self) :
-        for c in self.condTime :
-            if c.condVrai() :
-                return c.getTxt()
-        return self.txt
-
-    #Recupere l'identifiant de la tete du robot
-    def getIdRobotFace(self):
-        return self.robot
-    
-    #Ajoute une reponse possible a la question
-    def addReponse(self, r) :
-        self.listeReponse.append(r)
-
-    #Recupere la liste de reponse
-    def getReponse(self) :
-        return self.listeReponse
-    
-    #Ajoute une question alternative
-    def addCondTime(self, c) :
-        self.condTime.append(c)
-
-    #Affiche le texte sur la sortie standard
-    def print(self) :
-        for c in self.condTime :
-            if c.condVrai() :
-                print(c.getTxt())
-        print(self.txt)
-
-#Classe Reponse
-class Reponse :  
-    def __init__(self, i,  c,  s, r) :
-        self.id = i
-        self.cond = c
-        self.txt = s
-        self.robot = r
-        self.questionSuivante = None
-        self.condTime = []
-        self.nextAlt = None
-
-    #Recupere l'identifiant
-    def  getId(self) :
-        return self.id
-
-    #Recupere le texte
-    def  getTxt(self) :
-        self.nextAlt = None
-        for c in self.condTime :
-            if c.condVrai() :
-                self.nextAlt = c
-                return c.getTxt()
-        return self.txt
-    
-    #Recupere l'identifiant de la tete du robot
-    def getIdRobotFace(self):
-        return self.robot
-    
-    #Pose la question suivante
-    def setQuestion(self, q) :
-        self.questionSuivante = q
-    
-    #Recupere la question suivante
-    def getQuestion(self) :
-        if self.nextAlt != None :
-            return self.nextAlt.getQuestion()
-        return self.questionSuivante
-    
-    #Ajoute une reponse altenative
-    def addCondTime(self, c) :
-        self.condTime.append(c)
-
-    #Affiche le texte sur la sortie standard
-    def print(self) :
-        self.nextAlt = None
-        for c in self.condTime :
-            if c.condVrai() :
-                self.nextAlt = c
-                print(c.getTxt())
-        print(self.txt)
-    
-    #
-    def compared(self, s) :
-        if self.cond == None :
-            return True
-        if len(s) >= len(self.cond) :
-            indice = 0
-            for e in s :
-                if e.lower() == self.cond[indice]:
-                    indice += 1
-                else :
-                    indice == 0
-                if indice == len(self.cond) -1 :
-                    return True
-        return False
+from src.noyau_fonctionnel.scenario.CondAlt import CondAlt
+from src.noyau_fonctionnel.scenario.Question import Question
+from src.noyau_fonctionnel.scenario.Reponse import Reponse
+from src.noyau_fonctionnel.language.text_analysis.parse import parse
 
 #Classe Scenario
 class Scenario :
@@ -158,6 +27,10 @@ class Scenario :
     def  getName(self) :
         return self.name
 
+    #Recupere la liste des question du scenario
+    def getListQuestion(self) :
+        return self.question
+
     #Recupere la question i du scenario
     def getQuestion(self, i) :
         for q in self.question :
@@ -171,6 +44,29 @@ def getScenario(L, i) :
         if e.getId() == i :
             return e
     return None
+
+#Decoupe le string en liste de liste de mot
+def decouperCond(string) :
+    if (string == None) :
+        return None
+    listCond = []
+    Cond = []
+    mot = ''
+    for char in string :
+        if char == ',' :
+            Cond.append(mot)
+            mot = ''
+        elif char == ';' :
+            Cond.append(mot)
+            listCond.append(Cond)
+            Cond = []
+            mot = ''
+        elif char != ' ' :
+            mot += char
+    Cond.append(mot)
+    listCond.append(Cond)
+    return listCond
+
 
 #Retourne une liste de scenario a partir de nom de fichier xml
 def ReadScenarioXML(name) :
@@ -198,7 +94,6 @@ def ReadScenarioXML(name) :
                 txt = c[2].text
                 questionAlternative = CondAlt(min, max, txt)
                 question.addCondTime(questionAlternative)
-
             #Ajout de la question a la liste de question du scenario
             listeQuestion.append(question)
 
@@ -212,8 +107,8 @@ def ReadScenarioXML(name) :
         for r in e[3] :
             idR = int(r[0].text)
             texte = r[1].text
-            robotFace = int(q[2].text)
-            cond = r[4].text
+            robotFace = int(r[2].text)
+            cond = decouperCond(r[4].text)
             #Creation de la reponse
             reponse = Reponse(idR, cond, texte, robotFace)
 
@@ -240,8 +135,7 @@ def ReadScenarioXML(name) :
                 if scenarioSuivant != None :
                     questionSuivant = scenarioSuivant.getQuestion(int(c[3][0].text))
                     questionAlternative.addQuestion(questionSuivant)
-                question.addCondTime(questionAlternative)
-
+                reponse.addCondTime(questionAlternative)
     return listeScenario
 
 
@@ -251,6 +145,7 @@ class Noyau:
         self.ihm = IHM
         self.ihm.signal_envoi_on.connect(self.traiter_string_sound_ON)
         self.ihm.signal_envoi_off.connect(self.traiter_string_sound_OFF)
+        self.par = parse()
 
         self.listeScenario = ReadScenarioXML("src/noyau_fonctionnel/scenario/listScenario.xml")
         self.startScenario(1)
@@ -292,7 +187,7 @@ class Noyau:
             #Parcours la liste de reponse
             for i in range (len(self.listeReponse)) :
                 #Si la condition de la reponse est dans le texte (et que le bot n'a pas repondu)
-                if self.listeReponse[i].compared(self.reponse) and rep == 0 :
+                if self.listeReponse[i].compared(self.reponse, self.par) and rep == 0 :
                     txt = self.q.getTxt()
                     #Affiche le texte de la reponse s'il existe
                     if txt != None :

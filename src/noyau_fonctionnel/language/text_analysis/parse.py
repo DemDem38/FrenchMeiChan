@@ -1,18 +1,21 @@
 import spacy
+#import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
-from sep_token import sep_token
 import numpy as np
+
+#nltk.download('stopwords')
 
 class parse():
 
     def __init__(self):
         self.stop_word = set(stopwords.words('french')) # french stop words
         self.snowball_stemmer = SnowballStemmer(language='french')
-    
+        self.nlp = spacy.load("fr_core_news_sm")
+
     def return_token_word(self, sentence):
         # split sentence to list of token (1 token = 1 word)
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return [X.text for X in doc]
 
     def clean_tokens_word(self, tokens):
@@ -24,37 +27,52 @@ class parse():
         return clean_tok
     
     def return_stem(self, sentence):
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return [self.snowball_stemmer.stem(X.text) for X in doc]
 
     def return_token_sentence(self, sentence):
-        # 1 token = 1 sentence
-        tok = sep_token(sentence)
-        return tok.sentence_token()
+        seq_sentence = []
+        token = ""
+        previous_ponctuation = False
+        for i in sentence:
+            if i == "." or i == "!" or i == "?":
+                token = token+i
+                if not previous_ponctuation:
+                    previous_ponctuation = True
+            else:
+                if previous_ponctuation:
+                    seq_sentence.append(token)
+                    previous_ponctuation = False
+                    token = ""
+                else:
+                    token = token+i
+        seq_sentence.append(token)
+        return seq_sentence
     
     def return_NER(self, sentence):
         # Named Entity Recognise
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return [(X.text, X.label_) for X in doc.ents]
     
     def return_POS(self, sentence):
         # Part Of Speech
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return [(X, X.pos_) for X in doc]
 
     def return_word_embedding(self, sentence):
         # value of tokens
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return [(X.vector) for X in doc]
     
     def return_mean_embedding(self, sentence):
         # value of sentence
-        doc = nlp(sentence)
+        doc =  self.nlp(sentence)
         return np.mean([(X.vector) for X in doc], axis=0)
     
     def compare_sentences(self, sentence1, sentence2, dist):
-        dist = self.return_mean_embedding(sentence1)-self.return_mean_embedding(sentence2)
-        if(dist > -dist and dist < dist):
+        calc_dist = self.return_mean_embedding(sentence1)-self.return_mean_embedding(sentence2)
+        print(calc_dist)
+        if(calc_dist > -dist and calc_dist < dist):
             return True
         else:
             return False
@@ -85,4 +103,8 @@ if __name__ == '__main__':
 
     pos = par.return_POS(test)
 
-    print(ner)
+    mean_sentences = par.return_mean_embedding(test)
+
+    mean_word = par.return_word_embedding("hello")
+
+    print(mean_word)
