@@ -36,7 +36,7 @@ class parametreWidget(QWidget):
 
         self.savePrint = QLabel("Save auto")
         self.saveEntry = QCheckBox()
-        self.saveEntry.setChecked(True)
+        self.saveEntry.setChecked(self.boolSave)
 
         self.saveLayout.addWidget(self.savePrint)
         self.saveLayout.addWidget(self.saveEntry)
@@ -181,6 +181,7 @@ class parametreWidget(QWidget):
         Export les parametres au format JSON
         """
         data = {
+            'autoSave': self.saveEntry.isChecked(),
             'leftColor': self.leftColor,
             'rightColor': self.rightColor,
             'sizeText': self.sizeText
@@ -197,6 +198,7 @@ class parametreWidget(QWidget):
         with open(self.settingFileName, 'r') as file:
             data = json.load(file)
 
+        self.boolSave = (bool)(data['autoSave'])
         self.leftColor = data['leftColor']
         self.rightColor = data['rightColor']
         self.sizeText = data['sizeText']

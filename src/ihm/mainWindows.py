@@ -16,12 +16,17 @@ from src.ihm.personalInformationWindows import personalInfoWidget
 from src.ihm.gestionContactWindows import contactWidget
 from src.ihm.changeContactWindows import modifyContactWidget
 
+from src.noyau_fonctionnel.iaChat.ia import agent
+
 import os
 
 class MainWindow(QMainWindow):
     signal_envoi_on = pyqtSignal(str)
     signal_envoi_off = pyqtSignal(str)
     signal_stop = pyqtSignal()
+
+    signal_llm_send = pyqtSignal(str)
+    signal_llm_receive = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -56,6 +61,16 @@ class MainWindow(QMainWindow):
         self.person_button = QPushButton("Contact")
         self.person_button.pressed.connect(self.open_person)
         self.person_layout.addWidget(self.person_button)
+
+        self.mode = QWidget()
+        self.mode_layout = QHBoxLayout(self.mode)
+        self.mode_layout.setAlignment(Qt.AlignRight)
+
+        self.switchMode = QPushButton("Changer de mode")
+        self.switchMode.pressed.connect(self.change_mode)
+        self.mode_layout.addWidget(self.switchMode)
+
+        self.boolMode = True
 
         self.init_internat_widget()
         
@@ -93,6 +108,7 @@ class MainWindow(QMainWindow):
 
         self.chatbox_layout.addWidget(self.parametre)
         self.chatbox_layout.addWidget(self.person)
+        self.chatbox_layout.addWidget(self.mode)
         self.chatbox_layout.addWidget(self.scenario_entry)
         self.chatbox_layout.addWidget(self.scroll_area)
         self.chatbox_layout.addWidget(self.text_entry)
@@ -116,11 +132,15 @@ class MainWindow(QMainWindow):
         self.mainLayout.addWidget(self.userWidget)
         self.mainLayout.addWidget(self.modifyContactWidget)
         self.scenario = Noyau(self)
+        
         self.scenario_entry.setMaximum(self.scenario.numnScenario())
         self.scenario_entry.setMinimum(1)
         self.scenario_entry.setValue(1)
         self.scenario_entry.setOrientation(Qt.Horizontal)
         self.scenario_entry.setTickPosition(QSlider.TicksBelow)
+
+        self.llm = agent(self.signal_llm_send,self.signal_llm_receive)
+        self.signal_llm_receive.connect(self.receive_llm_reply)
 
         self.first_windows()
 
@@ -172,8 +192,8 @@ class MainWindow(QMainWindow):
 
         self.rightQFrame = []
         
-
         self.scroll_area.setWidget(self.widget_internal)
+
 
     def generate_images(self):
         """
@@ -304,7 +324,6 @@ class MainWindow(QMainWindow):
             frame.setMinimumHeight(200)
 
             self.setLabelProp(new_label)
-            print(new_label)
 
             frame_layout = QHBoxLayout(frame)  # Utiliser QHBoxLayout pour aligner à droite
             frame_layout.addWidget(new_label)
@@ -313,6 +332,7 @@ class MainWindow(QMainWindow):
             frame_layout.setAlignment(Qt.AlignRight)
 
             
+
             self.widget_internal_layout.addWidget(wid,len(self.labels)-1,1)
 
             lay.addWidget(frame)
@@ -422,7 +442,10 @@ class MainWindow(QMainWindow):
         self.text_entry.setReadOnly(False)
         self.progressRecordBar.setVisible(False)
         self.recordBoutton.setVisible(True)
-        self.signal_envoi_on.emit(texte)
+        if self.boolMode:
+            self.signal_envoi_on.emit(texte)
+        else:
+            self.signal_llm_send.emit(texte)
 
     def envoyer_string_off(self, texte):
         """
@@ -432,7 +455,10 @@ class MainWindow(QMainWindow):
 
         return: None
         """
-        self.signal_envoi_off.emit(texte)
+        if self.boolMode:
+            self.signal_envoi_off.emit(texte)
+        else:
+            self.signal_llm_send.emit(texte)
 
     def init_filename(self):
         """
@@ -478,12 +504,11 @@ class MainWindow(QMainWindow):
 
         return: None
         """
-        if self.paraWidget.saveEntry.isChecked():
+        if self.paraWidget.saveEntry.isChecked() and self.boolMode:
                 self.toCSV()
 
         indice = self.scenario_entry.value()
         self.init_internat_widget()
-        print(indice)
         self.scenario.startScenario(indice)
 
         self.text_entry.setReadOnly(False)
@@ -521,3 +546,13 @@ class MainWindow(QMainWindow):
                     self.add_right_label(row["contenu"])
                     self.envoyer_string_off(row["contenu"])
                 
+    def change_mode(self):
+        if not(self.boolMode):
+            self.change_scenario()
+        else:
+            self.init_internat_widget()
+        self.boolMode = not(self.boolMode)
+        self.scenario_entry.setVisible(self.boolMode)
+
+    def receive_llm_reply(self,texte):
+        self.ihm.add_left_label(texte, speak = False, idImage = 0)
