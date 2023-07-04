@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QWidget, QCalendarWidget, QHBoxLayout, QVBoxLayout, 
 
 from src.noyau_fonctionnel.authentication.person import person,contact
 
+from src.noyau_fonctionnel.scenario.Scenario import Question, CondAlt
+
 class questionWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
@@ -18,6 +20,7 @@ class questionWidget(QWidget):
         self.textEntry()
         self.imageRobot()
         self.checkAlt()
+        self.textAlt()
         self.selectTime()
         self.altText()
         self.valideButton()
@@ -87,11 +90,25 @@ class questionWidget(QWidget):
         self.checkAltLayout.addWidget(self.checkAltPrint)
         self.checkAltLayout.addWidget(self.checkAltEntry)
 
+   
+
     def showAlt(self):
         b = self.checkAltEntry.isChecked()
 
+        self.selectTextAlt.setVisible(b)
         self.selectTimeWidget.setVisible(b)
         self.questionAltTextWidget.setVisible(b)
+
+    def textAlt(self):
+        self.textAltWidget = QWidget()
+        self.textAltLayout = QHBoxLayout(self.textAltWidget)
+        self.textAltLayout.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.textAltWidget)
+
+        self.selectTextAlt = QComboBox()
+        self.selectTextAlt.currentIndexChanged.connect(self.actualiseAltInfo)
+
+        self.textAltLayout.addWidget(self.selectTextAlt)
 
     def selectTime(self):
         self.selectTimeWidget = QWidget()
@@ -143,6 +160,7 @@ class questionWidget(QWidget):
         self.valideLayout.addWidget(self.cancelButton)
 
     def valide(self):
+        self.createNewQuestion()
         self.addAllQuestions()
 
     def cancel(self):
@@ -156,6 +174,7 @@ class questionWidget(QWidget):
 
     def addAllQuestions(self):
         self.selectQuestionBox.clear()
+        
         scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
         listeQuestions = scenario.getListQuestion()
         self.listID = []
@@ -165,9 +184,76 @@ class questionWidget(QWidget):
             self.selectQuestionBox.addItem(text)
 
     def actualiseInfo(self):
+        self.selectTextAlt.clear()
         scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
         id = self.listID[self.selectQuestionBox.currentIndex()]
         question = scenario.getQuestion(id)
         self.showIDEntry.setText((str)(id))
         self.questionTextEntry.setText(question.getTxt())
         self.selectRobotImage.setCurrentIndex(question.getIdRobotFace())
+
+        self.listCond = question.getCondAlt()
+
+        if len(self.listCond) == 0:
+            self.checkAltEntry.setChecked(False)
+        else:
+            self.checkAltEntry.setChecked(True)
+            for condALt in self.listCond:
+                self.selectTextAlt.addItem(condALt.getTxt())
+        
+            self.selectTextAlt.adjustSize()
+
+
+    def actualiseAltInfo(self):
+        cond = self.listCond[self.selectTextAlt.currentIndex()]
+        listTime = cond.getTime()
+        timeMin = listTime[0]
+        timeMax = listTime[1]
+
+        self.selectTimeMinEntry.setValue(timeMin)
+        self.selectTimeMaxEntry.setValue(timeMax)
+
+        self.questionAltTextEntry.setText(cond.getTxt())
+
+    def resetAllWidget(self):
+
+        self.selectQuestionBox.clear()
+        self.showIDEntry.clear()
+        self.questionTextEntry.clear()
+        self.selectRobotImage.setCurrentIndex(0)
+        self.checkAltEntry.setChecked(False)
+        self.selectTextAlt.clear()
+        self.selectTimeMinEntry.clear()
+        self.selectTimeMaxEntry.clear()
+        self.questionAltTextEntry.clear()
+
+    def nextID(self):
+
+        scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
+        listeQuestions = scenario.getListQuestion()
+        self.listID = []
+        maxId = 0
+        for question in listeQuestions:
+            id = question.getId()
+            if id > maxId:
+                maxId = id
+
+        newId = maxId + 1
+        self.showIDEntry.setText((str)(newId))
+
+    def createNewQuestion(self):
+        id = (int) (self.showIDEntry.text())
+        text = self.questionTextEntry.text()
+        robot = self.selectRobotImage.currentIndex()
+        q = Question(id,text, robot)
+
+        if self.checkAltEntry.isChecked():
+            mini = self.selectTimeMinEntry.value()
+            maxi = self.selectTimeMaxEntry.value()
+            txt = self.questionAltTextEntry.text()
+            cond = CondAlt(mini,maxi,txt)
+            q.addCondTime(cond)
+        
+        scenario = self.parent.listeScenario[self.parent.combo.currentIndex()]
+
+        scenario.addQuestion(q)
