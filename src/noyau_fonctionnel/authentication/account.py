@@ -39,7 +39,12 @@ il y en a trop, seulement les 5 premiers seront enregistres")
                     conta = contact(pers, valeur["number"])
                     self.contacts.append(conta)
             self.nb_contacts = len(self.contacts)
-            
+
+    def get_user(self):
+        return self.user
+    
+    def get_contacts(self):
+        return self.contacts
 
     def get_nb_contacts(self):
         return self.nb_contacts
