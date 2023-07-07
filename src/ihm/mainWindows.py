@@ -101,7 +101,7 @@ class MainWindow(QMainWindow):
         self.csvButton = QPushButton("Enregistrer")
         self.csvButton.pressed.connect(self.toCSV)
 
-        self.importButton = QPushButton("Import")
+        self.importButton = QPushButton("Importer")
         self.importButton.pressed.connect(self.importCSV)
 
         self.scroll_area.verticalScrollBar().rangeChanged.connect(self.scroll_to_bottom)

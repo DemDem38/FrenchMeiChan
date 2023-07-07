@@ -10,7 +10,6 @@ class parametreWidget(QWidget):
         self.parent = parent
 
     def initUI(self):
-        self.setWindowTitle('Exemple de widget personnalisé')
         self.setGeometry(200, 200, 300, 200)
         
         self.layout = QVBoxLayout(self)
@@ -33,34 +32,14 @@ class parametreWidget(QWidget):
         self.volumeLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.volumeWidget)
 
-        self.volumePrint = QLabel("Volume")
+        self.volumePrint = QLabel("Volume de lecture")
         self.volumeEntry = QSlider()
 
         self.volumeEntry.setMaximum(200)
         self.volumeEntry.setMinimum(0)
-        self.volumeEntry.setValue(100)
+        self.volumeEntry.setValue(self.volumeValue)
         self.volumeEntry.setOrientation(Qt.Horizontal)
         self.volumeEntry.setTickPosition(QSlider.TicksBelow)
-
-        self.setStyleSheet("""
-            QSlider::groove:horizontal {
-                border: 1px solid #bbb;
-                background: white;
-                height: 10px;
-                border-radius: 5px;
-            }
-            
-            QSlider::handle:horizontal {
-                background: qradialgradient(
-                    cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-                    radius: 1.35, stop: 0 #fff, stop: 1 #888
-                );
-                width: 20px;
-                height: 20px;
-                margin: -5px 0;
-                border-radius: 10px;
-            }
-        """)
 
         self.volumeLayout.addWidget(self.volumePrint)
         self.volumeLayout.addWidget(self.volumeEntry)
@@ -72,14 +51,14 @@ class parametreWidget(QWidget):
         self.rateLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.rateWidget)
 
-        self.ratePrint = QLabel("Rate")
+        self.ratePrint = QLabel("Vitesse de lecture")
         self.rateEntry = QSlider()
 
         
 
         self.rateEntry.setMaximum(200)
         self.rateEntry.setMinimum(0)
-        self.rateEntry.setValue(100)
+        self.rateEntry.setValue(self.rateValue)
         self.rateEntry.setOrientation(Qt.Horizontal)
         self.rateEntry.setTickPosition(QSlider.TicksBelow)
 
@@ -95,7 +74,7 @@ class parametreWidget(QWidget):
         self.saveLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.saveWidget)
 
-        self.savePrint = QLabel("Save auto")
+        self.savePrint = QLabel("Sauvegarde automatique")
         self.saveEntry = QCheckBox()
         self.saveEntry.setChecked(self.boolSave)
 
@@ -296,6 +275,8 @@ class parametreWidget(QWidget):
         Export les parametres au format JSON
         """
         data = {
+            'speed': self.volumeEntry.value(),
+            'rate': self.rateEntry.value(),
             'autoSave': self.saveEntry.isChecked(),
             'leftColor': self.leftColor,
             'rightColor': self.rightColor,
@@ -313,6 +294,8 @@ class parametreWidget(QWidget):
         with open(self.settingFileName, 'r') as file:
             data = json.load(file)
 
+        self.volumeValue = (int)(data['speed'])
+        self.rateValue = (int)(data['rate'])
         self.boolSave = (bool)(data['autoSave'])
         self.leftColor = data['leftColor']
         self.rightColor = data['rightColor']
@@ -329,7 +312,7 @@ class parametreWidget(QWidget):
         self.returnLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.returnWidget)
 
-        self.returnButton= QPushButton("Return")
+        self.returnButton= QPushButton("Valider")
         self.returnButton.pressed.connect(self.returnMainWindows)
         self.returnButton.pressed.connect(self.exportSettings)
 

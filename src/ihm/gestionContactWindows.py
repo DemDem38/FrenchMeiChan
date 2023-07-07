@@ -15,7 +15,7 @@ class contactWidget(QWidget):
 
         self.addContactsWidgets()
 
-        self.returnButton = QPushButton("return")
+        self.returnButton = QPushButton("Retour")
         self.returnButton.released.connect(self.returnMainWindows)
 
         self.layout.addWidget(self.returnButton)
@@ -29,7 +29,7 @@ class contactWidget(QWidget):
         self.personalInfoLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.personalInfoWidget)
         
-        self.changePersonalInfo = QPushButton("Change Personal Information")
+        self.changePersonalInfo = QPushButton("Modifier ses informations")
         self.changePersonalInfo.released.connect(self.showModifyInformation)
         self.personalInfoLayout.addWidget(self.changePersonalInfo)
 
@@ -42,10 +42,10 @@ class contactWidget(QWidget):
         self.contactLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.contactWidget)
 
-        self.addContact = QPushButton("Add Contact")
+        self.addContact = QPushButton("Ajouter un nouveau contact")
         self.addContact.released.connect(self.showAddContact)
 
-        self.changeContact = QPushButton("Modify Contact")
+        self.changeContact = QPushButton("Modifier un contact existant")
         self.changeContact.released.connect(self.showModifyContact)
 
         self.contactLayout.addWidget(self.addContact)
