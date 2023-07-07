@@ -27,10 +27,12 @@ class SpeakThread(QThread):
         super().__init__()
         self.ihm=ihm
         self.text=text
+        self.volume = (float)(self.ihm.paraWidget.volumeEntry.value()) / 200.0
+        self.rate = self.ihm.paraWidget.rateEntry.value()
 
     def run(self):
         #self.ihm.text_entry.setReadOnly(True)
         #self.ihm.recordBoutton.setEnabled(False)
-        speak_french(self.text)
+        speak_french(self.text,self.volume,self.rate)
         #self.ihm.text_entry.setReadOnly(False)
         #self.ihm.recordBoutton.setEnabled(True)

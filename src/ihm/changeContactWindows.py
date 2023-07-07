@@ -148,7 +148,7 @@ class modifyContactWidget(QWidget):
         self.addPersonLayout.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.addPersonWidget)
 
-        self.addPersonPrint = QPushButton("addPerson")
+        self.addPersonPrint = QPushButton("Modifier contact")
         self.addPersonPrint.released.connect(self.addContact)
         self.addPersonLayout.addWidget(self.addPersonPrint)
 
